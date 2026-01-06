@@ -2,9 +2,9 @@ use crate::color::{Rgba8, Rgba64F, ToRgba};
 use crate::core::Window;
 use crate::gfx::buffer_cache::BufferCache;
 use crate::gfx::{
-    AddressMode, BindingValue, BlendMode, ColorMode, DrawCall, FilterMode, Font, IndexBuffer,
-    RenderData, RenderLayer, RenderPass, Sampler, Shader, SubTexture, Surface, Texture, Topology,
-    UniformValue, Vertex, VertexBuffer,
+    BindingValue, BlendMode, ColorMode, DrawCall, FilterMode, Font, IndexBuffer, RenderData,
+    RenderLayer, RenderPass, Sampler, Shader, SubTexture, Surface, Texture, Topology, UniformValue,
+    Vertex, VertexBuffer,
 };
 use crate::math::{
     Affine2F, Angle, CircleF, LineF, Mat2F, Mat3F, Mat4F, Numeric, PolygonF, QuadF, RadiansF,
