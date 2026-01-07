@@ -9,8 +9,13 @@ const OUTLINE_COLOR_ALT: Rgba8 = rgb(0x3f4984);
 pub struct Level {
     size: Vec2U,
     tiles: VecGrid<bool>,
-    texture: Option<Texture>,
+    texture: Option<LevelTextures>,
     vines: Vec<vine::Vine>, // todo, generic props other than just vines,,,
+}
+
+pub struct LevelTextures {
+    pub world_texture: Texture,
+    pub ao_texture: Texture,
 }
 
 impl Level {
@@ -158,54 +163,65 @@ impl Level {
         }
     }
 
-    pub fn render_bg(&self, _ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
+    pub fn render_bg(
+        &mut self,
+        ctx: &Context,
+        tileset: GridBuf<SubTexture>,
+        draw: &mut Draw,
+    ) -> Result<(), GameError> {
         draw.set_surface(None, LEVEL_BG_COLOR);
+
+        let mut rng = Rand::from_seed(1);
+
+        for (_, xy) in self.tiles.iter() {
+            let tile_tex = tileset.get(rng.range(0..4), rng.range(0..4)).unwrap();
+            draw.subtexture_at(tile_tex, xy.to_f32() * TILE_SIZE.to_f32());
+        }
+
+        let textures = self.get_textures(ctx);
+        draw.texture_at_ext(
+            &textures.ao_texture,
+            (0.0, 0.0),
+            rgba(0x00000088),
+            ColorMode::default(),
+        );
         Ok(())
     }
 
     pub fn render_fg(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
-        // todo: i wanna generate a whole level as a single texture in cpu
-        // for (y, row) in self.tiles.iter().enumerate() {
-        //     for (x, &tile) in row.iter().enumerate() {
-        //         if tile {
-        //             draw.rect(
-        //                 RectF::new(
-        //                     (x * TILE_SIZE.x as usize) as f32,
-        //                     (y * TILE_SIZE.y as usize) as f32,
-        //                     TILE_SIZE.x as f32,
-        //                     TILE_SIZE.y as f32,
-        //                 ),
-        //                 Rgba8::BLACK,
-        //             );
-        //         }
-        //     }
-        // }
-
         for vine in &self.vines {
             vine.render(draw)?;
         }
-        draw.texture_at(self.get_texture(ctx), Vec2F::ZERO);
+        draw.texture_at(&self.get_textures(ctx).world_texture, Vec2F::ZERO);
         Ok(())
     }
 
-    fn get_texture(&mut self, ctx: &Context) -> Texture {
-        if let Some(ref tex) = self.texture {
-            return tex.clone();
+    fn get_textures(&mut self, ctx: &Context) -> &LevelTextures {
+        if self.texture.is_none() {
+            // main image
+            let mut world_image = ImageRgba8::new_mapped(self.size * TILE_SIZE, |p| {
+                match self.is_solid_at(p / TILE_SIZE) {
+                    true => Rgba8::BLACK,
+                    false => Rgba8::TRANSPARENT,
+                }
+            });
+
+            Self::outline_color(&mut world_image);
+
+            // fake ao image
+            let mut shadow_image = world_image.clone();
+            Self::drop_shadow(&mut shadow_image);
+
+            let world_texture = ctx.graphics.create_rgba8_texture(&world_image);
+            let ao_texture = ctx.graphics.create_rgba8_texture(&shadow_image);
+
+            self.texture = Some(LevelTextures {
+                world_texture,
+                ao_texture,
+            });
         }
 
-        let mut image = ImageRgba8::new_mapped(self.size * TILE_SIZE, |p| {
-            if self.is_solid_at(p / TILE_SIZE) {
-                Rgba8::BLACK
-            } else {
-                Rgba8::TRANSPARENT
-            }
-        });
-
-        Self::outline_color(&mut image);
-
-        let tex = ctx.graphics.create_rgba8_texture(&image);
-        self.texture = Some(tex.clone());
-        tex
+        self.texture.as_ref().unwrap()
     }
 
     /// If there is a black pixel bordering a transparent pixel, make it gray.
@@ -232,6 +248,40 @@ impl Level {
                 } else {
                     img.set_at(p, OUTLINE_COLOR_ALT);
                 }
+            }
+        }
+    }
+
+    fn drop_shadow(img: &mut ImageRgba8) {
+        let temp = img.clone();
+
+        // transparent pixels get a shadow from any non-transparent pixel
+        for (color, p) in temp.iter() {
+            if color.a == 255 {
+                continue; // only process transparent pixels
+            }
+
+            let p = p.to_i32();
+            let mut solid_neighbors = 0;
+
+            // check surrounding pixels for non-transparent ones
+            for ox in -3..=3 {
+                for oy in -3..=3 {
+                    if ox == 0 && oy == 0 {
+                        continue;
+                    }
+                    if let Some(neighbor_color) = temp.get_at(p + vec2(ox, oy)) {
+                        if neighbor_color.a > 0 {
+                            solid_neighbors += 1;
+                        }
+                    }
+                }
+            }
+
+            if solid_neighbors > 0 {
+                let shadow_strength = (solid_neighbors as f32 / 24.0).clamp(0.0, 1.0);
+                let shadow_color = Rgba8::new(0, 0, 0, (shadow_strength * 100.0).min(255.0) as u8);
+                img.set_at(p, shadow_color);
             }
         }
     }
