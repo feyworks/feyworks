@@ -1,14 +1,19 @@
+use super::Time;
 use crate::core::Window;
 use crate::gfx::Graphics;
 use crate::input::{Gamepads, Keyboard, Mouse};
 use std::cell::Cell;
 use std::fmt::{Debug, Formatter};
-
-use super::Time;
+use std::ops::Deref;
+use std::rc::Rc;
 
 /// Context with the core systems.
 #[derive(Clone)]
-pub struct Context {
+pub struct Context(pub(crate) Rc<ContextData>);
+
+/// Context data.
+#[derive(Clone)]
+pub struct ContextData {
     pub window: Window,
     pub time: Time,
     pub mouse: Mouse,
@@ -16,6 +21,15 @@ pub struct Context {
     pub gamepads: Gamepads,
     pub graphics: Graphics,
     pub(crate) quit_requested: Cell<bool>,
+}
+
+impl Deref for Context {
+    type Target = ContextData;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.0.deref()
+    }
 }
 
 impl Debug for Context {

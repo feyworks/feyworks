@@ -3,8 +3,10 @@ use crate::core::frame_timer::FrameTimer;
 use crate::core::{Context, GameBuilder, Time, Window};
 use crate::gfx::{Draw, Graphics};
 use crate::input::{Gamepads, Keyboard, Mouse};
+use crate::prelude::ContextData;
 use dpi::LogicalSize;
 use std::cell::Cell;
+use std::rc::Rc;
 use std::sync::Arc;
 use winit::application::ApplicationHandler;
 use winit::event::WindowEvent;
@@ -69,7 +71,7 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
         );
 
         // create the game context
-        let ctx = Context {
+        let ctx = Context(Rc::new(ContextData {
             window,
             time: Time::new(),
             mouse: Mouse::new(),
@@ -77,7 +79,7 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             gamepads: Gamepads::new(),
             graphics,
             quit_requested: Cell::new(false),
-        };
+        }));
 
         // create the game
         // TODO: propagate error
