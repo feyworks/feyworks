@@ -12,13 +12,15 @@ use crate::core::GameBuilder;
 ///     polywog::new_game()
 ///         .with_title("Minimal")
 ///         .with_size(1280, 720)
-///         .run::<MinimalExample>()
+///         .run::<MinimalExample>(())
 /// }
 ///
 /// pub struct MinimalExample;
 ///
 /// impl Game for MinimalExample {
-///     fn new(_ctx: &Context) -> Result<Self, GameError> {
+///     type Config = ();
+///
+///     fn new(_ctx: &Context, _cfg: Self::Config) -> Result<Self, GameError> {
 ///         Ok(Self)
 ///     }
 ///
@@ -34,5 +36,5 @@ use crate::core::GameBuilder;
 ///
 /// See the [`Game`](crate::core::Game) trait for more info.
 pub fn new_game() -> GameBuilder {
-    GameBuilder::default()
+    GameBuilder::new().unwrap()
 }

@@ -24,6 +24,9 @@ enum AppState<G: Game> {
         timer: FrameTimer,
         size: LogicalSize<f64>,
         game: G,
+
+        #[cfg(feature = "lua")]
+        lua: mlua::Lua,
     },
 }
 
@@ -92,6 +95,9 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             timer: FrameTimer::new(None),
             size,
             game,
+
+            #[cfg(feature = "lua")]
+            lua: opts.lua.clone(),
         };
     }
 
@@ -107,6 +113,9 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             timer,
             size,
             game,
+
+            #[cfg(feature = "lua")]
+            lua,
         } = &mut self.state
         else {
             panic!("app not running");
@@ -212,6 +221,12 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                 ctx.mouse.set_update_phase();
                 ctx.keyboard.set_update_phase();
                 ctx.gamepads.set_update_phase();
+
+                // clear all single-frame Lua temp types
+                #[cfg(feature = "lua")]
+                lua.app_data_mut::<crate::lua::TempTypes>()
+                    .unwrap()
+                    .clear_frame();
 
                 // quit if the user requested it
                 if ctx.quit_requested() {

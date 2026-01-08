@@ -4,6 +4,12 @@ pub mod input;
 pub mod misc;
 mod new_game;
 
+#[cfg(feature = "lua")]
+pub mod lua;
+
+#[cfg(feature = "lua")]
+mod lua_modules;
+
 #[doc(inline)]
 pub use fey_color as color;
 

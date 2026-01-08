@@ -36,6 +36,10 @@ pub enum GameError {
 
     #[error("{0}")]
     Font(#[from] fey_font::FontError),
+
+    #[cfg(feature = "lua")]
+    #[error("{0}")]
+    Lua(#[from] mlua::prelude::LuaError),
     //
     // #[error("{0}")]
     // TextureUpload(#[from] TextureUploadError),

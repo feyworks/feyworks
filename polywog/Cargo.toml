@@ -7,6 +7,9 @@ license.workspace = true
 description.workspace = true
 readme.workspace = true
 
+[features]
+lua = ["dep:mlua"]
+
 [dependencies]
 arrayvec = "0.7.6"
 bytemuck = "1.24.0"
@@ -22,6 +25,7 @@ fey_packer = { version = "0.1.0", path = "../crates/fey_packer" }
 fey_rand = { version = "0.1.0", path = "../crates/fey_rand" }
 fnv = "1.0.7"
 gilrs = "0.11.0"
+mlua = { version = "0.11.5", features = ["lua54", "vendored"], optional = true }
 naga = { version = "27.0.3", features = ["wgsl-in", "stderr"] }
 pollster = "0.4.0"
 serde = { version = "1.0.228", features = ["derive"] }
