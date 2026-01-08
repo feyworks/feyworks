@@ -576,7 +576,9 @@ version = "0.1.0"
 dependencies = [
  "approx",
  "bytemuck",
+ "fey_lua",
  "fey_math",
+ "mlua",
  "serde",
 ]
 
@@ -603,6 +605,8 @@ dependencies = [
 name = "fey_guid"
 version = "0.1.0"
 dependencies = [
+ "fey_lua",
+ "mlua",
  "rand",
  "serde",
  "uuid",
@@ -615,7 +619,9 @@ dependencies = [
  "bytemuck",
  "fey_color",
  "fey_grid",
+ "fey_lua",
  "fey_math",
+ "mlua",
  "png",
  "qoi",
  "serde",
@@ -1138,6 +1144,14 @@ dependencies = [
 
 [[package]]
 name = "minimal"
+version = "0.1.0"
+dependencies = [
+ "env_logger",
+ "polywog",
+]
+
+[[package]]
+name = "minimal_lua"
 version = "0.1.0"
 dependencies = [
  "env_logger",

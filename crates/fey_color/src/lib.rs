@@ -10,6 +10,9 @@ mod oklab;
 mod rgb;
 mod rgba;
 
+#[cfg(feature = "lua")]
+mod color_lua;
+
 pub use channel::*;
 pub use conversion_traits::*;
 pub use grey::*;
@@ -19,6 +22,9 @@ pub use hsv::*;
 pub use oklab::*;
 pub use rgb::*;
 pub use rgba::*;
+
+#[cfg(feature = "lua")]
+pub use color_lua::*;
 
 /// Create an `Rgba8` color from a packed `RGB` integer.
 #[inline]

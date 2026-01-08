@@ -6,7 +6,6 @@ use fey_lua::{HandleMut, HandleRef, TempMembers, TempTypes, UserDataOf};
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{BorrowedStr, FromLua, IntoLua, Lua, UserDataRef, UserDataRefMut, Value};
 use std::ffi::c_void;
-use std::marker::PhantomData;
 use std::ops::Deref;
 
 #[derive(Debug, Clone)]

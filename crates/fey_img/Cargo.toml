@@ -7,6 +7,9 @@ license.workspace = true
 description.workspace = true
 readme.workspace = true
 
+[features]
+lua = ["dep:mlua", "dep:fey_lua", "fey_math/lua", "fey_color/lua"]
+
 [dependencies]
 bytemuck = "1.24.0"
 fey_color = { version = "0.1.0", path = "../fey_color" }
@@ -16,3 +19,5 @@ png = "0.18.0"
 qoi = "0.4.1"
 serde = "1.0.228"
 thiserror = "2.0.17"
+fey_lua = { version = "0.1.0", path = "../fey_lua", optional = true }
+mlua = { version = "0.11.5", features = ["lua54", "vendored"], optional = true }

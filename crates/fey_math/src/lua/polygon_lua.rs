@@ -1,6 +1,6 @@
 use crate::{
-    Affine2Ref, CircleF, CircleRef, PolygonF, QuadF, RayRef, RectF, RectRef, Shape, ShapeRef,
-    TriangleF, Vec2F,
+    Affine2Ref, CircleRef, PolygonF, QuadF, RayRef, RectF, RectRef, Shape, ShapeRef, TriangleF,
+    Vec2F,
 };
 use fey_lua::{LuaModule, UserDataOf};
 use mlua::prelude::LuaResult;

@@ -22,6 +22,7 @@
       <sourceFolder url="file://$MODULE_DIR$/crates/fey_font/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/examples/text/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/crates/fey_lua/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/examples/minimal_lua/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

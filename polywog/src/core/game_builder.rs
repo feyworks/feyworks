@@ -27,7 +27,11 @@ impl GameBuilder {
         };
 
         #[cfg(feature = "lua")]
-        let this = { this.with_modules::<fey_math::MathModules>()? };
+        let this = {
+            this.with_module::<fey_color::ColorModule>()?
+                .with_module::<fey_guid::GuidModule>()?
+                .with_modules::<fey_math::MathModules>()?
+        };
 
         Ok(this)
     }
