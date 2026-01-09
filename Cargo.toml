@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["polywog", "crates/*", "examples/*"]
+members = ["polywog", "crates/*", "examples/*", "polywog-cli"]
 default-members = ["polywog"]
 
 [workspace.package]
@@ -8,8 +8,6 @@ authors = ["Chevy Ray Johnston"]
 license = "LICENSE"
 description = "Create 2D games in Rust."
 readme = "README.md"
-
-
 
 #name — The name of the package.
 #version — The version of the package.
