@@ -4,31 +4,31 @@
 local Keyboard = {}
 
 ---If the key is held down this frame.
----@param key KeyCode
+---@param key Key
 ---@return boolean
 ---@nodiscard
 function Keyboard.down(key) end
 
 ---If the key was pressed this frame.
----@param key KeyCode
+---@param key Key
 ---@return boolean
 ---@nodiscard
 function Keyboard.pressed(key) end
 
 ---If the key was released this frame.
----@param key KeyCode
+---@param key Key
 ---@return boolean
 ---@nodiscard
 function Keyboard.released(key) end
 
 ---If the key was repeated this frame.
----@param key KeyCode
+---@param key Key
 ---@return boolean
 ---@nodiscard
 function Keyboard.repeated(key) end
 
 ---If the key was pressed or repeated this frame.
----@param key KeyCode
+---@param key Key
 ---@return boolean
 ---@nodiscard
 function Keyboard.pressed_or_repeated(key) end

@@ -6,7 +6,7 @@ use mlua::{FromLua, Integer, IntoLua, Lua, Value};
 pub struct KeyModule;
 
 impl LuaModule for KeyModule {
-    const PATH: &'static str = "KeyCode";
+    const PATH: &'static str = "Key";
 
     fn load(lua: &Lua) -> LuaResult<Value> {
         let m = lua.create_table()?;
