@@ -13,6 +13,9 @@ mod time;
 mod video_mode;
 mod window;
 
+#[cfg(feature = "lua")]
+mod lua_app;
+
 pub use context::*;
 pub use cursor_icon::*;
 pub use display_mode::*;
@@ -23,3 +26,6 @@ pub use monitor::*;
 pub use time::*;
 pub use video_mode::*;
 pub use window::*;
+
+#[cfg(feature = "lua")]
+pub(crate) use lua_app::*;

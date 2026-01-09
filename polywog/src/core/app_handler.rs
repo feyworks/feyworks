@@ -24,9 +24,10 @@ enum AppState<G: Game> {
         timer: FrameTimer,
         size: LogicalSize<f64>,
         game: G,
+        has_updated: bool,
 
         #[cfg(feature = "lua")]
-        lua: mlua::Lua,
+        lua_app: crate::core::LuaApp,
     },
 }
 
@@ -88,9 +89,8 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             quit_requested: Cell::new(false),
         }));
 
-        // add the context to lua
         #[cfg(feature = "lua")]
-        assert!(opts.lua.set_app_data(ctx.clone()).is_none());
+        let lua_app = crate::core::LuaApp::new(opts.lua.clone(), &ctx);
 
         // create the game
         // TODO: propagate error
@@ -103,9 +103,10 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             timer: FrameTimer::new(None),
             size,
             game,
+            has_updated: false,
 
             #[cfg(feature = "lua")]
-            lua: opts.lua.clone(),
+            lua_app,
         };
     }
 
@@ -121,9 +122,10 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             timer,
             size,
             game,
+            has_updated,
 
             #[cfg(feature = "lua")]
-            lua,
+            lua_app,
         } = &mut self.state
         else {
             panic!("app not running");
@@ -189,11 +191,17 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                 let monitor = ctx.window.monitor();
 
                 timer.tick(monitor, |time| {
+                    *has_updated = true;
+
                     // update time
                     ctx.time.set_state(time);
 
                     // update gamepad input
                     ctx.gamepads.update(ctx);
+
+                    // update the lua app
+                    #[cfg(feature = "lua")]
+                    lua_app.update(ctx);
 
                     // update the game
                     // TODO: propagate this error somewhere
@@ -213,9 +221,16 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                 // begin rendering a frame
                 draw.begin_frame(ctx.window.size());
 
-                // render the game
-                // TODO: propagate this error somewhere
-                game.render(ctx, draw).unwrap();
+                // only do render callbacks after we've started updating
+                if *has_updated {
+                    // render the lua app
+                    #[cfg(feature = "lua")]
+                    lua_app.render(ctx, draw);
+
+                    // render the game
+                    // TODO: propagate this error somewhere
+                    game.render(ctx, draw).unwrap();
+                }
 
                 // finish rendering a frame
                 draw.end_frame(timer.time.frame.get(), ctx.graphics.surface(), &ctx.window);
@@ -229,12 +244,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                 ctx.mouse.set_update_phase();
                 ctx.keyboard.set_update_phase();
                 ctx.gamepads.set_update_phase();
-
-                // clear all single-frame Lua temp types
-                #[cfg(feature = "lua")]
-                lua.app_data_mut::<crate::lua::TempTypes>()
-                    .unwrap()
-                    .clear_frame();
 
                 // quit if the user requested it
                 if ctx.quit_requested() {
