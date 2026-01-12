@@ -1,5 +1,5 @@
 use crate::core::Context;
-use crate::gfx::{Font, Glyph, SubTexture};
+use crate::gfx::{Font, SubTexture};
 use crate::lua::LuaModule;
 use crate::misc::BASIC_LATIN;
 use fey_lua::UserDataOf;
@@ -60,7 +60,7 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
     methods.add_function(
         "set_glyph",
         |_, (mut this, chr, sub, adv): (FontMut, BorrowedStr, Option<SubTexture>, f32)| {
-            this.set_glyph(get_char(chr)?, Glyph { sub, adv });
+            this.set_glyph(get_char(chr)?, sub, adv);
             Ok(())
         },
     );

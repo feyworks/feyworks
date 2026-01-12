@@ -5,8 +5,8 @@ use crate::lua_modules::{
 use fey_color::{Rgba8, rgba};
 use fey_lua::LuaModule;
 use fey_math::{
-    Affine2F, CircleF, LineF, Mat2F, Mat3F, Mat4F, Mat4Ref, Numeric, PolygonRef, QuadF, RadiansF,
-    RectF, RectU, TriangleF, Vec2F, Vec3F, Vec4F, circle, line, vec2,
+    Affine2F, CircleF, LineF, Mat2F, Mat3F, Mat4F, Mat4Ref, PolygonRef, QuadF, RadiansF, RectF,
+    RectU, TriangleF, Vec2F, Vec3F, Vec4F, circle, line, vec2,
 };
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{BorrowedStr, Either, IntoLua, Lua, Number, Table, UserData, UserDataMethods, Value};
@@ -46,15 +46,6 @@ impl UserData for Draw {
 }
 
 fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
-    #[inline]
-    fn num_col(num: Option<Number>) -> Option<Rgba8> {
-        num.map(|n| n as u32).map(rgba)
-    }
-    #[inline]
-    fn num_col_or_white(num: Option<Number>) -> Rgba8 {
-        num_col(num).unwrap_or(Rgba8::WHITE)
-    }
-
     methods.add_function(
         "set_surface",
         |lua, (surf, col): (Option<SurfaceRef>, Option<Rgba8>)| {
@@ -515,7 +506,12 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
             Option<f32>,                    // size
         )| {
             let (pos, font, col, size) = match a {
-                Either::Left(a) => (vec2(a, b.unwrap_left()), c.unwrap_left(), num_col(d), e),
+                Either::Left(a) => (
+                    vec2(a, b.unwrap_left()),
+                    c.unwrap_left(),
+                    d.map(|d| rgba(d as u32)),
+                    e,
+                ),
                 Either::Right(a) => (a, b.unwrap_right(), c.unwrap_right(), d.map(|d| d as f32)),
             };
             let col = col.unwrap_or(Rgba8::WHITE);

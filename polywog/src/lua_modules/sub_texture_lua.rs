@@ -1,6 +1,4 @@
-use crate::core::Context;
 use crate::gfx::SubTexture;
-use crate::img::DynImageRef;
 use crate::lua::LuaModule;
 use crate::lua_modules::TextureRef;
 use fey_lua::UserDataOf;

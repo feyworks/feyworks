@@ -23,7 +23,7 @@ impl Debug for Font {
 
 /// A drawable font glyph.
 #[derive(Debug, Clone, PartialEq)]
-pub struct Glyph {
+pub(crate) struct Glyph {
     pub sub: Option<SubTexture>,
     pub adv: f32,
 }
@@ -139,12 +139,12 @@ impl Font {
     }
 
     #[inline]
-    pub fn set_glyph(&mut self, chr: char, glyph: Glyph) {
-        self.glyphs.insert(chr, glyph);
+    pub fn set_glyph(&mut self, chr: char, sub: Option<SubTexture>, adv: f32) {
+        self.glyphs.insert(chr, Glyph { sub, adv });
     }
 
     #[inline]
-    pub fn glyph(&self, chr: char) -> Option<&Glyph> {
+    pub(crate) fn glyph(&self, chr: char) -> Option<&Glyph> {
         self.glyphs.get(&chr)
     }
 
