@@ -144,6 +144,11 @@ impl Font {
     }
 
     #[inline]
+    pub fn set_kerning(&mut self, left: char, right: char, kerning: f32) {
+        self.kerning.insert((left, right), kerning);
+    }
+
+    #[inline]
     pub fn kerning(&self, left: char, right: char) -> Option<f32> {
         self.kerning.get(&(left, right)).copied()
     }

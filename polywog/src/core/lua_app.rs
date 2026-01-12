@@ -113,9 +113,9 @@ impl LuaApp {
         }
     }
 
-    pub fn render(&mut self, _ctx: &Context, _draw: &mut Draw) {
+    pub fn render(&mut self, _ctx: &Context, draw: &mut Draw) {
         // call Main:render()
-        if let Ok(Err(err)) = self.main.as_ref().map(|main| main.render()) {
+        if let Ok(Err(err)) = self.main.as_ref().map(|main| main.render(&self.lua, draw)) {
             println!("{err}");
             self.main = Err(err);
         }
@@ -193,7 +193,11 @@ impl LuaMain {
     }
 
     #[inline]
-    fn render(&self) -> LuaResult<()> {
-        self.render_fn.call(self.module.clone())
+    fn render(&self, lua: &Lua, draw: &mut Draw) -> LuaResult<()> {
+        let draw: *mut Draw = draw;
+        assert!(lua.set_app_data(draw).is_none());
+        self.render_fn.call::<()>(self.module.clone())?;
+        assert!(lua.remove_app_data::<*mut Draw>().is_some());
+        Ok(())
     }
 }

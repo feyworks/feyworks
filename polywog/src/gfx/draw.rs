@@ -11,6 +11,7 @@ use crate::math::{
     RectF, RectU, TriangleF, Vec2, Vec2F, Vec2U, Vec3F, Vec4F, vec2,
 };
 use std::collections::HashMap;
+use std::fmt::{Debug, Formatter};
 use std::mem::{replace, swap};
 use wgpu::{
     Color, CommandEncoderDescriptor, Device, IndexFormat, LoadOp, Operations, Queue,
@@ -26,6 +27,13 @@ pub struct Draw {
     matrix: Affine2F,
     matrix_stack: Vec<Affine2F>,
     clip_rect: Option<RectU>,
+}
+
+impl Debug for Draw {
+    #[inline]
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Draw").finish_non_exhaustive()
+    }
 }
 
 impl Draw {

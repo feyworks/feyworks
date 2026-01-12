@@ -38,6 +38,8 @@ impl GameBuilder {
                 .with_modules::<fey_math::MathModules>()?
                 .with_module::<fey_rand::RandModule>()?
                 .with_module::<ColorModeModule>()?
+                .with_module::<DrawModule>()?
+                .with_module::<FontModule>()?
                 .with_module::<IndexBufferModule>()?
                 .with_module::<GamepadModule>()?
                 .with_module::<GamepadButtonModule>()?
@@ -49,6 +51,7 @@ impl GameBuilder {
                 .with_module::<SamplerModule>()?
                 .with_module::<ScreenModule>()?
                 .with_module::<ShaderModule>()?
+                .with_module::<SubTextureModule>()?
                 .with_module::<SurfaceModule>()?
                 .with_module::<TextureModule>()?
                 .with_module::<TimeModule>()?
