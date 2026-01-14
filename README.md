@@ -1,14 +1,14 @@
 - [🐸 Polywog](#-polywog)
-  - [✅ Features](#-features)
-    - [🧱 Just the basics](#-just-the-basics)
-    - [🌐 Cross platform](#-cross-platform)
-    - [👩‍🎓 Create while you learn](#-create-while-you-learn)
-  - [🤔 Is this for me?](#-is-this-for-me)
-    - [👍 Polywog may be for you if you...](#-polywog-may-be-for-you-if-you)
-    - [👎 Polywog is not for you if you...](#-polywog-is-not-for-you-if-you)
-    - [🔍 Want an alternative?](#-want-an-alternative)
-  - [💡 Getting started](#-getting-started)
-  - [💃 Join the community](#-join-the-community)
+    - [✅ Features](#-features)
+        - [🧱 Just the basics](#-just-the-basics)
+        - [🌐 Cross platform](#-cross-platform)
+        - [👩‍🎓 Create while you learn](#-create-while-you-learn)
+    - [🤔 Is this for me?](#-is-this-for-me)
+        - [👍 Polywog may be for you if you...](#-polywog-may-be-for-you-if-you)
+        - [👎 Polywog is not for you if you...](#-polywog-is-not-for-you-if-you)
+        - [🔍 Want an alternative?](#-want-an-alternative)
+    - [💡 Getting started](#-getting-started)
+    - [💃 Join the community](#-join-the-community)
 
 # 🐸 Polywog
 
@@ -26,7 +26,7 @@ own game engines. It provides:
 - 🖼️ shaders, surfaces, textures, and other graphics resources
 - 🖌️ a straightforward but powerful canvas-style drawing API
 - 🧮 various math types for vectors, matrices, rotations, etc.
-- 📐 geometry types for various shapes, overlap testing, extraction, raycasting, etc. 
+- 📐 geometry types for various shapes, overlap testing, extraction, raycasting, etc.
 - 🎨 tools for working with colors, image encoding, decoding, and manipulation
 - 🧳 texture packing and other techniques for rendering optimization
 - 🦀 and of course, full access to Rust's speed, power, ecosystem, and pleasure of use
@@ -63,11 +63,13 @@ Making games and prototypes is a cool way to learn a programming language, we th
 ## 🤔 Is this for me?
 
 ### 👍 Polywog may be for you if you...
+
 - want to make weird and cool 2D indie games and prototypes
 - want to learn Rust in a playful, creative way
 - want a backend to build your own 2D engine on top of
 
 ### 👎 Polywog is not for you if you...
+
 - want a game engine with an editor and all the bells & whistles
 - want to make a 3D or big AAA game with a huge team and make zillions of bucks
 - want to make mobile or web games (not impossible, I just have no interest in supporting it)
@@ -87,9 +89,9 @@ something very ambitious.
 
 ## 💃 Join the community
 
-Join our [{{Discord}}]() to chat, get help, report bugs, and share what you're working on!
+Join our [Discord](https://discord.gg/MfYsGDwa4A) to chat, get help, report bugs, and share what you're working on!
 
-Check out our [{{Contributing}}]() page if you're interested in helping maintain and improve the
+Check out our [{{TODO: Contributing}}]() page if you're interested in helping maintain and improve the
 project.
 
-Say hello to our mascot [{{MASCOT_NAME}}]().
+Say hello to our mascot [{{TODO: MASCOT_NAME}}]().
