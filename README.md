@@ -14,6 +14,9 @@ then gets out of your way. The rest is up to you!
   - [👎 Polywog is not for you if you...](#-polywog-is-not-for-you-if-you)
   - [🔍 Want an alternative?](#-want-an-alternative)
 - [💡 Getting started](#-getting-started)
+  - [Install Rust](#install-rust)
+  - [Clone the Polywog repository](#clone-the-polywog-repository)
+  - [Create a new project](#create-a-new-project)
 - [💃 Join the community](#-join-the-community)
 
 ## ⚠️ Alpha Testing
@@ -107,10 +110,100 @@ something very ambitious.
 
 ## 💡 Getting started
 
-There is no official tutorialization at the moment, though we will eventually have a walkthrough.
-For now, check out the
-[minimal example](https://github.com/feyworks/polywog/tree/main/examples/minimal) and others to see
-how it looks and how to get started.
+### Install Rust
+
+If you don't already know or use Rust, you should first
+[install it](https://rust-lang.org/tools/install/) and then follow the
+[getting started](https://doc.rust-lang.org/book/ch01-00-getting-started.html)
+tutorial at the very least. The whole Rust book is a very good learning resource.
+
+If you need a code editor, Visual Studio Code has a
+[Rust extension](https://code.visualstudio.com/docs/languages/rust) that is very widely
+used and supported.
+
+### Clone the Polywog repository
+
+In your Rust folder, clone the repository:
+
+```console
+cd ~/my_rust_folder
+git clone https://github.com/feyworks/polywog
+```
+
+With a local copy, you can now build the documentation:
+
+```console
+cd polywog
+cargo doc --open
+```
+
+### Create a new project
+
+From the same root folder, now create a new binary project:
+
+```console
+cd ~/my_rust_folder
+cargo new --bin my_game
+cd my_game
+```
+
+Then, add `polywog` and `env_logger` as dependencies.
+
+```console
+cargo add --git https://github.com/feyworks/polywog polywog
+cargo add env_logger
+```
+
+Polywog is not a Rust package yet so you have to add it directly from the repository.
+
+Next, open `src/main.rs` and replace it with the following code:
+
+```rust
+use polywog::prelude::*;
+
+fn main() -> Result<(), GameError> {
+    env_logger::init();
+
+    // create a game, set some options, and then run it
+    polywog::new_game()
+        .with_title("My Game")
+        .with_size(1280, 720)
+        .run::<MyGame>(())
+}
+
+pub struct MyGame {}
+
+impl Game for MyGame {
+    type Config = ();
+
+    fn new(ctx: &Context, cfg: Self::Config) -> Result<Self, GameError>
+    where
+        Self: Sized,
+    {
+        // initialize your game state here, such as creating graphics resources, etc.
+        Ok(Self {})
+    }
+
+    fn update(&mut self, ctx: &Context) -> Result<(), GameError> {
+        // perform your game logic here
+        Ok(())
+    }
+
+    fn render(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
+        // perform your drawing code here
+        Ok(())
+    }
+}
+```
+
+You can now run the game with:
+
+```console
+cargo run
+```
+
+From here, the journey is yours. Use `Context` to access the mouse, keyboard, window,
+and graphics APIs. Browse `Draw` for a variety for drawing functions.
 
 ## 💃 Join the community
 
