@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2024"
 authors.workspace = true
 license.workspace = true
-readme.workspace = true
 repository.workspace = true
 description = "A simple, approachable framework for creating 2D games in Rust and/or Lua."
 homepage = "https://kero.games"

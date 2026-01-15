@@ -5,5 +5,4 @@ members = ["crates/*", "examples/*"]
 [workspace.package]
 authors = ["Chevy Ray Johnston"]
 license = "MIT"
-readme = "README.md"
 repository = "https://github.com/feyworks/feyworks"
