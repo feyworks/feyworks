@@ -35,6 +35,8 @@
       <sourceFolder url="file://$MODULE_DIR$/crates/kero_rand/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/kero-cli/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/kero/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/kero-cli/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/kero/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
