@@ -1,4 +1,4 @@
-![Kero](assets/banner.png)
+![Kero](assets/header.png)
 
 Kero is across-platform framework for creating 2D games in the [Rust](https://rust-lang.org/)
 programming language. It contains everything you need to start making a game with no hassle, and
