@@ -2,7 +2,7 @@
 
 An approachable cross-platform framework for creating 2D games in either Rust, Lua, or both.
 
-> ⚠️ <span style="color:red">**KERO IS CURRENTLY IN UNSTABLE ALPHA TESTING PHASE AND NOT FOR GENERAL USE**</span>
+⚠️ **KERO IS CURRENTLY IN UNSTABLE ALPHA TESTING PHASE AND NOT FOR GENERAL USE**
 
 - [✅ Features](#-features)
 - [💡 Getting started](#-getting-started)
@@ -81,8 +81,8 @@ bunch of examples you can check out to see how different things are done.
 
 ## 🔬 Alpha Testers
 
-Thank you for helping test Kero! 💕 Please join our [Discord](https://discord.gg/AYjNw9WHJa) where
-we are currently looking for feedback:
+Thank you for helping test Kero! 💕 Please join our [**Discord**](https://discord.gg/AYjNw9WHJa)
+where we are currently looking for feedback:
 
 - from both casual, pro, and brand new Rust users
 - first impressions, if what you expected it to do matched what it does
