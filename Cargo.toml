@@ -6,3 +6,4 @@ members = ["crates/*", "crates/kero/examples/*"]
 authors = ["Chevy Ray Johnston"]
 license = "MIT"
 repository = "https://github.com/feyworks/feyworks"
+rust-version = "1.92.0"
