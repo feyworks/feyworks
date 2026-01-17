@@ -60,12 +60,12 @@ impl Game for SubTexturesExample {
         Ok(())
     }
 
-    fn render(&mut self, _ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
+    fn render(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
         draw.push_scale_of(UPSCALE as f32);
 
-        self.level.render_bg(_ctx, draw)?;
+        self.level.render_bg(ctx, draw)?;
         self.guy.render(self, draw)?;
-        self.level.render_fg(_ctx, draw)?;
+        self.level.render_fg(ctx, draw)?;
 
         draw.pop_transform()?;
         Ok(())
