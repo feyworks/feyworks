@@ -41,8 +41,6 @@ Then, replace `src/main.rs` with the following:
 use kero::prelude::*;
 
 fn main() -> Result<(), GameError> {
-    env_logger::init();
-
     // create a game, set some options, and then run it
     kero::new_game()
         .with_title("My Game")
