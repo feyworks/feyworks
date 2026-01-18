@@ -1113,6 +1113,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "kero_spr"
+version = "0.1.0"
+dependencies = [
+ "fnv",
+ "kero",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.178"
 source = "registry+https://github.com/rust-lang/crates.io-index"

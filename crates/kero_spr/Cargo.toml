@@ -1,0 +1,12 @@
+[package]
+name = "kero_spr"
+version = "0.1.0"
+edition = "2024"
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+fnv = "1.0.7"
+kero = { version = "0.1.11", path = "../kero" }
