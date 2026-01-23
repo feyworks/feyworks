@@ -64,7 +64,7 @@ impl SpriteFont {
                 max_w = max_w.max(w);
                 w = 0.0
             } else if let Some(g) = self.glyphs.get(&chr) {
-                w += g.get().advance;
+                w += g.advance;
             }
         }
         max_w.max(w)

@@ -1,4 +1,7 @@
-use crate::{Sprite, SpriteAnim, SpriteFont, SpriteGlyph, SpritePatch, SpriteSheet};
+use crate::{
+    AnimFrame, AnimLayer, AnimTag, Sprite, SpriteAnim, SpriteFont, SpriteGlyph, SpritePatch,
+    SpriteSheet,
+};
 use kero::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -89,12 +92,12 @@ pub struct AtlasCel {
 
 /// Graphics assets generated from a sprite atlas.
 pub struct AtlasGraphics<I> {
-    pub texture: UserDataOf<TextureHandle>,
+    pub texture: Texture,
     pub sprites: Vec<(I, Sprite)>,
-    pub sheets: Vec<(I, UserDataOf<SpriteSheet>)>,
-    pub fonts: Vec<(I, UserDataOf<SpriteFont>)>,
-    pub patches: Vec<(I, UserDataOf<SpritePatch>)>,
-    pub anims: Vec<(I, UserDataOf<SpriteAnim>)>,
+    pub sheets: Vec<(I, SpriteSheet)>,
+    pub fonts: Vec<(I, SpriteFont)>,
+    pub patches: Vec<(I, SpritePatch)>,
+    pub anims: Vec<(I, SpriteAnim)>,
 }
 
 impl<I: Eq + Hash> AtlasGraphics<I> {
@@ -113,35 +116,28 @@ impl<I: Eq + Hash> AtlasGraphics<I> {
 
 /// Hash-mapped graphics assets generated from a sprite atlas.
 pub struct AtlasGraphicsMapped<I> {
-    pub texture: UserDataOf<TextureHandle>,
-    pub sprites: HashMap<I, UserDataOf<Sprite>>,
-    pub sheets: HashMap<I, UserDataOf<SpriteSheet>>,
-    pub fonts: HashMap<I, UserDataOf<SpriteFont>>,
-    pub patches: HashMap<I, UserDataOf<SpritePatch>>,
-    pub anims: HashMap<I, UserDataOf<SpriteAnim>>,
+    pub texture: Texture,
+    pub sprites: HashMap<I, Sprite>,
+    pub sheets: HashMap<I, SpriteSheet>,
+    pub fonts: HashMap<I, SpriteFont>,
+    pub patches: HashMap<I, SpritePatch>,
+    pub anims: HashMap<I, SpriteAnim>,
 }
 
 impl<I> SpriteAtlas<I> {
     /// Create renderable graphics assets from this sprite atlas.
-    pub fn create_graphics(
-        self,
-        lua: &Lua,
-        texture: UserDataOf<TextureHandle>,
-    ) -> AtlasGraphics<I> {
+    pub fn create_graphics(self, texture: Texture) -> AtlasGraphics<I> {
         let sprites = self
             .sprites
             .into_iter()
             .map(|sprite| {
                 (
                     sprite.id,
-                    UserDataOf::new(
-                        lua,
-                        Sprite::new(
-                            texture.clone(),
-                            sprite.size.to_f32(),
-                            sprite.rect.to_f32(),
-                            sprite.off.to_f32(),
-                        ),
+                    Sprite::new_ext(
+                        texture.clone(),
+                        sprite.rect.to_f32(),
+                        sprite.off.to_f32(),
+                        sprite.size.to_f32(),
                     ),
                 )
             })
@@ -154,32 +150,26 @@ impl<I> SpriteAtlas<I> {
                 let tile_size = sheet.tile_size.to_f32();
                 (
                     sheet.id,
-                    UserDataOf::new(
-                        lua,
-                        SpriteSheet {
-                            tiles: VecGrid::with_store(
-                                sheet.size,
-                                sheet
-                                    .tiles
-                                    .into_iter()
-                                    .map(|tile| {
-                                        tile.map(|tile| {
-                                            UserDataOf::new(
-                                                lua,
-                                                Sprite::new(
-                                                    texture.clone(),
-                                                    tile_size,
-                                                    tile.rect.to_f32(),
-                                                    tile.off.to_f32(),
-                                                ),
-                                            )
-                                        })
+                    SpriteSheet {
+                        tiles: VecGrid::with_store(
+                            sheet.size,
+                            sheet
+                                .tiles
+                                .into_iter()
+                                .map(|tile| {
+                                    tile.map(|tile| {
+                                        Sprite::new_ext(
+                                            texture.clone(),
+                                            tile.rect.to_f32(),
+                                            tile.off.to_f32(),
+                                            tile_size,
+                                        )
                                     })
-                                    .collect(),
-                            ),
-                            tile_size,
-                        },
-                    ),
+                                })
+                                .collect(),
+                        ),
+                        tile_size,
+                    },
                 )
             })
             .collect();
@@ -190,45 +180,36 @@ impl<I> SpriteAtlas<I> {
             .map(|font| {
                 (
                     font.id,
-                    UserDataOf::new(
-                        lua,
-                        SpriteFont {
-                            ascent: font.ascent as f32,
-                            descent: font.descent as f32,
-                            line_gap: font.line_gap as f32,
-                            glyphs: font
-                                .glyphs
-                                .into_iter()
-                                .map(|g| {
-                                    (
-                                        g.chr,
-                                        UserDataOf::new(
-                                            lua,
-                                            SpriteGlyph {
-                                                sprite: (g.size.x > 0).then(|| {
-                                                    UserDataOf::new(
-                                                        lua,
-                                                        Sprite::new(
-                                                            texture.clone(),
-                                                            g.size.to_f32(),
-                                                            g.rect.to_f32(),
-                                                            g.off.to_f32(),
-                                                        ),
-                                                    )
-                                                }),
-                                                advance: g.adv as f32,
-                                            },
-                                        ),
-                                    )
-                                })
-                                .collect(),
-                            kerning: font
-                                .kerning
-                                .into_iter()
-                                .map(|(a, b, k)| ((a, b), k as f32))
-                                .collect(),
-                        },
-                    ),
+                    SpriteFont {
+                        ascent: font.ascent as f32,
+                        descent: font.descent as f32,
+                        line_gap: font.line_gap as f32,
+                        glyphs: font
+                            .glyphs
+                            .into_iter()
+                            .map(|g| {
+                                (
+                                    g.chr,
+                                    SpriteGlyph {
+                                        sprite: (g.size.x > 0).then(|| {
+                                            Sprite::new_ext(
+                                                texture.clone(),
+                                                g.rect.to_f32(),
+                                                g.off.to_f32(),
+                                                g.size.to_f32(),
+                                            )
+                                        }),
+                                        advance: g.adv as f32,
+                                    },
+                                )
+                            })
+                            .collect(),
+                        kerning: font
+                            .kerning
+                            .into_iter()
+                            .map(|(a, b, k)| ((a, b), k as f32))
+                            .collect(),
+                    },
                 )
             })
             .collect();
@@ -239,14 +220,7 @@ impl<I> SpriteAtlas<I> {
             .map(|patch| {
                 (
                     patch.id,
-                    UserDataOf::new(
-                        lua,
-                        SpritePatch::new(
-                            texture.clone(),
-                            patch.outer.to_f32(),
-                            patch.inner.to_f32(),
-                        ),
-                    ),
+                    SpritePatch::new(texture.clone(), patch.outer.to_f32(), patch.inner.to_f32()),
                 )
             })
             .collect();
@@ -256,31 +230,25 @@ impl<I> SpriteAtlas<I> {
             .into_iter()
             .map(|anim| {
                 (anim.id, {
-                    UserDataOf::new(
-                        lua,
-                        SpriteAnim {
-                            size: anim.size.to_f32(),
-                            frames: anim.frames,
-                            sprites: {
-                                anim.cels
-                                    .into_iter()
-                                    .map(|cel| {
-                                        UserDataOf::new(
-                                            lua,
-                                            Sprite::new(
-                                                texture.clone(),
-                                                cel.size.to_f32(),
-                                                cel.rect.to_f32(),
-                                                cel.off.to_f32(),
-                                            ),
-                                        )
-                                    })
-                                    .collect()
-                            },
-                            tags: anim.tags,
-                            layers: anim.layers,
+                    SpriteAnim {
+                        size: anim.size.to_f32(),
+                        frames: anim.frames,
+                        sprites: {
+                            anim.cels
+                                .into_iter()
+                                .map(|cel| {
+                                    Sprite::new_ext(
+                                        texture.clone(),
+                                        cel.rect.to_f32(),
+                                        cel.off.to_f32(),
+                                        cel.size.to_f32(),
+                                    )
+                                })
+                                .collect()
                         },
-                    )
+                        tags: anim.tags,
+                        layers: anim.layers,
+                    }
                 })
             })
             .collect();

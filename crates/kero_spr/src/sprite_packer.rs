@@ -1,17 +1,12 @@
-use crate::ase::{Ase, CelType, Format};
-use crate::color::{Channel, Rgba8};
-use crate::font::Font;
-use crate::grid::{Grid, GridMut, VecGrid, View};
-use crate::img::ImageRgba8;
-use crate::math::Castable;
-use crate::math::{Rect, rect};
-use crate::math::{Vec2, vec2};
-use crate::packer::{Item, Packed, Settings, pack};
-use crate::spr::{
+use crate::{
     AnimCel, AnimFrame, AnimLayer, AnimTag, AtlasAnim, AtlasCel, AtlasFont, AtlasGlyph, AtlasPatch,
     AtlasSheet, AtlasSprite, AtlasTile, SpriteAtlas,
 };
+use fey_ase::{Ase, CelType, Format};
+use fey_font::Font as FeyFont;
+use fey_packer::{Item, Packed, RectPacker};
 use fnv::FnvHashMap;
+use kero::prelude::*;
 use std::hash::{DefaultHasher, Hasher};
 
 /// Packs sprites, sheets, fonts, etc. into an atlas.
@@ -43,7 +38,7 @@ impl<I> SpritePacker<I> {
         &mut self,
         img: ImageRgba8,
         trim_threshold: Option<u8>,
-        offset: Vec2<i32>,
+        offset: Vec2I,
     ) -> Option<PackImage> {
         let trim = match trim_threshold {
             Some(a) => img.get_bounds(|p| p.a > a),
@@ -83,16 +78,9 @@ impl<I> SpritePacker<I> {
         &mut self,
         id: I,
         img: ImageRgba8,
-        tile_size: Vec2<usize>,
+        tile_size: Vec2U,
         trim_threshold: Option<u8>,
     ) {
-        // assert_eq!(
-        //     (img.size() / tile_size) * tile_size,
-        //     img.size(),
-        //     "img size {} is not multiple of tile size {}",
-        //     img.size(),
-        //     tile_size
-        // );
         if (img.size() / tile_size) * tile_size != img.size() {
             println!(
                 "img size {} is not multiple of tile size {}",
@@ -100,7 +88,7 @@ impl<I> SpritePacker<I> {
                 tile_size
             );
         }
-        let mut tiles = VecGrid::new_vec(img.size() / tile_size);
+        let mut tiles = VecGrid::new(img.size() / tile_size);
         for (val, p) in tiles.iter_mut() {
             let sub = ImageRgba8::from_grid(&img.view(
                 p.x * tile_size.x,
@@ -118,7 +106,7 @@ impl<I> SpritePacker<I> {
     }
 
     /// Add a font to be packed. Each glyph will be packed individually.
-    pub fn add_font_ttf(&mut self, id: I, font: &Font, chars: impl IntoIterator<Item = char>) {
+    pub fn add_font_ttf(&mut self, id: I, font: &FeyFont, chars: impl IntoIterator<Item = char>) {
         let chars: Vec<char> = chars.into_iter().collect();
 
         let glyphs = chars
@@ -161,7 +149,7 @@ impl<I> SpritePacker<I> {
     }
 
     /// Add a 9-patch to be packed.
-    pub fn add_patch(&mut self, id: I, img: ImageRgba8, inner: Rect<usize>) {
+    pub fn add_patch(&mut self, id: I, img: ImageRgba8, inner: RectU) {
         let img = self.add_image(img, None, Vec2::ZERO);
         self.patches.push(PackPatch { id, img, inner });
     }
@@ -170,17 +158,19 @@ impl<I> SpritePacker<I> {
     /// will be packed individually to better fit them into the atlas.
     pub fn add_ase(&mut self, id: I, ase: &Ase) {
         let make_img = |size: Vec2<usize>, data: &[u8]| match ase.format {
-            Format::Rgba => ImageRgba8::new_slice(size, data).to_owned(),
+            Format::Rgba => ImageRgba8::new_slice(size.to_u32(), data).to_owned(),
             Format::Grayscale => {
                 assert_eq!(data.len(), size.x * size.y * 2);
-                ImageRgba8::new_mapped(size, |p| {
+                ImageRgba8::new_mapped(size.to_u32(), |p| {
+                    let p = p.to_usize();
                     let i = (p.y * size.x + p.x) * 2;
                     Rgba8::new(data[i], data[i], data[i], data[i + 1])
                 })
             }
             Format::Indexed { transparent_index } => {
                 assert_eq!(data.len(), size.x * size.y);
-                ImageRgba8::new_mapped(size, |p| {
+                ImageRgba8::new_mapped(size.to_u32(), |p| {
+                    let p = p.to_usize();
                     let i = p.y * size.x + p.x;
                     if data[i] == transparent_index {
                         Rgba8::TRANSPARENT
@@ -271,24 +261,19 @@ impl<I> SpritePacker<I> {
     }
 
     /// Pack all the items into a sprite atlas.
-    pub fn pack(
-        &mut self,
-        max_size: usize,
-        spacing: usize,
-    ) -> Option<(ImageRgba8, SpriteAtlas<I>)> {
-        let settings = Settings::new()
+    pub fn pack(&mut self, max_size: u32) -> Option<(ImageRgba8, SpriteAtlas<I>)> {
+        let (size, mut packed) = RectPacker::new()
             .with_max_size(max_size)
-            .with_spacing(spacing)
-            .with_power_of_two();
-
-        let items: Vec<Item<usize>> = self
-            .images
-            .iter()
-            .enumerate()
-            .map(|(i, img)| Item::new(img.trim.size(), i))
-            .collect();
-
-        let (size, mut packed) = pack(items, settings)?;
+            .with_spacing(1)
+            .with_padding(2)
+            .with_power_of_two()
+            .pack(
+                self.images
+                    .iter()
+                    .enumerate()
+                    .map(|(i, img)| Item::new(img.trim.size(), i))
+                    .collect(),
+            )?;
         packed.sort_by_key(|p| p.data);
 
         let mut image = ImageRgba8::new_vec(size, Rgba8::TRANSPARENT);
@@ -404,7 +389,7 @@ impl<I> SpritePacker<I> {
                     .collect();
                 AtlasAnim {
                     id: anim.id,
-                    size: anim.size.to_usize(),
+                    size: anim.size.to_u32(),
                     cels,
                     frames: anim.frames,
                     tags: anim.tags,
@@ -428,7 +413,7 @@ impl<I> SpritePacker<I> {
 
 struct ImageData {
     img: ImageRgba8,
-    trim: Rect<usize>,
+    trim: RectU,
 }
 
 impl ImageData {
@@ -439,8 +424,8 @@ impl ImageData {
 
 struct PackImage {
     img_data: usize,
-    orig_size: Vec2<usize>,
-    offset: Vec2<i32>,
+    orig_size: Vec2U,
+    offset: Vec2I,
 }
 
 struct PackSprite<I> {
@@ -450,7 +435,7 @@ struct PackSprite<I> {
 
 struct PackSheet<I> {
     id: I,
-    tile_size: Vec2<usize>,
+    tile_size: Vec2U,
     tiles: VecGrid<Option<PackImage>>,
 }
 
@@ -471,7 +456,7 @@ struct PackGlyph {
 struct PackPatch<I> {
     id: I,
     img: Option<PackImage>,
-    inner: Rect<usize>,
+    inner: RectU,
 }
 
 struct PackAnim<I> {

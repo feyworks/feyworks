@@ -1135,7 +1135,9 @@ name = "kero_spr"
 version = "0.1.0"
 dependencies = [
  "fey_ase",
+ "fey_font",
  "fey_lua",
+ "fey_packer",
  "fnv",
  "kero",
  "mlua",
