@@ -8,7 +8,7 @@ repository.workspace = true
 rust-version.workspace = true
 
 [features]
-lua = ["dep:mlua", "dep:fey_lua"]
+lua = ["dep:mlua", "dep:fey_lua", "kero/lua"]
 
 [dependencies]
 fey_ase = { version = "0.1.0", path = "../fey_ase" }

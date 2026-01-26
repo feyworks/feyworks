@@ -30,7 +30,7 @@ impl Sprite {
         }
     }
 
-    /// Draw this sprite at the provided posiiton.
+    /// Draw this sprite at the provided position.
     #[inline]
     pub fn draw_flipped(
         &self,

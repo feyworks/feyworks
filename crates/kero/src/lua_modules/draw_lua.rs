@@ -2,11 +2,11 @@ use crate::gfx::{
     BlendMode, ColorMode, Draw, FontRef, IndexBufferRef, Sampler, ShaderRef, SubTextureRef,
     SurfaceRef, Texture, TextureRef, Topology, Vertex, VertexBufferRef,
 };
-use fey_color::{rgba, Rgba8};
+use fey_color::{Rgba8, rgba};
 use fey_lua::LuaModule;
 use fey_math::{
-    circle, line, vec2, Affine2F, CircleF, LineF, Mat2F, Mat3F, Mat4F, Mat4Ref, PolygonRef, QuadF,
-    RadiansF, RectF, RectU, TriangleF, Vec2F, Vec3F, Vec4F,
+    Affine2F, CircleF, LineF, Mat2F, Mat3F, Mat4F, Mat4Ref, PolygonRef, QuadF, RadiansF, RectF,
+    RectU, TriangleF, Vec2F, Vec3F, Vec4F, circle, line, vec2,
 };
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{BorrowedStr, Either, IntoLua, Lua, Number, Table, UserData, UserDataMethods, Value};

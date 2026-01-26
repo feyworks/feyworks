@@ -1,3 +1,6 @@
+#[cfg(feature = "lua")]
+mod lua;
+
 mod sprite;
 mod sprite_anim;
 mod sprite_atlas;
@@ -6,6 +9,9 @@ mod sprite_glyph;
 mod sprite_packer;
 mod sprite_patch;
 mod sprite_sheet;
+
+#[cfg(feature = "lua")]
+pub use lua::*;
 
 pub use sprite::*;
 pub use sprite_anim::*;

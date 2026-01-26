@@ -30,7 +30,7 @@ impl SpriteFont {
         }
     }
 
-    /// The font's height.
+    /// The font's height (`ascent - descent`).
     #[inline]
     pub fn height(&self) -> f32 {
         self.ascent - self.descent
