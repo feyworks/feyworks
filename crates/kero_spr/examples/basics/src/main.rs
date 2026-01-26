@@ -79,7 +79,9 @@ impl Game for BasicsExample {
             }
         }
 
-        self.textbox.draw(draw, (80.0, 120.0, 232.0, 56.0));
+        let rect = rect(80.0, 120.0, 232.0, 56.0);
+        let wave = ctx.time.wave(-3.0, 3.0, 2.0).round();
+        self.textbox.draw(draw, rect.inflate((wave, -wave)));
 
         self.virtue.draw(
             draw,
