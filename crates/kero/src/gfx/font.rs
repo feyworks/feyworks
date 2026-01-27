@@ -1,8 +1,8 @@
 use crate::gfx::{Graphics, Texture, TexturePacker};
 use crate::prelude::SubTexture;
-use fnv::FnvHashMap;
 use fey_font::Font as FeyFont;
 use fey_math::Vec2F;
+use fnv::FnvHashMap;
 use std::fmt::{Debug, Formatter};
 use std::path::Path;
 
@@ -50,7 +50,7 @@ impl Font {
         font: &[u8],
         size: f32,
         pixelated: bool,
-        chars: impl Iterator<Item = char>,
+        chars: impl IntoIterator<Item = char>,
     ) -> Result<Option<(Self, Texture)>, fey_font::FontError> {
         let font = FeyFont::from_slice(font, size)?;
         Ok(Self::pack(gfx, font, pixelated, chars))
@@ -61,7 +61,7 @@ impl Font {
         path: impl AsRef<Path>,
         size: f32,
         pixelated: bool,
-        chars: impl Iterator<Item = char>,
+        chars: impl IntoIterator<Item = char>,
     ) -> Result<Option<(Self, Texture)>, fey_font::FontError> {
         let font = FeyFont::from_file(path, size)?;
         Ok(Self::pack(gfx, font, pixelated, chars))
@@ -71,12 +71,13 @@ impl Font {
         gfx: &Graphics,
         font: FeyFont<'_>,
         pixelated: bool,
-        chars: impl Iterator<Item = char>,
+        chars: impl IntoIterator<Item = char>,
     ) -> Option<(Self, Texture)> {
         let mut packer = TexturePacker::new();
 
         // rasterize and pack all glyphs, collect their char/advance/offset
         let chars: Vec<(char, f32, Vec2F)> = chars
+            .into_iter()
             .enumerate()
             .map(|(i, chr)| {
                 let g = font.char_glyph(chr);

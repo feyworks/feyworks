@@ -34,7 +34,7 @@ impl Game for BasicsExample {
         packer.add_sprite_file("portrait", "assets/portrait.png", true, Some(0))?;
         packer.add_sheet_file("tiles", "assets/tiles.png", true, (16, 16), Some(0))?;
         packer.add_patch_file("textbox", "assets/textbox.png", true, (8, 8, 16, 16))?;
-        packer.add_font_file("virtue", "assets/virtue.ttf", 16.0, BASIC_LATIN.chars())?;
+        packer.add_font_file("virtue", "assets/virtue.ttf", 16.0, BASIC_LATIN)?;
 
         let mut atlas = packer.pack_graphics(4096, &ctx.graphics)?;
         let player = atlas.anims.remove("player").unwrap();

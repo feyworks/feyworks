@@ -109,6 +109,24 @@ impl Add<UnicodeRange> for UnicodeRange {
     }
 }
 
+impl IntoIterator for UnicodeRanges {
+    type Item = char;
+    type IntoIter = std::vec::IntoIter<char>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.chars().collect::<Vec<char>>().into_iter()
+    }
+}
+
+impl IntoIterator for UnicodeRange {
+    type Item = char;
+    type IntoIter = std::vec::IntoIter<char>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.chars().collect::<Vec<char>>().into_iter()
+    }
+}
+
 pub const BASIC_LATIN: UnicodeRange = UnicodeRange {
     name: "Basic Latin",
     start: 0x0,

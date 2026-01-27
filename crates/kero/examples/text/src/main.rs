@@ -28,7 +28,7 @@ impl Game for TextExample {
             include_bytes!("../assets/NotoSans-Regular.ttf"),
             32.0,
             false,
-            BASIC_LATIN.chars(),
+            BASIC_LATIN,
         )?
         .ok_or_else(|| GameError::custom("failed to load font"))?;
 
@@ -38,7 +38,7 @@ impl Game for TextExample {
             include_bytes!("../assets/virtue.ttf"),
             16.0,
             true,
-            BASIC_LATIN.chars(),
+            BASIC_LATIN,
         )?
         .ok_or_else(|| GameError::custom("failed to load font"))?;
 
