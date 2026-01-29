@@ -17,3 +17,22 @@ pub trait Game: 'static {
     /// Called every frame refresh in order to perform game rendering.
     fn render(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError>;
 }
+
+impl Game for () {
+    type Config = ();
+
+    fn new(_ctx: &Context, _cfg: Self::Config) -> Result<Self, GameError>
+    where
+        Self: Sized,
+    {
+        Ok(())
+    }
+
+    fn update(&mut self, _ctx: &Context) -> Result<(), GameError> {
+        Ok(())
+    }
+
+    fn render(&mut self, _ctx: &Context, _draw: &mut Draw) -> Result<(), GameError> {
+        Ok(())
+    }
+}
