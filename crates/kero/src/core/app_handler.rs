@@ -26,9 +26,6 @@ enum AppState<G: Game> {
         size: LogicalSize<f64>,
         game: G,
         has_updated: bool,
-
-        #[cfg(feature = "lua")]
-        lua_app: crate::core::LuaApp,
     },
 }
 
@@ -107,9 +104,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
         // create the frame timer
         let timer = FrameTimer::new(ctx.time.0.clone());
 
-        #[cfg(feature = "lua")]
-        let lua_app = crate::core::LuaApp::new(opts.lua.clone(), &ctx);
-
         // create the game
         // TODO: propagate error
         let game = G::new(&ctx, cfg.take().unwrap()).unwrap();
@@ -122,9 +116,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             size,
             game,
             has_updated: false,
-
-            #[cfg(feature = "lua")]
-            lua_app,
         };
     }
 
@@ -141,9 +132,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             size,
             game,
             has_updated,
-
-            #[cfg(feature = "lua")]
-            lua_app,
         } = &mut self.state
         else {
             panic!("app not running");
@@ -214,10 +202,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                     // update gamepad input
                     ctx.gamepads.update(ctx);
 
-                    // update the lua app
-                    #[cfg(feature = "lua")]
-                    lua_app.update(ctx);
-
                     // update the game
                     // TODO: propagate this error somewhere
                     game.update(ctx).unwrap();
@@ -238,10 +222,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
 
                 // only do render callbacks after we've started updating
                 if *has_updated {
-                    // render the lua app
-                    #[cfg(feature = "lua")]
-                    lua_app.render(ctx, draw);
-
                     // render the game
                     // TODO: propagate this error somewhere
                     game.render(ctx, draw).unwrap();

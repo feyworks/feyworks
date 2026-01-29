@@ -131,30 +131,6 @@ impl GameBuilder {
 
     #[cfg(feature = "lua")]
     pub fn run_lua(self) -> Result<(), GameError> {
-        use crate::gfx::Draw;
-        use crate::core::Context;
-
-        pub struct LuaApp;
-
-        impl Game for LuaApp {
-            type Config = ();
-
-            fn new(_ctx: &Context, _cfg: Self::Config) -> Result<Self, GameError>
-            where
-                Self: Sized,
-            {
-                Ok(Self {})
-            }
-
-            fn update(&mut self, _ctx: &Context) -> Result<(), GameError> {
-                Ok(())
-            }
-
-            fn render(&mut self, _ctx: &Context, _draw: &mut Draw) -> Result<(), GameError> {
-                Ok(())
-            }
-        }
-
-        self.run::<LuaApp>(())
+        self.run::<crate::core::LuaGame<()>>(())
     }
 }

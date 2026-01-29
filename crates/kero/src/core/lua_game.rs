@@ -1,4 +1,4 @@
-use super::{Context, GameError};
+use super::{Context, Game, GameError};
 use crate::gfx::Draw;
 use fey_lua::TempTypes;
 use mlua::prelude::LuaResult;
@@ -7,16 +7,25 @@ use std::collections::HashSet;
 use std::ffi::OsStr;
 use std::path::PathBuf;
 
-pub struct LuaApp {
-    pub lua: Lua,
-    pub default_globals: HashSet<String>,
-    pub default_modules: HashSet<String>,
-    pub main: LuaResult<LuaMain>,
-    pub call_lua_init: bool,
+pub struct LuaGame<G: Game> {
+    pub(crate) lua: Lua,
+    pub(crate) default_globals: HashSet<String>,
+    pub(crate) default_modules: HashSet<String>,
+    pub(crate) main: LuaResult<LuaMain>,
+    pub(crate) call_lua_init: bool,
+    pub(crate) game: G,
 }
 
-impl LuaApp {
-    pub fn new(lua: Lua, ctx: &Context) -> Self {
+impl<G: Game> Game for LuaGame<G> {
+    type Config = G::Config;
+
+    fn new(ctx: &Context, cfg: Self::Config) -> Result<Self, GameError>
+    where
+        Self: Sized,
+    {
+        let lua = ctx.lua.upgrade();
+        let game = G::new(ctx, cfg)?;
+
         // add context to lua
         assert!(
             lua.set_app_data(ctx.clone()).is_none(),
@@ -86,29 +95,26 @@ impl LuaApp {
             true
         };
 
-        Self {
+        Ok(Self {
             lua,
             default_globals,
             default_modules,
             main,
             call_lua_init,
-        }
+            game,
+        })
     }
 
-    pub fn reload(&mut self) {
-        self.main = LuaMain::load(&self.lua, &self.default_globals, &self.default_modules);
-        self.call_lua_init = if let Err(err) = &self.main {
-            println!("{err}");
-            false
-        } else {
-            true
-        };
-    }
-
-    pub fn update(&mut self, ctx: &Context) {
+    fn update(&mut self, ctx: &Context) -> Result<(), GameError> {
         // reload the lua if requested
         if ctx.reload_lua.take() {
-            self.reload();
+            self.main = LuaMain::load(&self.lua, &self.default_globals, &self.default_modules);
+            self.call_lua_init = if let Err(err) = &self.main {
+                println!("{err}");
+                false
+            } else {
+                true
+            };
         }
 
         // call Main:init() when requested
@@ -126,9 +132,11 @@ impl LuaApp {
             println!("{err}");
             self.main = Err(err);
         }
+
+        Ok(())
     }
 
-    pub fn render(&mut self, _ctx: &Context, draw: &mut Draw) {
+    fn render(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
         // call Main:render()
         if let Ok(Err(err)) = self.main.as_ref().map(|main| main.render(&self.lua, draw)) {
             println!("{err}");
@@ -137,6 +145,8 @@ impl LuaApp {
 
         // clear all single-frame temp types
         self.lua.app_data_mut::<TempTypes>().unwrap().clear_frame();
+
+        Ok(())
     }
 }
 

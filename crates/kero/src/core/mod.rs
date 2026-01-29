@@ -14,7 +14,7 @@ mod video_mode;
 mod window;
 
 #[cfg(feature = "lua")]
-mod lua_app;
+mod lua_game;
 
 pub use context::*;
 pub use cursor_icon::*;
@@ -28,4 +28,4 @@ pub use video_mode::*;
 pub use window::*;
 
 #[cfg(feature = "lua")]
-pub(crate) use lua_app::*;
+pub(crate) use lua_game::*;
