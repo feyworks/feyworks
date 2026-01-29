@@ -3,7 +3,7 @@ use crate::core::frame_timer::FrameTimer;
 use crate::core::{Context, GameBuilder, Time, Window};
 use crate::gfx::{Draw, Graphics};
 use crate::input::{Gamepads, Keyboard, Mouse};
-use crate::prelude::{ContextData, DynSystem};
+use crate::prelude::ContextData;
 use directories::ProjectDirs;
 use dpi::LogicalSize;
 use std::cell::Cell;
@@ -25,7 +25,6 @@ enum AppState<G: Game> {
         timer: FrameTimer,
         size: LogicalSize<f64>,
         game: G,
-        systems: Vec<DynSystem>,
         has_updated: bool,
 
         #[cfg(feature = "lua")]
@@ -111,13 +110,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
         #[cfg(feature = "lua")]
         let lua_app = crate::core::LuaApp::new(opts.lua.clone(), &ctx);
 
-        // create the systems
-        let systems = opts
-            .systems
-            .drain(..)
-            .map(|sys| DynSystem::new(&ctx, sys).unwrap())
-            .collect();
-
         // create the game
         // TODO: propagate error
         let game = G::new(&ctx, cfg.take().unwrap()).unwrap();
@@ -129,7 +121,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             timer,
             size,
             game,
-            systems,
             has_updated: false,
 
             #[cfg(feature = "lua")]
@@ -149,7 +140,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
             timer,
             size,
             game,
-            systems,
             has_updated,
 
             #[cfg(feature = "lua")]
@@ -228,19 +218,9 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                     #[cfg(feature = "lua")]
                     lua_app.update(ctx);
 
-                    // pre-update the systems
-                    for sys in systems.iter_mut() {
-                        sys.pre_update(ctx).unwrap();
-                    }
-
                     // update the game
                     // TODO: propagate this error somewhere
                     game.update(ctx).unwrap();
-
-                    // post-update the systems
-                    for sys in systems.iter_mut() {
-                        sys.post_update(ctx).unwrap();
-                    }
 
                     // clear input on-frame events (eg. pressed, released)
                     ctx.mouse.clear_phase();
@@ -258,11 +238,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
 
                 // only do render callbacks after we've started updating
                 if *has_updated {
-                    // pre-render the systems
-                    for sys in systems.iter_mut() {
-                        sys.pre_render(ctx, draw).unwrap();
-                    }
-
                     // render the lua app
                     #[cfg(feature = "lua")]
                     lua_app.render(ctx, draw);
@@ -270,11 +245,6 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                     // render the game
                     // TODO: propagate this error somewhere
                     game.render(ctx, draw).unwrap();
-
-                    // post-render the systems
-                    for sys in systems.iter_mut() {
-                        sys.post_render(ctx, draw).unwrap();
-                    }
                 }
 
                 // finish rendering a frame

@@ -15,7 +15,6 @@ mod window;
 
 #[cfg(feature = "lua")]
 mod lua_app;
-mod system;
 
 pub use context::*;
 pub use cursor_icon::*;
@@ -24,7 +23,6 @@ pub use game::*;
 pub use game_builder::*;
 pub use game_error::*;
 pub use monitor::*;
-pub use system::*;
 pub use time::*;
 pub use video_mode::*;
 pub use window::*;
