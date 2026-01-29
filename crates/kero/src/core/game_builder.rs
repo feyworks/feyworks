@@ -1,5 +1,5 @@
 use crate::core::app_handler::AppHandler;
-use crate::core::{Game, GameError};
+use crate::core::{Game, GameError, System, SystemInfo};
 use crate::math::Vec2U;
 use winit::event_loop::EventLoop;
 
@@ -10,6 +10,8 @@ pub struct GameBuilder {
 
     pub app_organization: String,
     pub app_name: String,
+
+    pub(crate) systems: Vec<SystemInfo>,
 
     #[cfg(feature = "lua")]
     pub lua: mlua::Lua,
@@ -23,6 +25,8 @@ impl GameBuilder {
 
             app_organization: String::new(),
             app_name: String::new(),
+
+            systems: Vec::new(),
 
             #[cfg(feature = "lua")]
             lua: {
@@ -122,6 +126,11 @@ impl GameBuilder {
         Ok(self)
     }
 
+    pub fn with_system<S: System>(mut self, cfg: S::Config) -> Result<Self, GameError> {
+        self.systems.push(SystemInfo::new::<S>(cfg));
+        Ok(self)
+    }
+
     /// Run your game.
     pub fn run<G: Game>(self, cfg: G::Config) -> Result<(), GameError> {
         let event_loop = EventLoop::new()?;
@@ -131,8 +140,8 @@ impl GameBuilder {
 
     #[cfg(feature = "lua")]
     pub fn run_lua(self) -> Result<(), GameError> {
-        use crate::gfx::Draw;
         use crate::core::Context;
+        use crate::gfx::Draw;
 
         pub struct LuaApp;
 
