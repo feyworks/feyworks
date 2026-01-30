@@ -1,4 +1,5 @@
 use kero::gfx::SubTexture;
+use std::ops::{Deref, DerefMut};
 
 use kero::prelude::*;
 
@@ -53,5 +54,21 @@ impl Sprite {
     #[inline]
     pub fn draw(&self, draw: &mut Draw, pos: impl Into<Vec2F>) {
         draw.subtexture_at(&self.sub, pos);
+    }
+}
+
+impl Deref for Sprite {
+    type Target = SubTexture;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        &self.sub
+    }
+}
+
+impl DerefMut for Sprite {
+    #[inline]
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.sub
     }
 }
