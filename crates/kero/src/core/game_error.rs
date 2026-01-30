@@ -51,3 +51,11 @@ impl GameError {
         Self::Custom(err.into())
     }
 }
+
+#[cfg(feature = "lua")]
+impl From<GameError> for mlua::Error {
+    #[inline]
+    fn from(value: GameError) -> Self {
+        mlua::Error::external(value)
+    }
+}

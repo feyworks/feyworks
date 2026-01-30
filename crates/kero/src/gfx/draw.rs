@@ -1059,3 +1059,11 @@ pub enum DrawError {
     #[error("no transform to pop")]
     NoTransformToPop,
 }
+
+#[cfg(feature = "lua")]
+impl From<DrawError> for mlua::Error {
+    #[inline]
+    fn from(value: DrawError) -> Self {
+        mlua::Error::external(value)
+    }
+}
