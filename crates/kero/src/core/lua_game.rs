@@ -8,12 +8,12 @@ use std::ffi::OsStr;
 use std::path::PathBuf;
 
 pub struct LuaGame<G: Game> {
-    pub(crate) lua: Lua,
-    pub(crate) default_globals: HashSet<String>,
-    pub(crate) default_modules: HashSet<String>,
-    pub(crate) main: LuaResult<LuaMain>,
-    pub(crate) call_lua_init: bool,
-    pub(crate) game: G,
+    lua: Lua,
+    default_globals: HashSet<String>,
+    default_modules: HashSet<String>,
+    main: LuaResult<LuaMain>,
+    call_lua_init: bool,
+    game: G,
 }
 
 impl<G: Game> Game for LuaGame<G> {
@@ -106,6 +106,8 @@ impl<G: Game> Game for LuaGame<G> {
     }
 
     fn update(&mut self, ctx: &Context) -> Result<(), GameError> {
+        self.game.update(ctx)?;
+
         // reload the lua if requested
         if ctx.reload_lua.take() {
             self.main = LuaMain::load(&self.lua, &self.default_globals, &self.default_modules);
@@ -146,11 +148,13 @@ impl<G: Game> Game for LuaGame<G> {
         // clear all single-frame temp types
         self.lua.app_data_mut::<TempTypes>().unwrap().clear_frame();
 
+        self.game.render(ctx, draw)?;
+
         Ok(())
     }
 }
 
-pub struct LuaMain {
+struct LuaMain {
     module: Table,
     init_fn: Function,
     update_fn: Function,

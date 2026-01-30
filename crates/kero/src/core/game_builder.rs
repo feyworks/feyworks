@@ -131,6 +131,11 @@ impl GameBuilder {
 
     #[cfg(feature = "lua")]
     pub fn run_lua(self) -> Result<(), GameError> {
-        self.run::<crate::core::LuaGame<()>>(())
+        self.run_lua_with::<()>(())
+    }
+
+    #[cfg(feature = "lua")]
+    pub fn run_lua_with<G: Game>(self, cfg: G::Config) -> Result<(), GameError> {
+        self.run::<crate::core::LuaGame<G>>(cfg)
     }
 }
