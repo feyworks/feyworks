@@ -500,16 +500,29 @@ impl<I: Hash + Eq> SpritePacker<I> {
 }
 
 #[inline]
-fn files(dir: impl AsRef<Path>) -> impl Iterator<Item = (PathBuf, String)> {
-    std::fs::read_dir(dir).unwrap().flatten().map(|file| {
-        let path = file.path();
-        let id = path
-            .file_stem()
-            .and_then(OsStr::to_str)
-            .unwrap()
-            .to_string();
-        (path, id)
-    })
+fn files(dir: impl AsRef<Path>, extensions: &[&str]) -> impl Iterator<Item = (PathBuf, String)> {
+    std::fs::read_dir(dir)
+        .unwrap()
+        .flatten()
+        .filter_map(|e| {
+            let path = e.path();
+            if extensions
+                .iter()
+                .any(|ext| path.extension().is_some_and(|e| e == *ext))
+            {
+                Some(path)
+            } else {
+                None
+            }
+        })
+        .map(|path| {
+            let id = path
+                .file_stem()
+                .and_then(OsStr::to_str)
+                .unwrap()
+                .to_string();
+            (path, id)
+        })
 }
 
 impl SpritePacker<String> {
@@ -519,7 +532,7 @@ impl SpritePacker<String> {
         premultiply: bool,
         trim_threshold: Option<u8>,
     ) -> Result<(), ImageError> {
-        for (file, name) in files(directory) {
+        for (file, name) in files(directory, &["png"]) {
             self.add_sprite_file(name, file, premultiply, trim_threshold)?;
         }
         Ok(())
@@ -533,14 +546,14 @@ impl SpritePacker<String> {
         trim_threshold: Option<u8>,
     ) -> Result<(), ImageError> {
         let tile_size = tile_size.into();
-        for (file, name) in files(directory) {
+        for (file, name) in files(directory, &["png"]) {
             self.add_sheet_file(name, file, premultiply, tile_size, trim_threshold)?;
         }
         Ok(())
     }
 
     pub fn add_ase_files(&mut self, directory: impl AsRef<Path>) -> Result<(), GameError> {
-        for (file, name) in files(directory) {
+        for (file, name) in files(directory, &["ase", "aseprite"]) {
             self.add_ase_file(name, file)?;
         }
         Ok(())
@@ -552,7 +565,7 @@ impl SpritePacker<String> {
         size: f32,
         chars: impl IntoIterator<Item = char> + Clone,
     ) -> Result<(), FontError> {
-        for (file, name) in files(directory) {
+        for (file, name) in files(directory, &["ttf", "otf"]) {
             self.add_font_file(name, file, size, chars.clone())?;
         }
         Ok(())
@@ -565,7 +578,7 @@ impl SpritePacker<String> {
         inner: impl Into<RectU>,
     ) -> Result<(), ImageError> {
         let inner = inner.into();
-        for (file, name) in files(directory) {
+        for (file, name) in files(directory, &["png"]) {
             self.add_patch_file(name, file, premultiply, inner)?;
         }
         Ok(())
