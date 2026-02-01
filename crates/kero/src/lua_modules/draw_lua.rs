@@ -517,7 +517,7 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
                 Either::Left(a) => (
                     vec2(a, b.unwrap_left()),
                     c.unwrap_left(),
-                    d.map(|d| rgba(d as u32)),
+                    d.map(|d| Rgba8::unpack(d as u32)),
                     e,
                 ),
                 Either::Right(a) => (a, b.unwrap_right(), c.unwrap_right(), d.map(|d| d as f32)),
