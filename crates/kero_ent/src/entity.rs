@@ -1,4 +1,7 @@
-use crate::{Component, ComponentObj, ComponentOf, ComponentType, EntityObj, IntoComponent, Registry, WorldObj};
+use crate::{
+    Component, ComponentObj, ComponentOf, ComponentType, EntityObj, IntoComponent, Registry,
+    WorldObj,
+};
 use kero::lua::UserDataOf;
 use kero::math::Vec2F;
 use mlua::Lua;
@@ -25,6 +28,7 @@ pub struct Entity {
     pub active: bool,
     pub visible: bool,
     pos: Vec2F,
+    z: f32,
     version: PosVersion,
 }
 
@@ -196,7 +200,12 @@ fn ent_remove_all_with_type_ptr(
 
 pub trait EntityExt: crate::private::Sealed {
     fn add<C: IntoComponent>(&self, lua: &Lua, comp: C) -> LuaResult<Component>;
-    fn add_with_flags<C:ComponentType>(&self, lua: &Lua, flags: u64, comp: C) -> LuaResult<Component>;
+    fn add_with_flags<C: ComponentType>(
+        &self,
+        lua: &Lua,
+        flags: u64,
+        comp: C,
+    ) -> LuaResult<Component>;
     fn remove<C: IntoComponent>(&self, lua: &Lua, comp: C) -> LuaResult<()>;
     fn remove_first_with_type<C: ComponentType>(&self, lua: &Lua) -> LuaResult<()>;
     fn remove_first_with_type_name(&self, lua: &Lua, type_name: &str) -> LuaResult<()>;
@@ -234,7 +243,12 @@ impl EntityExt for EntityObj {
     }
 
     #[inline]
-    fn add_with_flags<C: ComponentType>(&self, lua: &Lua, flags: u64, comp: C) -> LuaResult<Component> {
+    fn add_with_flags<C: ComponentType>(
+        &self,
+        lua: &Lua,
+        flags: u64,
+        comp: C,
+    ) -> LuaResult<Component> {
         self.add(lua, ComponentOf::with_flags(lua, flags, comp))
     }
 

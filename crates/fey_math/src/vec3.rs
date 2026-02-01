@@ -168,3 +168,17 @@ impl<T: Num> From<Vec2<T>> for Vec3<T> {
         vec3(x, y, T::ZERO)
     }
 }
+
+impl<T: Num> From<(T, T)> for Vec3<T> {
+    #[inline]
+    fn from((x, y): (T, T)) -> Self {
+        vec3(x, y, T::ZERO)
+    }
+}
+
+impl<T: Num> From<[T; 2]> for Vec3<T> {
+    #[inline]
+    fn from([x, y]: [T; 2]) -> Self {
+        vec3(x, y, T::ZERO)
+    }
+}
