@@ -110,6 +110,12 @@ impl<T: Num> Vec3<T> {
 
     /// A normalized vector pointing forward, equal to `(0, 0, 1)`.
     pub const FORWARD: Self = vec3(T::ZERO, T::ZERO, T::ONE);
+
+    /// Flatten the 3D vector into a 2D vector by negatively offseting the z component.
+    #[inline]
+    pub fn flat(self) -> Vec2<T> {
+        vec2(self.x, self.y - self.z)
+    }
 }
 
 impl<T: Signed> Vec3<T> {
