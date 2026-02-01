@@ -3,7 +3,7 @@ use crate::{
     WorldObj,
 };
 use kero::lua::UserDataOf;
-use kero::math::Vec2F;
+use kero::math::{Vec2F, Vec3F};
 use mlua::Lua;
 use mlua::prelude::{LuaError, LuaResult};
 use std::ffi::c_void;
@@ -39,7 +39,8 @@ impl Entity {
     }
 
     #[inline]
-    pub fn new_at(lua: &Lua, pos: Vec2F) -> UserDataOf<Self> {
+    pub fn new_at(lua: &Lua, pos: impl Into<Vec3F>) -> UserDataOf<Self> {
+        let pos = pos.into();
         UserDataOf::new(
             lua,
             Self {
@@ -48,7 +49,8 @@ impl Entity {
                 cleanup: false,
                 active: true,
                 visible: true,
-                pos,
+                pos: pos.xy(),
+                z: pos.y,
                 version: PosVersion(1),
             },
         )
@@ -91,6 +93,19 @@ impl Entity {
             self.version.increment();
         }
         self.pos.y = val;
+    }
+
+    #[inline]
+    pub fn z(&self) -> f32 {
+        self.z
+    }
+
+    #[inline]
+    pub fn set_z(&mut self, val: f32) {
+        if self.z != val {
+            self.version.increment();
+        }
+        self.z = val;
     }
 
     #[inline]
