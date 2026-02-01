@@ -1,5 +1,5 @@
 use crate::{ComponentObj, ComponentOf};
-use kero::math::Vec2F;
+use kero::math::Vec3F;
 use mlua::prelude::{LuaResult, LuaString};
 use mlua::{AnyUserData, Lua, UserDataFields, UserDataMethods};
 
@@ -12,7 +12,7 @@ pub trait ComponentType: Sized + 'static {
     const SPAWNED_FN: Option<fn(this: &AnyUserData, lua: &Lua) -> LuaResult<()>> = None;
     const DESPAWNED_FN: Option<fn(this: &AnyUserData, lua: &Lua) -> LuaResult<()>> = None;
     const UPDATE_FN: Option<fn(this: &AnyUserData, lua: &Lua) -> LuaResult<()>> = None;
-    const RENDER_FN: Option<fn(this: &AnyUserData, lua: &Lua, pos: Vec2F) -> LuaResult<()>> = None;
+    const RENDER_FN: Option<fn(this: &AnyUserData, lua: &Lua, pos: Vec3F) -> LuaResult<()>> = None;
 
     #[inline]
     fn tostring(this: ComponentObj<Self>, lua: &Lua) -> LuaResult<LuaString> {

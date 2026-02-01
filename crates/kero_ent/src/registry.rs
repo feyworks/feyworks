@@ -1,6 +1,6 @@
 use super::{ComponentOf, ComponentType, EntityObj, WorldObj};
 use fnv::FnvHashMap;
-use kero::math::Vec2F;
+use kero::math::Vec3F;
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{AnyUserData, AppDataRef, Function, Lua, Table};
 use std::any::{TypeId, type_name};
@@ -181,7 +181,7 @@ pub struct RustType {
     pub spawned_fn: Option<fn(&AnyUserData, &Lua) -> LuaResult<()>>,
     pub despawned_fn: Option<fn(&AnyUserData, &Lua) -> LuaResult<()>>,
     pub update_fn: Option<fn(&AnyUserData, &Lua) -> LuaResult<()>>,
-    pub render_fn: Option<fn(&AnyUserData, &Lua, Vec2F) -> LuaResult<()>>,
+    pub render_fn: Option<fn(&AnyUserData, &Lua, Vec3F) -> LuaResult<()>>,
 }
 
 #[derive(Debug)]

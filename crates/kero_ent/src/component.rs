@@ -2,7 +2,7 @@ use crate::{
     ComponentMut, ComponentObj, ComponentRef, ComponentType, EntityObj, EntityRef, IntoComponent,
     LuaType, RustType, WorldObj,
 };
-use kero::math::Vec2F;
+use kero::math::Vec3F;
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{AnyUserData, Either, FromLua, IntoLua, Lua, Table, Value};
 use std::ffi::c_void;
@@ -199,7 +199,7 @@ impl Component {
     }
 
     #[inline]
-    pub(crate) fn do_render(&self, lua: &Lua, pos: Vec2F) -> LuaResult<()> {
+    pub(crate) fn do_render(&self, lua: &Lua, pos: Vec3F) -> LuaResult<()> {
         match &self.obj {
             Either::Left(c) => {
                 if let Some(f) = c.ty.render_fn {

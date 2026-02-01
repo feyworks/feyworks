@@ -4,6 +4,7 @@
 ---@field active boolean
 ---@field visible boolean
 ---@field pos Vec2
+---@field pos3 Vec3
 ---@field x number
 ---@field y number
 ---@field z number
@@ -41,6 +42,16 @@ function methods.world(self) end
 ---Remove this entity from the world, if it's in one.
 ---@param self Entity
 function methods.remove_self(self) end
+
+---@param self Entity
+---@param val Vec3
+function methods.set_pos3(self, val) end
+
+---@param self Entity
+---@param x number
+---@param y number
+---@param z number
+function methods.set_pos3(self, x, y, z) end
 
 ---@param self Entity
 ---@param val Vec2

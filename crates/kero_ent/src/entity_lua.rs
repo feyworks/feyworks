@@ -1,6 +1,6 @@
 use crate::{Entity, EntityExt, Registry, WorldExt};
 use kero::lua::{LuaModule, UserDataOf};
-use kero::math::{Vec2F, vec2};
+use kero::math::{Vec2F, Vec3F, vec2, vec3};
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{
     BorrowedStr, Either, Function, IntoLuaMulti, Lua, MultiValue, UserData, UserDataFields,
@@ -57,6 +57,16 @@ impl UserData for Entity {
             this.set_pos(val);
             Ok(())
         });
+        fields.add_field_method_get("pos", |_, this| Ok(this.pos()));
+        fields.add_field_method_set("pos", |_, this, val: Vec2F| {
+            this.set_pos(val);
+            Ok(())
+        });
+        fields.add_field_method_get("pos3", |_, this| Ok(this.pos3()));
+        fields.add_field_method_set("pos3", |_, this, val: Vec3F| {
+            this.set_pos3(val);
+            Ok(())
+        });
         fields.add_field_method_get("x", |_, this| Ok(this.x()));
         fields.add_field_method_set("x", |_, this, val: f32| {
             this.set_x(val);
@@ -94,6 +104,16 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
             this.set_pos(match x {
                 Either::Left(pos) => pos,
                 Either::Right(x) => vec2(x, y.unwrap()),
+            });
+            Ok(())
+        },
+    );
+    methods.add_function(
+        "set_pos3",
+        |_, (mut this, x, y, z): (EntityMut, Either<Vec3F, f32>, Option<f32>, Option<f32>)| {
+            this.set_pos3(match x {
+                Either::Left(pos) => pos,
+                Either::Right(x) => vec3(x, y.unwrap(), z.unwrap()),
             });
             Ok(())
         },

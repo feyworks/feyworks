@@ -3,7 +3,7 @@ use crate::{Component, ComponentObj, ComponentType, EntityExt, EntityObj, Regist
 use fnv::FnvHashMap;
 use kero::gfx::Draw;
 use kero::lua::UserDataOf;
-use kero::math::Vec2F;
+use kero::math::Vec3F;
 use mlua::Lua;
 use mlua::prelude::{LuaError, LuaResult};
 use std::ffi::c_void;
@@ -21,7 +21,7 @@ pub struct World {
 struct RenderComp {
     depth: f64,
     flags: u64,
-    pos: Vec2F,
+    pos: Vec3F,
     comp: Component,
 }
 
@@ -256,7 +256,7 @@ impl WorldExt for WorldObj {
                 .filter(|e| e.get().visible)
             {
                 let ent = ent.get();
-                let pos = ent.pos();
+                let pos = ent.pos3();
                 for comp in ent.components.iter().flatten() {
                     if comp.visible() {
                         let comp = comp.clone();

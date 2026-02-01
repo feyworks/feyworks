@@ -199,7 +199,7 @@ impl<T: ComponentType> UserData for ComponentOf<T> {
         if T::RENDER_FN.is_some() {
             methods.add_function("render", |lua, this: AnyUserData| {
                 let comp = this.borrow::<ComponentOf<T>>().unwrap();
-                if let Some(pos) = comp.entity().map(|e| e.field(|e| e.pos())) {
+                if let Some(pos) = comp.entity().map(|e| e.field(|e| e.pos().with_z(e.z()))) {
                     (T::RENDER_FN.unwrap())(&this, lua, pos?)
                 } else {
                     Ok(())

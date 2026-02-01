@@ -50,10 +50,24 @@ impl Entity {
                 active: true,
                 visible: true,
                 pos: pos.xy(),
-                z: pos.y,
+                z: pos.z,
                 version: PosVersion(1),
             },
         )
+    }
+
+    #[inline]
+    pub fn pos3(&self) -> Vec3F {
+        self.pos.with_z(self.z)
+    }
+
+    #[inline]
+    pub fn set_pos3(&mut self, val: Vec3F) {
+        if self.pos != val.xy() || self.z != val.z {
+            self.version.increment();
+        }
+        self.pos = val.xy();
+        self.z = val.z;
     }
 
     #[inline]

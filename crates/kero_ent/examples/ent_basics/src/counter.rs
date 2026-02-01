@@ -45,12 +45,13 @@ impl ComponentType for Counter {
         this.count += 1;
         Ok(())
     });
-    const RENDER_FN: Option<fn(&AnyUserData, &Lua, Vec2F) -> LuaResult<()>> =
+    const RENDER_FN: Option<fn(&AnyUserData, &Lua, Vec3F) -> LuaResult<()>> =
         Some(|this, lua, pos| {
             let this = this.borrow::<ComponentOf<Self>>()?;
             let draw = Draw::from_lua(lua)?;
 
             // draw a grid of boxes representing the current count total
+            let pos = pos.flat();
             let mut rect = rect(0.0, 0.0, 8.0, 8.0);
             for _ in 0..this.count {
                 draw.rect(rect + pos, Rgba8::WHITE);
