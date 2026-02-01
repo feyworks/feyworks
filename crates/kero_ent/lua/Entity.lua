@@ -6,6 +6,7 @@
 ---@field pos Vec2
 ---@field x number
 ---@field y number
+---@field z number
 
 ---@class EntityClass: EntityMethods
 local module = {}
@@ -59,6 +60,11 @@ function methods.set_x(self, val) end
 ---@return number
 ---@nodiscard
 function methods.set_y(self, val) end
+
+---@param self Entity
+---@return number
+---@nodiscard
+function methods.set_z(self, val) end
 
 ---Moves the entity by the provided amount.
 ---@param self Entity

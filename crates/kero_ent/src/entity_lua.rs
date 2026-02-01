@@ -67,6 +67,11 @@ impl UserData for Entity {
             this.set_y(val);
             Ok(())
         });
+        fields.add_field_method_get("z", |_, this| Ok(this.z()));
+        fields.add_field_method_set("z", |_, this, val: f32| {
+            this.set_z(val);
+            Ok(())
+        });
     }
 
     fn add_methods<M: UserDataMethods<Self>>(methods: &mut M) {
@@ -99,6 +104,10 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
     });
     methods.add_function("set_y", |_, (mut this, val): (EntityMut, f32)| {
         this.set_y(val);
+        Ok(())
+    });
+    methods.add_function("set_z", |_, (mut this, val): (EntityMut, f32)| {
+        this.set_z(val);
         Ok(())
     });
     methods.add_function(
