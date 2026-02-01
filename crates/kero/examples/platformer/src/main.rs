@@ -25,7 +25,6 @@ pub struct SubTexturesExample {
     guy_tex: Texture,
     guy_squash_tex: Texture,
     guy_stretch_tex: Texture,
-    guy_smush_tex: Texture,
 }
 
 fn spr(ctx: &Context, bytes: &[u8]) -> Result<Texture, GameError> {
@@ -43,10 +42,9 @@ impl Game for SubTexturesExample {
             guy: Guy::new(ctx),
             level: Level::make_level(),
             // needs a better way to load and store these
-            guy_tex: spr(ctx, include_bytes!("../assets/jelly_idle_0.png"))?,
-            guy_squash_tex: spr(ctx, include_bytes!("../assets/jelly_squash_0.png"))?,
-            guy_stretch_tex: spr(ctx, include_bytes!("../assets/jelly_stretch_0.png"))?,
-            guy_smush_tex: spr(ctx, include_bytes!("../assets/jelly_smush_0.png"))?,
+            guy_tex: spr(ctx, include_bytes!("../assets/kero_idle_0.png"))?,
+            guy_squash_tex: spr(ctx, include_bytes!("../assets/kero_squash_0.png"))?,
+            guy_stretch_tex: spr(ctx, include_bytes!("../assets/kero_stretch_0.png"))?,
         })
     }
 

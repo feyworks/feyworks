@@ -32,7 +32,7 @@ impl Vine {
         for i in 0..segments {
             let segment_pos = self.pos + vec2(0.0, i as f32);
             let wiggle = (i % 2) as f32;
-            let sway_offset = self.sway_pos.x * (i as f32 / segments as f32); //.powf(2.0);
+            let sway_offset = self.sway_pos.x * (i as f32 / segments as f32);
             draw.rect(
                 RectF::new(
                     (segment_pos.x + wiggle + sway_offset).round(),

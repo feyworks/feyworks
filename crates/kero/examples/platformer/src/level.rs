@@ -163,27 +163,28 @@ impl Level {
         Ok(())
     }
 
-    pub fn render_fg(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
-        // todo: i wanna generate a whole level as a single texture in cpu
-        // for (y, row) in self.tiles.iter().enumerate() {
-        //     for (x, &tile) in row.iter().enumerate() {
-        //         if tile {
-        //             draw.rect(
-        //                 RectF::new(
-        //                     (x * TILE_SIZE.x as usize) as f32,
-        //                     (y * TILE_SIZE.y as usize) as f32,
-        //                     TILE_SIZE.x as f32,
-        //                     TILE_SIZE.y as f32,
-        //                 ),
-        //                 Rgba8::BLACK,
-        //             );
-        //         }
-        //     }
-        // }
+    #[allow(dead_code)]
+    pub fn debug_world_tiles(&self, draw: &mut Draw) {
+        for (&tile, pos) in self.tiles.iter() {
+            if tile {
+                draw.rect(
+                    RectF::new(
+                        (pos.x * TILE_SIZE.x) as f32,
+                        (pos.y * TILE_SIZE.y) as f32,
+                        TILE_SIZE.x as f32,
+                        TILE_SIZE.y as f32,
+                    ),
+                    Rgba8::BLACK,
+                );
+            }
+        }
+    }
 
+    pub fn render_fg(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
         for vine in &self.vines {
             vine.render(draw)?;
         }
+        // self.debug_world_tiles(draw);
         draw.texture_at(self.get_texture(ctx), Vec2F::ZERO);
         Ok(())
     }
