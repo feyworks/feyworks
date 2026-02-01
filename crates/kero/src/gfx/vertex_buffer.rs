@@ -1,8 +1,8 @@
 use crate::gfx::Vertex;
 use bytemuck::cast_slice;
 use std::fmt::{Debug, Formatter};
-use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicUsize, Ordering};
 use wgpu::{BufferAddress, BufferDescriptor, BufferUsages, Device, Queue};
 
 #[cfg(feature = "lua")]

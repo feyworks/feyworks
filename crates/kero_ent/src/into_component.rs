@@ -1,4 +1,6 @@
-use crate::{Component, ComponentObj, ComponentOf, ComponentType, LuaComponent, Registry, RustComponent};
+use crate::{
+    Component, ComponentObj, ComponentOf, ComponentType, LuaComponent, Registry, RustComponent,
+};
 use mlua::prelude::LuaResult;
 use mlua::{AnyUserData, Either, FromLua, Lua, Table, Value};
 

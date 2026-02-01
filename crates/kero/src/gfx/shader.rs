@@ -4,8 +4,8 @@ use crate::gfx::{
 use naga::valid::{Capabilities, ValidationFlags, Validator};
 use naga::{FunctionResult, Scalar, ScalarKind, ShaderStage, TypeInner, VectorSize};
 use std::cmp::Ordering;
-use std::collections::hash_map::Entry;
 use std::collections::HashMap;
+use std::collections::hash_map::Entry;
 use std::fmt::{Debug, Formatter};
 use std::hash::Hash;
 use std::sync::{Arc, RwLock};
