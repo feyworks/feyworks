@@ -42,6 +42,12 @@ fey_math::impl_tuple_arr!(
 unsafe impl<T: Zeroable> Zeroable for Rgb<T> {}
 unsafe impl<T: Pod> Pod for Rgb<T> {}
 
+/// Create a new RGB color.
+#[inline]
+pub const fn rgb<T>(r: T, g: T, b: T) -> Rgb<T> {
+    Rgb { r, g, b }
+}
+
 impl<T> Rgb<T> {
     /// Create a new RGB color.
     #[inline]

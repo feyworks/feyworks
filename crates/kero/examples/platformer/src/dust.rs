@@ -4,7 +4,7 @@ use kero::prelude::*;
 
 use crate::NATIVE_RES;
 
-const DUST_COLOR: Rgba8 = rgb(0x6553ad);
+const DUST_COLOR: Rgba8 = hex(0x6553ad);
 
 // Serviceable, cheap 1d noise function, 0.0 to 1.0. pulled out of cobalt core but i'm sure i found it online somewhere...
 fn rand(n: f32) -> f32 {

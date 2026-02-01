@@ -37,7 +37,7 @@ impl Game for SubTexturesExample {
 
     fn render(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
         // draw a background color to the window
-        draw.set_surface(None, rgb(0x476c6c));
+        draw.set_surface(None, hex(0x476c6c));
 
         // let's scale everything up
         draw.push_scale_of(2.0 * ctx.window.scale_factor());

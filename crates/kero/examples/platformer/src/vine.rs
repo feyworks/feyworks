@@ -1,6 +1,6 @@
 use kero::prelude::*;
 
-const VINE_COLOR: Rgba8 = rgb(0x6553ad);
+const VINE_COLOR: Rgba8 = hex(0x6553ad);
 
 pub struct Vine {
     pub pos: Vec2F,

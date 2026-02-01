@@ -66,7 +66,7 @@ impl Game for TexturePackerExample {
 
         let tex_size = RectF::sized(self.tex.size().to_f32());
 
-        draw.rect(tex_size, rgb(0x476c6c));
+        draw.rect(tex_size, hex(0x476c6c));
 
         for sub in self.subs.values() {
             draw.rect_outline(sub.rect, Rgba8::WHITE);

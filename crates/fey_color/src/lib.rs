@@ -28,28 +28,17 @@ pub use color_lua::*;
 
 /// Create an `Rgba8` color from a packed `RGB` integer.
 #[inline]
-pub const fn rgb(packed: u32) -> Rgba8 {
+pub const fn hex(packed: u32) -> Rgba8 {
     Rgba8::new((packed >> 16) as u8, (packed >> 8) as u8, packed as u8, 255)
 }
 
-/// Create an `Rgba8` color from a packed `RGBA` integer.
-#[inline]
-pub const fn rgba(packed: u32) -> Rgba8 {
-    Rgba8::new(
-        (packed >> 24) as u8,
-        (packed >> 16) as u8,
-        (packed >> 8) as u8,
-        packed as u8,
-    )
-}
-
-/// Create an `Rgba8` color from a packed `ABGR` integer.
-#[inline]
-pub const fn abgr(packed: u32) -> Rgba8 {
-    Rgba8::new(
-        packed as u8,
-        (packed >> 8) as u8,
-        (packed >> 16) as u8,
-        (packed >> 24) as u8,
-    )
-}
+// /// Create an `Rgba8` color from a packed `RGBA` integer.
+// #[inline]
+// pub const fn rgba(packed: u32) -> Rgba8 {
+//     Rgba8::new(
+//         (packed >> 24) as u8,
+//         (packed >> 16) as u8,
+//         (packed >> 8) as u8,
+//         packed as u8,
+//     )
+// }

@@ -66,7 +66,7 @@ impl Game for BasicsExample {
     }
 
     fn render(&mut self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
-        self.screen.set_as_draw_surface(draw, rgb(0x286d38));
+        self.screen.set_as_draw_surface(draw, hex(0x286d38));
 
         for (spr, tile) in self.tiles.tiles.iter() {
             if let Some(spr) = spr {

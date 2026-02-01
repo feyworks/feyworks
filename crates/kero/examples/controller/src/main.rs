@@ -70,10 +70,10 @@ impl Game for ControllerExample {
     }
 
     fn render(&mut self, _ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
-        let bg_col = rgb(0x676b76);
-        let base_col = rgb(0x343842);
-        let btn_col = rgb(0x434750);
-        let press_col = rgb(0x282c34);
+        let bg_col = hex(0x676b76);
+        let base_col = hex(0x343842);
+        let btn_col = hex(0x434750);
+        let press_col = hex(0x282c34);
 
         self.screen.set_as_draw_surface(draw, bg_col);
 

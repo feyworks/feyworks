@@ -40,10 +40,10 @@ impl Game for SurfacesExample {
             tile_size * 0.5,
             ctx.time.wave(max_radius * 0.5, max_radius, 2.0),
         );
-        draw.circle(circ, rgb(0xff3377), None);
+        draw.circle(circ, hex(0xff3377), None);
 
         // set the window as the target for drawing
-        draw.set_surface(None, rgb(0x202020));
+        draw.set_surface(None, hex(0x202020));
 
         // draw the pattern repeated over the window
         let tiles = ctx.window.size() / self.pattern.size();

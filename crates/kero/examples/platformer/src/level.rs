@@ -2,9 +2,9 @@ use kero::prelude::*;
 
 use crate::{NATIVE_RES, TILE_SIZE, dust::draw_dust, vine};
 
-const LEVEL_BG_COLOR: Rgba8 = rgb(0x201436);
-const OUTLINE_COLOR: Rgba8 = rgb(0x8097fa);
-const OUTLINE_COLOR_ALT: Rgba8 = rgb(0x3f4984);
+const LEVEL_BG_COLOR: Rgba8 = hex(0x201436);
+const OUTLINE_COLOR: Rgba8 = hex(0x8097fa);
+const OUTLINE_COLOR_ALT: Rgba8 = hex(0x3f4984);
 
 pub struct Level {
     size: Vec2U,

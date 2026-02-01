@@ -2,7 +2,7 @@ use crate::gfx::{
     BlendMode, ColorMode, Draw, FontRef, IndexBufferRef, Sampler, ShaderRef, SubTextureRef,
     SurfaceRef, Texture, TextureRef, Topology, Vertex, VertexBufferRef,
 };
-use fey_color::{Rgba8, rgba};
+use fey_color::Rgba8;
 use fey_lua::LuaModule;
 use fey_math::{
     Affine2F, CircleF, LineF, Mat2F, Mat3F, Mat4F, Mat4Ref, PolygonRef, QuadF, RadiansF, RectF,
@@ -289,7 +289,7 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
                     line(vec2(a, b.unwrap_left()), vec2(c as f32, d.unwrap())),
                     e.unwrap(),
                 ),
-                Either::Right(a) => (line(a, b.unwrap_right()), rgba(c as u32)),
+                Either::Right(a) => (line(a, b.unwrap_right()), Rgba8::unpack(c as u32)),
             };
             Draw::from_lua(lua)?.line(line, col);
             Ok(())
@@ -401,8 +401,12 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
             e, // segs
         ): (Either<f32, Vec2F>, f32, Number, Option<Number>, Option<u32>)| {
             let (circ, col, segs) = match a {
-                Either::Left(a) => (circle(vec2(a, b), c as f32), rgba(d.unwrap() as u32), e),
-                Either::Right(a) => (circle(a, b), rgba(c as u32), d.map(|d| d as u32)),
+                Either::Left(a) => (
+                    circle(vec2(a, b), c as f32),
+                    Rgba8::unpack(d.unwrap() as u32),
+                    e,
+                ),
+                Either::Right(a) => (circle(a, b), Rgba8::unpack(c as u32), d.map(|d| d as u32)),
             };
             Draw::from_lua(lua)?.circle(circ, col, segs);
             Ok(())
@@ -426,8 +430,12 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
             e, // segs
         ): (Either<f32, Vec2F>, f32, Number, Option<Number>, Option<u32>)| {
             let (circ, col, segs) = match a {
-                Either::Left(a) => (circle(vec2(a, b), c as f32), rgba(d.unwrap() as u32), e),
-                Either::Right(a) => (circle(a, b), rgba(c as u32), d.map(|d| d as u32)),
+                Either::Left(a) => (
+                    circle(vec2(a, b), c as f32),
+                    Rgba8::unpack(d.unwrap() as u32),
+                    e,
+                ),
+                Either::Right(a) => (circle(a, b), Rgba8::unpack(c as u32), d.map(|d| d as u32)),
             };
             Draw::from_lua(lua)?.circle_outline(circ, col, segs);
             Ok(())
