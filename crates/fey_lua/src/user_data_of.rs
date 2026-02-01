@@ -52,6 +52,11 @@ impl<T: 'static> UserDataOf<T> {
     }
 
     #[inline]
+    pub fn data(&self) -> &AnyUserData {
+        &self.data
+    }
+
+    #[inline]
     pub fn ptr(&self) -> *const c_void {
         self.data.to_pointer()
     }

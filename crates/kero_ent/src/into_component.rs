@@ -1,4 +1,4 @@
-use crate::{Component, ComponentOf, ComponentType, LuaComponent, Registry, RustComponent};
+use crate::{Component, ComponentObj, ComponentOf, ComponentType, LuaComponent, Registry, RustComponent};
 use mlua::prelude::LuaResult;
 use mlua::{AnyUserData, Either, FromLua, Lua, Table, Value};
 
@@ -37,6 +37,18 @@ impl<T: ComponentType> IntoComponent for ComponentOf<T> {
         Ok(Component {
             obj: Either::Left(RustComponent {
                 data: lua.create_userdata(self)?,
+                ty,
+            }),
+        })
+    }
+}
+
+impl<T: ComponentType> IntoComponent for ComponentObj<T> {
+    fn into_component(self, lua: &Lua) -> LuaResult<Component> {
+        let ty = Registry::get(lua).rust_type::<T>()?.clone();
+        Ok(Component {
+            obj: Either::Left(RustComponent {
+                data: self.data().clone(),
                 ty,
             }),
         })
