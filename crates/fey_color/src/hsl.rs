@@ -87,7 +87,7 @@ impl<T: Channel, F: Channel + Float> ToRgb<T> for Hsl<F> {
             (chroma, min, x)
         };
 
-        Rgb::new(r, g, b).to_rgb()
+        Rgb::new(r / F::NUM_255, g / F::NUM_255, b / F::NUM_255).to_rgb()
     }
 }
 
@@ -96,5 +96,38 @@ impl<T: Channel, F: Channel + Float> ToRgba<T> for Hsl<F> {
     fn to_rgba(self) -> Rgba<T> {
         let Rgb { r, g, b } = self.to_rgb();
         Rgba::new(r, g, b, T::CHANNEL_MAX)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn hsl_tests() {
+        #[track_caller]
+        fn assert_hsl_rgb(hsl: HslF, rgb: Rgb<f32>) {
+            assert_eq!(hsl.to_rgb(), rgb, "HSL -> RGB failed for HSL({:?})", hsl);
+        }
+
+        // grayscale
+        assert_hsl_rgb(hsl(0.0, 0.0, 1.0), Rgb::new(1.0, 1.0, 1.0)); // white
+        assert_hsl_rgb(hsl(0.0, 0.0, 0.5), Rgb::new(0.5, 0.5, 0.5)); // gray
+        assert_hsl_rgb(hsl(0.0, 0.0, 0.0), Rgb::new(0.0, 0.0, 0.0)); // black
+        assert_hsl_rgb(hsl(0.0, 1.0, 0.0), Rgb::new(0.0, 0.0, 0.0)); // black (full saturation)
+
+        // the rainbow
+        assert_hsl_rgb(hsl(0.0, 1.0, 0.5), Rgb::new(1.0, 0.0, 0.0)); // red
+        assert_hsl_rgb(hsl(30.0, 1.0, 0.5), Rgb::new(1.0, 0.5, 0.0)); // orange
+        assert_hsl_rgb(hsl(60.0, 1.0, 0.5), Rgb::new(1.0, 1.0, 0.0)); // yellow
+        assert_hsl_rgb(hsl(90.0, 1.0, 0.5), Rgb::new(0.5, 1.0, 0.0)); // yellowgreen??? ~chartreuse~
+        assert_hsl_rgb(hsl(120.0, 1.0, 0.5), Rgb::new(0.0, 1.0, 0.0)); // green
+        assert_hsl_rgb(hsl(150.0, 1.0, 0.5), Rgb::new(0.0, 1.0, 0.5)); // greencyan
+        assert_hsl_rgb(hsl(180.0, 1.0, 0.5), Rgb::new(0.0, 1.0, 1.0)); // cyan
+        assert_hsl_rgb(hsl(210.0, 1.0, 0.5), Rgb::new(0.0, 0.5, 1.0)); // azure
+        assert_hsl_rgb(hsl(240.0, 1.0, 0.5), Rgb::new(0.0, 0.0, 1.0)); // blue
+        assert_hsl_rgb(hsl(270.0, 1.0, 0.5), Rgb::new(0.5, 0.0, 1.0)); // indigo
+        assert_hsl_rgb(hsl(300.0, 1.0, 0.5), Rgb::new(1.0, 0.0, 1.0)); // purple
+        assert_hsl_rgb(hsl(330.0, 1.0, 0.5), Rgb::new(1.0, 0.0, 0.5)); // red-purple???
     }
 }
