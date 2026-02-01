@@ -1,6 +1,6 @@
 use kero::prelude::*;
 
-use crate::{NATIVE_RES, TILE_SIZE, vine};
+use crate::{NATIVE_RES, TILE_SIZE, dust::draw_dust, vine};
 
 const LEVEL_BG_COLOR: Rgba8 = rgb(0x201436);
 const OUTLINE_COLOR: Rgba8 = rgb(0x8097fa);
@@ -158,8 +158,9 @@ impl Level {
         }
     }
 
-    pub fn render_bg(&self, _ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
+    pub fn render_bg(&self, ctx: &Context, draw: &mut Draw) -> Result<(), GameError> {
         draw.set_surface(None, LEVEL_BG_COLOR);
+        draw_dust(ctx, draw);
         Ok(())
     }
 
