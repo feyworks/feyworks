@@ -175,3 +175,30 @@ impl<T: Num> From<Vec3<T>> for Vec4<T> {
         vec4(x, y, z, T::ZERO)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn vec4_math() {
+        assert_eq!(
+            vec4(1.0, 2.0, 3.0, 4.0) + vec4(2.0, 3.0, 4.0, 5.0),
+            vec4(3.0, 5.0, 7.0, 9.0)
+        );
+        assert_eq!(vec4(1.0, 2.0, 2.0, 4.0).len(), 5.0); // one that happens to be all integers. neat
+        assert_eq!(vec4(1.0, 2.0, 3.0, 4.0) * 2.0, vec4(2.0, 4.0, 6.0, 8.0));
+        assert_eq!(
+            vec4(1.0, 2.0, 3.0, 4.0).min(vec4(4.0, 3.0, 2.0, 1.0)),
+            vec4(1.0, 2.0, 2.0, 1.0)
+        );
+        assert_eq!(
+            vec4(1.0, 2.0, 3.0, 4.0).max(vec4(4.0, 3.0, 2.0, 1.0)),
+            vec4(4.0, 3.0, 3.0, 4.0)
+        );
+        assert_eq!(
+            vec4(1.0, 2.0, 3.0, 4.0).clamp(vec4(2.0, 2.0, 2.0, 2.0), vec4(3.0, 3.0, 3.0, 3.0)),
+            vec4(2.0, 2.0, 3.0, 3.0)
+        );
+    }
+}

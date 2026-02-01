@@ -92,3 +92,36 @@ impl<T: Channel, F: Channel + Float> ToRgba<T> for Hsv<F> {
         Rgba::new(r, g, b, T::CHANNEL_MAX)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn hsv_tests() {
+        #[track_caller]
+        fn assert_hsv_rgb(hsv: HsvF, rgb: Rgb<f32>) {
+            assert_eq!(hsv.to_rgb(), rgb, "HSV -> RGB failed for HSV({:?})", hsv);
+        }
+
+        // grayscale
+        assert_hsv_rgb(hsv(0.0, 0.0, 1.0), Rgb::new(1.0, 1.0, 1.0)); // white
+        assert_hsv_rgb(hsv(0.0, 0.0, 0.5), Rgb::new(0.5, 0.5, 0.5)); // gray
+        assert_hsv_rgb(hsv(0.0, 0.0, 0.0), Rgb::new(0.0, 0.0, 0.0)); // black
+        assert_hsv_rgb(hsv(0.0, 1.0, 0.0), Rgb::new(0.0, 0.0, 0.0)); // black (full saturation)
+
+        // the rainbow
+        assert_hsv_rgb(hsv(0.0, 1.0, 1.0), Rgb::new(1.0, 0.0, 0.0)); // red
+        assert_hsv_rgb(hsv(30.0, 1.0, 1.0), Rgb::new(1.0, 0.5, 0.0)); // orange
+        assert_hsv_rgb(hsv(60.0, 1.0, 1.0), Rgb::new(1.0, 1.0, 0.0)); // yellow
+        assert_hsv_rgb(hsv(90.0, 1.0, 1.0), Rgb::new(0.5, 1.0, 0.0)); // yellowgreen??? ~chartreuse~
+        assert_hsv_rgb(hsv(120.0, 1.0, 1.0), Rgb::new(0.0, 1.0, 0.0)); // green
+        assert_hsv_rgb(hsv(150.0, 1.0, 1.0), Rgb::new(0.0, 1.0, 0.5)); // greencyan
+        assert_hsv_rgb(hsv(180.0, 1.0, 1.0), Rgb::new(0.0, 1.0, 1.0)); // cyan
+        assert_hsv_rgb(hsv(210.0, 1.0, 1.0), Rgb::new(0.0, 0.5, 1.0)); // azure
+        assert_hsv_rgb(hsv(240.0, 1.0, 1.0), Rgb::new(0.0, 0.0, 1.0)); // blue
+        assert_hsv_rgb(hsv(270.0, 1.0, 1.0), Rgb::new(0.5, 0.0, 1.0)); // indigo
+        assert_hsv_rgb(hsv(300.0, 1.0, 1.0), Rgb::new(1.0, 0.0, 1.0)); // purple
+        assert_hsv_rgb(hsv(330.0, 1.0, 1.0), Rgb::new(1.0, 0.0, 0.5)); // red-purple???
+    }
+}
