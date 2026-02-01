@@ -4,6 +4,7 @@ use guy::Guy;
 mod level;
 use level::Level;
 mod vine;
+mod dust;
 
 const NATIVE_RES: Vec2U = vec2(320, 180);
 const UPSCALE: u32 = 4; // should be dynamic...
