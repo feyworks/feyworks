@@ -296,6 +296,9 @@ pub trait Float: Signed {
     /// Computes the four quadrant arctangent of `y` and `x` in radians.
     fn atan2(y: Self, x: Self) -> Self;
 
+    /// Computes the arccosine of a number.
+    fn acos(x: Self) -> Self;
+
     /// Simultaneously computes the sine and cosine of the number, x.
     /// Returns `(sin(x), cos(x))`.
     fn sin_cos(x: Self) -> (Self, Self);
@@ -482,6 +485,9 @@ macro_rules! impl_float {
 
                 #[inline]
                 fn atan2(y: Self, x: Self) -> Self { y.atan2(x) }
+
+                #[inline]
+                fn acos(x: Self) -> Self { x.acos() }
 
                 #[inline]
                 fn sin_cos(x: Self) -> (Self, Self) { x.sin_cos() }

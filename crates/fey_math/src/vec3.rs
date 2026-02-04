@@ -1,4 +1,4 @@
-use crate::{Num, Signed, Vec2, Vec4, impl_vec, vec2, vec4};
+use crate::{Float, Num, Radians, Signed, Vec2, Vec4, impl_vec, vec2, vec4};
 use std::fmt::{Display, Formatter};
 
 pub type Vec3F = Vec3<f32>;
@@ -154,6 +154,17 @@ impl<T: Signed> Vec3<T> {
             coord(a.y, b.y, c.y, t1, t2),
             coord(a.z, b.z, c.z, t1, t2),
         )
+    }
+}
+
+impl<T: Float> Vec3<T> {
+    /// Calculate the angle between the two vectors.
+    #[inline]
+    pub fn angle_between(self, other: Self) -> Radians<T> {
+        let dot = self.dot(other);
+        let len1 = self.sqr_len();
+        let len2 = other.sqr_len();
+        Radians(T::abs(T::acos(dot / T::sqrt(len1 * len2))))
     }
 }
 

@@ -1,4 +1,4 @@
-use crate::{Float, Num, Signed, Vec3, impl_vec, vec3};
+use crate::{Float, Num, Radians, Signed, Vec3, impl_vec, vec3};
 use dpi::{LogicalPosition, LogicalSize, PhysicalPosition, PhysicalSize};
 use std::fmt::{Display, Formatter};
 
@@ -143,6 +143,14 @@ impl<T: Float> Vec2<T> {
 
     /// A normalized vector pointing south-east, equal to `(1/√2, -1/√2)`.
     pub const NORTH_EAST: Self = vec2(T::ONE_OVER_SQRT_2, T::NEG_ONE_OVER_SQRT_2);
+
+    /// Calculate the angle between the two vectors.
+    #[inline]
+    pub fn angle_between(self, other: Self) -> Radians<T> {
+        let dot = self.dot(other);
+        let det = self.cross(other);
+        Radians(T::abs(T::atan2(det, dot)))
+    }
 }
 
 impl<T: Display> Display for Vec2<T> {
