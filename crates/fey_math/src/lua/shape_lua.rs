@@ -9,7 +9,7 @@ use std::ffi::c_void;
 use std::ops::Deref;
 
 #[derive(Debug, Clone)]
-pub enum ShapeData {
+pub enum ShapeObj {
     Circ(UserDataOf<CircleF>),
     Tri(UserDataOf<TriangleF>),
     Rect(UserDataOf<RectF>),
@@ -33,7 +33,7 @@ pub enum ShapeMut {
     Poly(UserDataRefMut<PolygonF>),
 }
 
-impl ShapeData {
+impl ShapeObj {
     #[inline]
     pub fn new_circ(lua: &Lua, circ: CircleF) -> LuaResult<Self> {
         lua.create_any_userdata(circ)
@@ -233,7 +233,7 @@ impl ShapeData {
     }
 }
 
-impl FromLua for ShapeData {
+impl FromLua for ShapeObj {
     fn from_lua(value: Value, lua: &Lua) -> LuaResult<Self> {
         Ok(match value {
             Value::UserData(data) => {
@@ -270,7 +270,7 @@ impl FromLua for ShapeData {
     }
 }
 
-impl IntoLua for ShapeData {
+impl IntoLua for ShapeObj {
     #[inline]
     fn into_lua(self, _lua: &Lua) -> LuaResult<Value> {
         Ok(Value::UserData(match self {
@@ -456,7 +456,7 @@ where
 //     }
 // }
 
-impl Shape<f32> for ShapeData {
+impl Shape<f32> for ShapeObj {
     #[inline]
     fn centroid(&self) -> Vec2<f32> {
         match self {
