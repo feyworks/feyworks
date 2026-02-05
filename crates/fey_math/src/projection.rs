@@ -46,6 +46,8 @@ impl_op!(Projection Sub sub SubAssign sub_assign min max);
 impl_op!(Projection Mul mul MulAssign mul_assign min max);
 impl_op!(Projection Div div DivAssign div_assign min max);
 impl_op!(Projection Rem rem RemAssign rem_assign min max);
+impl_op_scalar!(Projection Add add AddAssign add_assign min max);
+impl_op_scalar!(Projection Sub sub SubAssign sub_assign min max);
 impl_op_scalar!(Projection Mul mul MulAssign mul_assign min max);
 impl_op_scalar!(Projection Div div DivAssign div_assign min max);
 impl_op_scalar!(Projection Rem rem RemAssign rem_assign min max);
