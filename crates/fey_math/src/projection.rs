@@ -94,4 +94,10 @@ impl<T: Num> Projection<T> {
     pub fn len(&self) -> T {
         self.max - self.min
     }
+
+    /// Center of the projection.
+    #[inline]
+    pub fn center(&self) -> T {
+        self.min + (self.max - self.min) / T::TWO
+    }
 }
