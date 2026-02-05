@@ -57,6 +57,11 @@ impl<T: ComponentType> ComponentOf<T> {
     }
 
     #[inline]
+    pub fn try_entity_mut(&self) -> Option<EntityMut> {
+        self.entity.as_ref().map(|e| e.get_mut())
+    }
+
+    #[inline]
     pub fn entity_mut(&self) -> EntityMut {
         self.entity.as_ref().map(|e| e.get_mut()).unwrap()
     }

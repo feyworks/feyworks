@@ -1,6 +1,6 @@
 use crate::{
     Component, ComponentObj, ComponentOf, ComponentType, EntityObj, IntoComponent, Registry,
-    WorldObj,
+    WorldMut, WorldObj, WorldRef,
 };
 use kero::lua::UserDataOf;
 use kero::math::{Vec2F, Vec3F};
@@ -54,6 +54,36 @@ impl Entity {
                 version: PosVersion(1),
             },
         )
+    }
+
+    #[inline]
+    pub fn try_world(&self) -> Option<&WorldObj> {
+        self.world.as_ref()
+    }
+
+    #[inline]
+    pub fn world(&self) -> &WorldObj {
+        self.try_world().unwrap()
+    }
+
+    #[inline]
+    pub fn try_world_ref(&self) -> Option<WorldRef> {
+        self.world.as_ref().map(|w| w.get())
+    }
+
+    #[inline]
+    pub fn world_ref(&self) -> WorldRef {
+        self.try_world_ref().unwrap()
+    }
+
+    #[inline]
+    pub fn try_world_mut(&self) -> Option<WorldMut> {
+        self.world.as_ref().map(|w| w.get_mut())
+    }
+
+    #[inline]
+    pub fn world_mut(&self) -> WorldMut {
+        self.try_world_mut().unwrap()
     }
 
     #[inline]
