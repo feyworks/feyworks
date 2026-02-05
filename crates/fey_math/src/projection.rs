@@ -47,6 +47,9 @@ impl<T> Projection<T> {
 }
 
 impl<T: Num> Projection<T> {
+    /// A projection of range `[0, 0]`.
+    pub const ZERO: Self = Self::new(T::ZERO, T::ZERO);
+
     /// Returns true if this projection overlaps the other.
     #[inline]
     pub fn overlaps(&self, other: Projection<T>) -> bool {
