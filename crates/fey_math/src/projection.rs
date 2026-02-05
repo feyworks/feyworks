@@ -61,6 +61,12 @@ impl<T> Projection<T> {
     }
 }
 
+/// Create a new projection.
+#[inline]
+pub const fn projection<T>(min: T, max: T) -> Projection<T> {
+    Projection { min, max }
+}
+
 impl<T: Num> Projection<T> {
     /// A projection of range `[0, 0]`.
     pub const ZERO: Self = Self::new(T::ZERO, T::ZERO);
