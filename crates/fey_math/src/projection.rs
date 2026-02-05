@@ -1,4 +1,7 @@
-use crate::{Num, impl_approx, impl_bytemuck, impl_casts, impl_serde, impl_tuple_arr};
+use crate::{
+    Num, impl_approx, impl_bytemuck, impl_casts, impl_neg, impl_op, impl_op_scalar, impl_serde,
+    impl_tuple_arr,
+};
 
 pub type ProjectionF = Projection<f32>;
 
@@ -37,6 +40,16 @@ impl_casts!(
     NAME = Projection
     FIELDS = (min, max)
 );
+
+impl_op!(Projection Add add AddAssign add_assign min max);
+impl_op!(Projection Sub sub SubAssign sub_assign min max);
+impl_op!(Projection Mul mul MulAssign mul_assign min max);
+impl_op!(Projection Div div DivAssign div_assign min max);
+impl_op!(Projection Rem rem RemAssign rem_assign min max);
+impl_op_scalar!(Projection Mul mul MulAssign mul_assign min max);
+impl_op_scalar!(Projection Div div DivAssign div_assign min max);
+impl_op_scalar!(Projection Rem rem RemAssign rem_assign min max);
+impl_neg!(Projection min max);
 
 impl<T> Projection<T> {
     /// Create a new projection.
