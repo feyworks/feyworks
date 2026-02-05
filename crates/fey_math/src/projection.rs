@@ -71,6 +71,11 @@ impl<T: Num> Projection<T> {
     /// A projection of range `[0, 0]`.
     pub const ZERO: Self = Self::new(T::ZERO, T::ZERO);
 
+    #[inline]
+    pub fn contains(&self, value: T) -> bool {
+        value >= self.min && value <= self.max
+    }
+
     /// Returns true if this projection overlaps the other.
     #[inline]
     pub fn overlaps(&self, other: Projection<T>) -> bool {
