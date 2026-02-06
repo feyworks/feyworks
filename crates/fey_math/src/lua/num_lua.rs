@@ -19,6 +19,7 @@ impl LuaModule for NumModule {
         m.set("MIN_INT", Integer::MIN)?;
         m.set("MAX_NUM", Number::MAX)?;
         m.set("MIN_NUM", Number::MIN)?;
+        m.set("EPSILON", Number::EPSILON)?;
         m.set("abs", lua.create_function(|_, x: f64| Ok(x.abs()))?)?;
         m.set(
             "diff",

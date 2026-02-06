@@ -11,6 +11,7 @@
 ---@field MIN_INT integer `-9223372036854775808`
 ---@field MAX_NUM integer `1.7976931348623157E+308f64`
 ---@field MIN_NUM integer `-1.7976931348623157E+308f64`
+---@field EPSILON number `2^(1 − MANTISSA_DIGITS)`
 local Num = {}
 
 ---Returns the absolute value of `x`.
@@ -55,7 +56,7 @@ function Num.asin(x) end
 ---@param x number
 ---@return number
 ---@nodiscard
----Computes the inverse hyperbolic sine of `x`. 
+---Computes the inverse hyperbolic sine of `x`.
 function Num.asinh(x) end
 
 ---Computes the arctangent of `x`.
