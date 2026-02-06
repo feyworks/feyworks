@@ -286,6 +286,12 @@ function methods.with_z(self, z) end
 ---@nodiscard
 function methods.with_w(self, w) end
 
+---Returns a 2D vector of (x, y - z)
+---@param self Vec3
+---@return Vec2
+---@nodiscard
+function methods.flat(self) end
+
 ---Returns the 2D portion of this vector.
 ---@param self Vec3
 ---@return Vec2

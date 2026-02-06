@@ -68,6 +68,7 @@ impl LuaModule for Vec3Module {
             members.method("with_y", |obj, val: f32| obj.with_y(val))?;
             members.method("with_z", |obj, val: f32| obj.with_z(val))?;
             members.method("with_w", |obj, val: f32| obj.with_w(val))?;
+            members.method("flat", |obj, _: ()| obj.flat())?;
             members.method("xy", |obj, _: ()| obj.xy())?;
             members.method("xzy", |obj, _: ()| obj.xzy())?;
             members.method("yxz", |obj, _: ()| obj.yxz())?;
