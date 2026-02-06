@@ -38,6 +38,11 @@ impl<T> Triangle<T> {
     pub const fn new(a: Vec2<T>, b: Vec2<T>, c: Vec2<T>) -> Self {
         Self([a, b, c])
     }
+
+    #[inline]
+    pub fn map<U>(self, f: impl Fn(Vec2<T>) -> Vec2<U>) -> Triangle<U> {
+        Triangle(self.0.map(f))
+    }
 }
 
 impl<T: Copy> Triangle<T> {
@@ -166,3 +171,4 @@ impl<T> From<Triangle<T>> for [Vec2<T>; 3] {
         value.0
     }
 }
+

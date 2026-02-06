@@ -1,6 +1,4 @@
-use crate::{
-    Float, Line, Num, Rect, Vec2, impl_approx, impl_bytemuck, impl_casts, impl_interp, line,
-};
+use crate::{Float, Line, Num, Rect, Vec2, impl_approx, impl_bytemuck, impl_casts, impl_interp, line};
 use serde::{Deserialize, Serialize};
 
 pub type QuadF = Quad<f32>;
@@ -39,6 +37,11 @@ impl<T> Quad<T> {
     #[inline]
     pub const fn new(a: Vec2<T>, b: Vec2<T>, c: Vec2<T>, d: Vec2<T>) -> Self {
         Self([a, b, c, d])
+    }
+
+    #[inline]
+    pub fn map<U>(self, f: impl FnMut(Vec2<T>) -> Vec2<U>) -> Quad<U> {
+        Quad(self.0.map(f))
     }
 }
 
