@@ -42,8 +42,13 @@ impl<T: ComponentType> ComponentOf<T> {
     }
 
     #[inline]
-    pub fn entity(&self) -> Option<&EntityObj> {
+    pub fn try_entity(&self) -> Option<&EntityObj> {
         self.entity.as_ref()
+    }
+
+    #[inline]
+    pub fn entity(&self) -> &EntityObj {
+        self.entity.as_ref().unwrap()
     }
 
     #[inline]
