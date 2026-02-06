@@ -63,18 +63,12 @@ function methods.set_pos(self, val) end
 function methods.set_pos(self, x, y) end
 
 ---@param self Entity
----@return number
----@nodiscard
 function methods.set_x(self, val) end
 
 ---@param self Entity
----@return number
----@nodiscard
 function methods.set_y(self, val) end
 
 ---@param self Entity
----@return number
----@nodiscard
 function methods.set_z(self, val) end
 
 ---Moves the entity by the provided amount.
