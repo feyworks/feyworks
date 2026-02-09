@@ -114,6 +114,14 @@ impl Entity {
     }
 
     #[inline]
+    pub fn move_by(&mut self, amount: Vec2F) {
+        if !amount.is_zero() {
+            self.version.increment();
+        }
+        self.pos += amount;
+    }
+
+    #[inline]
     pub fn x(&self) -> f32 {
         self.pos.x
     }
