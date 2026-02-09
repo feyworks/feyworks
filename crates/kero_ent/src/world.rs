@@ -141,7 +141,8 @@ impl WorldExt for WorldObj {
 
         // notify all components that they've spawned
         for i in 0..len {
-            if let Some(comp) = ent.get().components[i].clone() {
+            let comp = ent.get().components[i].clone();
+            if let Some(comp) = comp {
                 comp.do_spawned(lua)?;
             }
         }
