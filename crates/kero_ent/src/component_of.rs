@@ -9,7 +9,7 @@ pub struct ComponentOf<T> {
     pub active: bool,
     pub visible: bool,
     pub flags: u64,
-    pub depth: f64,
+    pub depth: f32,
     pub value: T,
 }
 
@@ -20,7 +20,7 @@ impl<T: ComponentType> ComponentOf<T> {
         active: bool,
         visible: bool,
         flags: u64,
-        depth: f64,
+        depth: f32,
         value: T,
     ) -> ComponentObj<T> {
         UserDataOf::new(

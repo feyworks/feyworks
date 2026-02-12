@@ -78,7 +78,7 @@ impl Registry {
                 this.borrow_mut::<ComponentOf<T>>().unwrap().visible = value;
             },
             depth_fn: |this| this.borrow_mut::<ComponentOf<T>>().unwrap().depth,
-            set_depth_fn: |this, value: f64| {
+            set_depth_fn: |this, value: f32| {
                 this.borrow_mut::<ComponentOf<T>>().unwrap().depth = value;
             },
             added_fn: T::ADDED_FN,
@@ -174,8 +174,8 @@ pub struct RustType {
     pub set_visible_fn: fn(&AnyUserData, bool),
     pub flags_fn: fn(&AnyUserData) -> u64,
     pub set_flags_fn: fn(&AnyUserData, u64),
-    pub depth_fn: fn(&AnyUserData) -> f64,
-    pub set_depth_fn: fn(&AnyUserData, f64),
+    pub depth_fn: fn(&AnyUserData) -> f32,
+    pub set_depth_fn: fn(&AnyUserData, f32),
     pub added_fn: Option<fn(&AnyUserData, &Lua) -> LuaResult<()>>,
     pub removed_fn: Option<fn(&AnyUserData, &Lua) -> LuaResult<()>>,
     pub spawned_fn: Option<fn(&AnyUserData, &Lua) -> LuaResult<()>>,

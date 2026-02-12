@@ -145,7 +145,7 @@ impl<T: ComponentType> UserData for ComponentOf<T> {
             Ok(())
         });
         fields.add_field_method_get("depth", |_, this| Ok(this.depth));
-        fields.add_field_method_set("depth", |_, this, val: f64| {
+        fields.add_field_method_set("depth", |_, this, val: f32| {
             this.depth = val;
             Ok(())
         });

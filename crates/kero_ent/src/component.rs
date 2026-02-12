@@ -183,7 +183,7 @@ impl Component {
     }
 
     #[inline]
-    pub fn depth(&self) -> f64 {
+    pub fn depth(&self) -> f32 {
         match &self.obj {
             Either::Left(c) => (c.ty.depth_fn)(&c.data),
             Either::Right(c) => c.table.get("depth").unwrap(),
@@ -191,7 +191,7 @@ impl Component {
     }
 
     #[inline]
-    pub fn set_depth(&self, depth: f64) {
+    pub fn set_depth(&self, depth: f32) {
         match &self.obj {
             Either::Left(c) => (c.ty.set_depth_fn)(&c.data, depth),
             Either::Right(c) => c.table.set("depth", depth).unwrap(),

@@ -19,7 +19,7 @@ pub struct World {
 
 #[derive(Debug)]
 struct RenderComp {
-    depth: f64,
+    depth: f32,
     flags: u64,
     pos: Vec3F,
     comp: Component,
