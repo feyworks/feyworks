@@ -247,7 +247,7 @@ macro_rules! impl_vec {
             #[inline]
             fn approach(self, target: Self, amount: Self::Factor) -> Self {
                 let d = target - self;
-                if d.sqr_len() >= amount * amount {
+                if d.sqr_len() < amount * amount {
                     target
                 } else {
                     self + d.norm_safe() * amount
