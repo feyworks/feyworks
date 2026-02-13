@@ -73,6 +73,7 @@ impl LuaModule for Vec2Module {
             members.method("with_z", |obj, val: f32| obj.with_z(val))?;
             members.method("yx", |obj, _: ()| obj.yx())?;
 
+            // interpolation
             members.method("approach", |this, (targ, amount): (Vec2F, f32)| {
                 this.approach(targ, amount)
             })?;

@@ -328,4 +328,73 @@ function methods.zxy(self) end
 ---@nodiscard
 function methods.zyx(self) end
 
+---Approach the target by the provided amount without overshooting.
+---@param self Vec3
+---@param target Vec3
+---@param amount number
+---@return Vec3
+---@nodiscard
+function methods.approach(self, target, amount) end
+
+---Linear interpolation.
+---@param self Vec3
+---@param target Vec3
+---@param t number
+---@return Vec3
+---@nodiscard
+function methods.lerp(self, target, t) end
+
+---Lerp towards a target with a framerate-invariant version.
+---
+--- See: [Lerp Smoothing is Broken](https://www.youtube.com/watch?v=LSNQuFEDOyQ).
+---@param self Vec3
+---@param target Vec3
+---@param t number
+---@param dt number
+---@return Vec3
+---@nodiscard
+function methods.smooth_lerp(self, target, t, dt) end
+
+---Accelerate towards a target with stateful velocity.
+---@param self Vec3
+---@param to Vec3
+---@param vel Vec3
+---@param smooth_time number
+---@param max_speed number
+---@param dt number
+---@return Vec3 new_pos
+---@return Vec3 new_vel
+function methods.smooth_damp(self, to, vel, smooth_time, max_speed, dt) end
+
+---Quadratic bezier interpolation.
+---@param self Vec3
+---@param control Vec3
+---@param target Vec3
+---@param t number
+---@return Vec3
+---@nodiscard
+function methods.quad_bezier(self, control, target, t) end
+
+---Cubic bezier interpolation.
+---@param self Vec3
+---@param control1 Vec3
+---@param control2 Vec3
+---@param target Vec3
+---@param t number
+---@return Vec3
+---@nodiscard
+function methods.cubic_bezier(self, control1, control2, target, t) end
+
+---Catmull-Rom interpolation.
+---
+---See: https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull%E2%80%93Rom_spline
+---@param self Vec3
+---@param control1 Vec3
+---@param control2 Vec3
+---@param target Vec3
+---@param t number
+---@return Vec3
+---@nodiscard
+function methods.catmull_rom(self, control1, control2, target, t) end
+
 return module

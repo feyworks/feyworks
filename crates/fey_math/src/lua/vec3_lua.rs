@@ -1,4 +1,4 @@
-use crate::{Numeric, Vec3, Vec3F, impl_temp};
+use crate::{Approach, Interp, Numeric, SmoothInterp, Vec2F, Vec3, Vec3F, impl_temp};
 use fey_lua::{LuaModule, Temp};
 use mlua::prelude::LuaResult;
 use mlua::{Either, FromLua, IntoLua, Lua, Value, Variadic};
@@ -75,6 +75,39 @@ impl LuaModule for Vec3Module {
             members.method("yzx", |obj, _: ()| obj.yzx())?;
             members.method("zxy", |obj, _: ()| obj.zxy())?;
             members.method("zyx", |obj, _: ()| obj.zyx())?;
+
+            // interpolation
+            members.method("approach", |this, (targ, amount): (Vec3F, f32)| {
+                this.approach(targ, amount)
+            })?;
+            members.method("lerp", |this, (targ, t): (Vec3F, f32)| this.lerp(targ, t))?;
+            members.method("smooth_lerp", |this, (targ, t, dt): (Vec3F, f32, f32)| {
+                this.smooth_lerp(targ, t, dt)
+            })?;
+            members.method(
+                "smooth_damp",
+                |this, (to, mut vel, time, spd, dt): (Vec3F, Vec3F, f32, f32, f32)| {
+                    let mut this = *this;
+                    this.smooth_damp(&mut vel, to, time, spd, dt);
+                    (this, vel)
+                },
+            )?;
+            members.method(
+                "quad_bezier",
+                |this, (con, targ, t): (Vec3F, Vec3F, f32)| this.quad_bezier(con, targ, t),
+            )?;
+            members.method(
+                "cubic_bezier",
+                |this, (con1, con2, targ, t): (Vec3F, Vec3F, Vec3F, f32)| {
+                    this.cubic_bezier(con1, con2, targ, t)
+                },
+            )?;
+            members.method(
+                "catmull_rom",
+                |this, (con1, con2, targ, t): (Vec3F, Vec3F, Vec3F, f32)| {
+                    this.catmull_rom(con1, con2, targ, t)
+                },
+            )?;
 
             Ok(())
         })?;
