@@ -30,8 +30,8 @@ impl UserData for EntityModule {
                 Ok(Entity::new_at(
                     lua,
                     match a {
-                        Either::Left(pos) => pos.with_z(b.unwrap()),
-                        Either::Right(x) => vec3(x, b.unwrap(), c.unwrap()),
+                        Either::Left(pos) => pos.with_z(b.unwrap_or(0.0)),
+                        Either::Right(x) => vec3(x, b.unwrap(), c.unwrap_or(0.0)),
                     },
                 ))
             },
