@@ -155,6 +155,15 @@ impl LuaModule for NumModule {
                 Ok(f64::smooth_lerp(a, b, t, dt))
             })?,
         )?;
+        m.set(
+            "smooth_damp",
+            lua.create_function(
+                |_, (mut a, b, mut vel, time, spd, dt): (f64, f64, f64, f64, f64, f64)| {
+                    a.smooth_damp(&mut vel, b, time, spd, dt);
+                    Ok((a, vel))
+                },
+            )?,
+        )?;
         m.set("sqrt", lua.create_function(|_, x: f64| Ok(x.sqrt()))?)?;
         m.set("tan", lua.create_function(|_, x: f64| Ok(x.tan()))?)?;
         m.set("tanh", lua.create_function(|_, x: f64| Ok(x.tanh()))?)?;

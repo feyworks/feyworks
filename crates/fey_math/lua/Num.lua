@@ -300,6 +300,18 @@ function Num.smooth_lerp(from, to, t, dt) end
 ---@nodiscard
 function Num.smoothstep(from, to, t) end
 
+---Accelerate towards a target with stateful velocity.
+---@param from Vec2
+---@param to Vec2
+---@param vel Vec2
+---@param smooth_time number
+---@param max_speed number
+---@param dt number
+---@return number new_pos
+---@return number new_vel
+---@nodiscard
+function Num.smooth_damp(from, to, vel, smooth_time, max_speed, dt) end
+
 ---Computes `√x`.
 ---@param x number
 ---@return number
