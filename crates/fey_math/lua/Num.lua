@@ -281,6 +281,17 @@ function Num.sin_cos(x) end
 ---@nodiscard
 function Num.sinh(x) end
 
+--- Lerp towards a target with a framerate-invariant version.
+--- 
+--- See: [Lerp Smoothing is Broken](https://www.youtube.com/watch?v=LSNQuFEDOyQ).
+---@param from number
+---@param to number
+---@param t number
+---@param dt number
+---@return number
+---@nodiscard
+function Num.smooth_lerp(from, to, t, dt) end
+
 ---Smoothstep[¹](https://en.wikipedia.org/wiki/Smoothstep) interpolation.
 ---@param from number
 ---@param to number

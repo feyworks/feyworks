@@ -1,4 +1,4 @@
-use crate::{Approach, Interp};
+use crate::{Approach, Interp, SmoothInterp};
 use fey_lua::LuaModule;
 use mlua::prelude::LuaResult;
 use mlua::{Integer, Lua, Number, Value, Variadic};
@@ -148,6 +148,12 @@ impl LuaModule for NumModule {
         m.set(
             "smoothstep",
             lua.create_function(|_, (a, b, t): (f64, f64, f64)| Ok(f64::smooth_step(a, b, t)))?,
+        )?;
+        m.set(
+            "smooth_lerp",
+            lua.create_function(|_, (a, b, t, dt): (f64, f64, f64, f64)| {
+                Ok(f64::smooth_lerp(a, b, t, dt))
+            })?,
         )?;
         m.set("sqrt", lua.create_function(|_, x: f64| Ok(x.sqrt()))?)?;
         m.set("tan", lua.create_function(|_, x: f64| Ok(x.tan()))?)?;
