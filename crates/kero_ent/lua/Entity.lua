@@ -22,16 +22,18 @@ function module.new() end
 
 ---Create a new entity at the specified position.
 ---@param pos Vec2
+---@param z number?
 ---@return Entity
 ---@nodiscard
-function module.new_at(pos) end
+function module.new_at(pos, z) end
 
 ---Create a new entity at the specified position.
 ---@param x number
 ---@param y number
+---@param z number?
 ---@return Entity
 ---@nodiscard
-function module.new_at(x, y) end
+function module.new_at(x, y, z) end
 
 ---World the entity is in.
 ---@param self Entity

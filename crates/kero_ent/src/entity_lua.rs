@@ -26,12 +26,12 @@ impl UserData for EntityModule {
         methods.add_function("new", |lua, _: ()| Ok(Entity::new(lua)));
         methods.add_function(
             "new_at",
-            |lua, (a, b): (Either<Vec2F, f32>, Option<f32>)| {
+            |lua, (a, b, c): (Either<Vec2F, f32>, Option<f32>, Option<f32>)| {
                 Ok(Entity::new_at(
                     lua,
                     match a {
-                        Either::Left(a) => a,
-                        Either::Right(a) => vec2(a, b.unwrap()),
+                        Either::Left(pos) => pos.with_z(b.unwrap()),
+                        Either::Right(x) => vec3(x, b.unwrap(), c.unwrap()),
                     },
                 ))
             },
