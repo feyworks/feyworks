@@ -36,6 +36,15 @@ impl LuaModule for Vec3Module {
             members.op_unm(|obj| -*obj)?;
 
             // methods
+            members.method_mut(
+                "set",
+                |obj, (x, y, z): (Either<Vec3F, f32>, Option<f32>, Option<f32>)| {
+                    *obj = match x {
+                        Either::Left(pos) => pos,
+                        Either::Right(x) => Vec3F::new(x, y.unwrap(), z.unwrap()),
+                    }
+                },
+            )?;
             members.method("abs", |obj, _: ()| obj.abs())?;
             members.method("approx", |a, b: Vec3F| a.relative_eq(&b))?;
             members.method("approx_zero", |obj, _: ()| obj.relative_eq(&Vec3F::ZERO))?;

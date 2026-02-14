@@ -115,6 +115,18 @@ function methods.box(self) end
 ---@nodiscard
 function methods.box_clone(self) end
 
+---Set the vector's value (useful when retaining boxed vectors).
+---@param self Vec3
+---@param val Vec3
+function methods.set(self, val) end
+
+---Set the vector's value (useful when retaining boxed vectors).
+---@param self Vec3
+---@param x number
+---@param y number
+---@param z number
+function methods.set(self, x, y, z) end
+
 ---Returns a copy of this vector with absolute value of all components.
 ---@param self Vec3
 ---@return Vec3
