@@ -23,7 +23,7 @@ lua = [
     "fey_math/lua",
     "fey_rand/lua"
 ]
-round_vertices = []
+round_vertex_positions = []
 
 [dependencies]
 arrayvec = "0.7.6"
