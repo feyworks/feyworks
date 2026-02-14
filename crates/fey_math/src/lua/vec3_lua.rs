@@ -1,4 +1,4 @@
-use crate::{Approach, Interp, Numeric, SmoothInterp, Vec2F, Vec3, Vec3F, impl_temp};
+use crate::{Approach, Interp, Numeric, SmoothInterp, Vec3, Vec3F, impl_temp};
 use fey_lua::{LuaModule, Temp};
 use mlua::prelude::LuaResult;
 use mlua::{Either, FromLua, IntoLua, Lua, Value, Variadic};
