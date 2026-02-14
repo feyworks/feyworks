@@ -92,7 +92,8 @@ impl UserData for Entity {
 fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
     methods.add_function("world", |_, this: EntityRef| Ok(this.world.clone()));
     methods.add_function("remove_self", |lua, this: EntityObj| {
-        match this.get().world.clone() {
+        let world = this.get().world.clone();
+        match world {
             Some(world) => world.remove(lua, this),
             None => Err(LuaError::runtime("entity is not in a world")),
         }
