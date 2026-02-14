@@ -56,9 +56,9 @@ impl<T: Float> Radians<T> {
             Octal::South => T::PI_OVER_2,
             Octal::SouthWest => T::PI_OVER_2 + T::PI_OVER_4,
             Octal::West => T::PI,
-            Octal::NorthWest => -T::PI_OVER_4,
-            Octal::North => -T::PI_OVER_4,
-            Octal::NorthEast => -(T::PI_OVER_2 + T::PI_OVER_4),
+            Octal::NorthWest => -(T::PI_OVER_2 + T::PI_OVER_4),
+            Octal::North => -T::PI_OVER_2,
+            Octal::NorthEast => -T::PI_OVER_4,
         })
     }
 
