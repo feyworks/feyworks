@@ -1,4 +1,6 @@
-use crate::{Approach, Interp, Numeric, SmoothInterp, Vec2, Vec2F, impl_temp};
+use crate::{
+    Approach, Degrees, Direction, Interp, Numeric, RadiansF, SmoothInterp, Vec2, Vec2F, impl_temp,
+};
 use fey_lua::{LuaModule, Temp};
 use mlua::prelude::LuaResult;
 use mlua::{Either, FromLua, IntoLua, Lua, Value, Variadic};
@@ -152,6 +154,14 @@ impl LuaModule for Vec2Module {
             lua.create_function(|_, (a, b, c, ab, bc): (Vec2F, Vec2F, Vec2F, f32, f32)| {
                 Ok(Vec2F::barycentric(a, b, c, ab, bc))
             })?,
+        )?;
+        module.set(
+            "from_rads",
+            lua.create_function(|_, (a, len): (RadiansF, f32)| Ok(a.norm() * len))?,
+        )?;
+        module.set(
+            "from_degs",
+            lua.create_function(|_, (a, len): (f32, f32)| Ok(Degrees(a).norm() * len))?,
         )?;
 
         // module.set(

@@ -120,6 +120,20 @@ function module.splat(val) end
 ---@nodiscard
 function module.barycentric(a, b, c, ab, bc) end
 
+---Get a vector from an angle and length.
+---@param rads number
+---@param len number?
+---@return Vec2
+---@nodiscard
+function module.from_rads(rads, len) end
+
+---Get a vector from an angle and length.
+---@param degs number
+---@param len number?
+---@return Vec2
+---@nodiscard
+function module.from_degs(degs, len) end
+
 ---Returns a temporary copy of this value.
 ---@param self Vec2
 ---@return Vec2
