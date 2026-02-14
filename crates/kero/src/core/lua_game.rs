@@ -117,6 +117,8 @@ impl<G: Game> Game for LuaGame<G> {
             } else {
                 true
             };
+            self.lua.gc_collect()?;
+            self.lua.gc_collect()?;
         }
 
         // call Main:init() when requested
