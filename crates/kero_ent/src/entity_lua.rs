@@ -91,6 +91,7 @@ impl UserData for Entity {
 
 fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
     methods.add_function("world", |_, this: EntityRef| Ok(this.world.clone()));
+    methods.add_function("exists", |_, this: EntityRef| Ok(this.world.is_some()));
     methods.add_function("remove_self", |lua, this: EntityObj| {
         let world = this.get().world.clone();
         match world {

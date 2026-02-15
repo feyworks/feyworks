@@ -41,6 +41,12 @@ function module.new_at(x, y, z) end
 ---@nodiscard
 function methods.world(self) end
 
+---If the entity is in a world.
+---@param self Entity
+---@return boolean
+---@nodiscard
+function methods.exists(self) end
+
 ---Remove this entity from the world, if it's in one.
 ---@param self Entity
 function methods.remove_self(self) end

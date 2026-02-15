@@ -127,6 +127,14 @@ impl Component {
     }
 
     #[inline]
+    pub fn exists(&self) -> bool {
+        match &self.obj {
+            Either::Left(c) => (c.ty.exists_fn)(&c.data),
+            Either::Right(c) => c.table.get::<EntityRef>("entity").unwrap().world.is_some(),
+        }
+    }
+
+    #[inline]
     pub(crate) fn set_entity(&self, entity: Option<EntityObj>) {
         match &self.obj {
             Either::Left(c) => (c.ty.set_entity_fn)(&c.data, entity),

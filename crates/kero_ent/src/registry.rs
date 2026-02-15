@@ -62,6 +62,13 @@ impl Registry {
                     None
                 }
             },
+            exists_fn: |this| {
+                if let Some(ent) = this.borrow_mut::<ComponentOf<T>>().unwrap().entity.as_ref() {
+                    ent.get().world.is_some()
+                } else {
+                    false
+                }
+            },
             set_entity_fn: |this, value: Option<EntityObj>| {
                 this.borrow_mut::<ComponentOf<T>>().unwrap().entity = value;
             },
@@ -167,6 +174,7 @@ pub struct RustType {
     pub type_name: &'static str,
     pub entity_fn: fn(&AnyUserData) -> Option<EntityObj>,
     pub world_fn: fn(&AnyUserData) -> Option<WorldObj>,
+    pub exists_fn: fn(&AnyUserData) -> bool,
     pub set_entity_fn: fn(&AnyUserData, Option<EntityObj>),
     pub active_fn: fn(&AnyUserData) -> bool,
     pub set_active_fn: fn(&AnyUserData, bool),

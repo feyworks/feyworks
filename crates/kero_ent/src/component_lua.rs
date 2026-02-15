@@ -86,6 +86,10 @@ impl LuaModule for ComponentModule {
             lua.create_function(|_, this: Component| Ok(this.world()))?,
         )?;
         methods.set(
+            "exists",
+            lua.create_function(|_, this: Component| Ok(this.exists()))?,
+        )?;
+        methods.set(
             "get",
             lua.create_function(
                 |lua, (this, ty): (Component, BorrowedStr)| match this.entity() {
@@ -160,6 +164,7 @@ impl<T: ComponentType> UserData for ComponentOf<T> {
             lua.create_string(this.type_name())
         });
         methods.add_function("world", |_, this: Component| Ok(this.world()));
+        methods.add_function("exists", |_, this: Component| Ok(this.exists()));
         methods.add_function(
             "get",
             |lua, (this, ty): (Component, BorrowedStr)| match this.entity() {
@@ -199,7 +204,10 @@ impl<T: ComponentType> UserData for ComponentOf<T> {
         if T::RENDER_FN.is_some() {
             methods.add_function("render", |lua, this: AnyUserData| {
                 let comp = this.borrow::<ComponentOf<T>>().unwrap();
-                if let Some(pos) = comp.try_entity().map(|e| e.field(|e| e.pos().with_z(e.z()))) {
+                if let Some(pos) = comp
+                    .try_entity()
+                    .map(|e| e.field(|e| e.pos().with_z(e.z())))
+                {
                     (T::RENDER_FN.unwrap())(&this, lua, pos?)
                 } else {
                     Ok(())

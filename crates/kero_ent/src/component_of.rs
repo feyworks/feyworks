@@ -72,7 +72,12 @@ impl<T: ComponentType> ComponentOf<T> {
     }
 
     #[inline]
-    pub fn world_ref(&self) -> Option<WorldRef> {
+    pub fn world_ref(&self) -> WorldRef {
+        self.try_world_ref().unwrap()
+    }
+
+    #[inline]
+    pub fn try_world_ref(&self) -> Option<WorldRef> {
         self.entity
             .as_ref()
             .and_then(|e| e.get().world.as_ref().map(|w| w.get()))

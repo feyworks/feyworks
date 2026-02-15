@@ -37,6 +37,12 @@ function methods.type_name(self) end
 ---@nodiscard
 function methods.world(self) end
 
+---If the component is in a world.
+---@param self Component
+---@return boolean
+---@nodiscard
+function methods.exists(self) end
+
 ---Get a component from the entity, if one exists.
 ---@generic T: Component
 ---@param self Component
