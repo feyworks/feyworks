@@ -43,6 +43,7 @@ impl LuaModule for Vec2Module {
             members.method("abs", |obj, _: ()| obj.abs())?;
             members.method("approx", |a, b: Vec2F| a.relative_eq(&b))?;
             members.method("approx_zero", |obj, _: ()| obj.relative_eq(&Vec2F::ZERO))?;
+            members.method("angle", |obj, _: ()| RadiansF::from_vec2(*obj))?;
             members.method("ceil", |obj, _: ()| obj.ceil())?;
             members.method("clamp", |obj, (min, max): (Vec2F, Vec2F)| {
                 obj.clamp(min, max)

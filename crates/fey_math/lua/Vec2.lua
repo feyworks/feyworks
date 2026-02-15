@@ -64,37 +64,37 @@ function module.east() end
 
 ---`(√2, √2)`
 ---@return Vec2
----@nodiscard 
+---@nodiscard
 function module.south_east() end
 
 ---`(0, 1)`
 ---@return Vec2
----@nodiscard 
+---@nodiscard
 function module.south() end
 
 ---`(-√2, √2)`
 ---@return Vec2
----@nodiscard 
+---@nodiscard
 function module.south_west() end
 
 ---`(-1, 0)`
 ---@return Vec2
----@nodiscard 
+---@nodiscard
 function module.west() end
 
 ---`(-√2, -√2)`
 ---@return Vec2
----@nodiscard 
+---@nodiscard
 function module.north_west() end
 
 ---`(0, -1)`
 ---@return Vec2
----@nodiscard 
+---@nodiscard
 function module.north() end
 
 ---`(√2, -√2)`
 ---@return Vec2
----@nodiscard 
+---@nodiscard
 function module.north_east() end
 
 ---Create a new vector.
@@ -172,10 +172,16 @@ function methods.abs(self) end
 function methods.approx(self, other) end
 
 ---Returns `true` if the vector is approximately equal to `(0, 0)`.
----@param self Vec3
+---@param self Vec2
 ---@return boolean
 ---@nodiscard
 function methods.approx_zero(self) end
+
+---The vector's angle in radians.
+---@param self Vec2
+---@return number
+---@nodiscard
+function methods.angle(self) end
 
 ---Rounds the vector's components up to the nearest integer.
 ---@param self Vec2
@@ -338,7 +344,7 @@ function methods.with_z(self, z) end
 ---@param self Vec2
 ---@return Vec2
 ---@nodiscard
-function methods.yx(self) end 
+function methods.yx(self) end
 
 ---Approach the target by the provided amount without overshooting.
 ---@param self Vec2
