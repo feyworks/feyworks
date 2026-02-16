@@ -122,6 +122,14 @@ impl Entity {
     }
 
     #[inline]
+    pub fn move_z(&mut self, amount: f32) {
+        if amount != 0.0 {
+            self.version.increment();
+        }
+        self.z += amount;
+    }
+
+    #[inline]
     pub fn x(&self) -> f32 {
         self.pos.x
     }
