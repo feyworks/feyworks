@@ -106,7 +106,9 @@ impl RenderLayer {
         }
 
         #[cfg(feature = "round_vertex_positions")]
-        self.vertices.iter_mut().for_each(|v| v.pos = v.pos.round());
+        for v in &mut self.vertices {
+            v.pos = v.pos.round();
+        }
 
         // update the vertex/index buffers
         let (vertices, indices) =
