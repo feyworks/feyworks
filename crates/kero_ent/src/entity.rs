@@ -1,6 +1,6 @@
 use crate::{
-    Component, ComponentObj, ComponentType, EntityObj, IntoComponent, Registry,
-    WorldMut, WorldObj, WorldRef,
+    Component, ComponentObj, ComponentType, EntityObj, IntoComponent, Registry, WorldMut, WorldObj,
+    WorldRef,
 };
 use kero::lua::UserDataOf;
 use kero::math::{Vec2F, Vec3F};
@@ -381,24 +381,16 @@ impl EntityExt for EntityObj {
             }
             this.components.len()
         };
-        match mask {
-            Some(mask) => {
-                for idx in 0..len {
-                    let Some(comp) = self.get().components[idx].clone() else {
-                        continue;
-                    };
-                    if comp.flags() & mask != 0 {
-                        comp.do_update(lua)?;
-                    }
-                }
-            }
-            None => {
-                for idx in 0..len {
-                    let Some(comp) = self.get().components[idx].clone() else {
-                        continue;
-                    };
-                    comp.do_update(lua)?;
-                }
+        for idx in 0..len {
+            let Some(comp) = self.get().components[idx]
+                .as_ref()
+                .filter(|comp| comp.active())
+                .cloned()
+            else {
+                continue;
+            };
+            if comp.active() && mask.is_none_or(|mask| comp.flags() & mask != 0) {
+                comp.do_update(lua)?;
             }
         }
         Ok(())
