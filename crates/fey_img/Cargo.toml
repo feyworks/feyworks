@@ -15,7 +15,7 @@ lua = ["dep:mlua", "dep:fey_lua", "fey_math/lua", "fey_color/lua"]
 bytemuck = "1.24.0"
 fey_color = { version = "0.1.0", path = "../fey_color" }
 fey_grid = { version = "0.1.0", path = "../fey_grid" }
-fey_math = { version = "0.1.0", path = "../fey_math" }
+fey_math = { version = "1.0.0", path = "../fey_math" }
 png = "0.18.0"
 qoi = "0.4.1"
 serde = "1.0.228"

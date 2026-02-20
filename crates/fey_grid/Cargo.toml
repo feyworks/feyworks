@@ -9,4 +9,4 @@ rust-version.workspace = true
 description = "2D grid data structure and related traits."
 
 [dependencies]
-fey_math = { version = "0.1.0", path = "../fey_math" }
+fey_math = { version = "1.0.0", path = "../fey_math" }

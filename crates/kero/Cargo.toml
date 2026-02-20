@@ -38,7 +38,7 @@ fey_grid = { version = "0.1.0", path = "../fey_grid" }
 fey_guid = { version = "0.1.0", path = "../fey_guid" }
 fey_img = { version = "0.2.0", path = "../fey_img" }
 fey_lua = { version = "0.1.0", path = "../fey_lua", optional = true }
-fey_math = { version = "0.1.0", path = "../fey_math" }
+fey_math = { version = "1.0.0", path = "../fey_math" }
 fey_packer = { version = "0.1.0", path = "../fey_packer" }
 fey_rand = { version = "0.1.0", path = "../fey_rand" }
 fnv = "1.0.7"
