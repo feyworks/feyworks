@@ -11,7 +11,7 @@ description = "Aseprite file parser."
 
 [dependencies]
 byteorder = "1.5.0"
-fey_color = { version = "0.1.1", path = "../fey_color" }
+fey_color = { version = "1.0.0", path = "../fey_color" }
 fey_math = { version = "1.0.0", path = "../fey_math" }
 strum = { version = "0.27.2", features = ["derive"] }
 thiserror = "2.0.18"
