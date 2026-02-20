@@ -1118,7 +1118,7 @@ dependencies = [
 
 [[package]]
 name = "kero"
-version = "0.2.0"
+version = "1.0.0"
 dependencies = [
  "arrayvec",
  "bytemuck",
@@ -1157,7 +1157,7 @@ dependencies = [
 
 [[package]]
 name = "kero_ent"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "fnv",
  "kero",
@@ -1166,7 +1166,7 @@ dependencies = [
 
 [[package]]
 name = "kero_spr"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "fey_ase",
  "fey_font",
