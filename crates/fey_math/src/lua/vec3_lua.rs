@@ -65,7 +65,7 @@ impl LuaModule for Vec3Module {
             members.method("min", |obj, args: Variadic<Vec3F>| {
                 args.into_iter().fold(*obj, |min, arg| min.min(arg))
             })?;
-            members.method("norm", |obj, _: ()| obj.norm())?;
+            members.method("norm", |obj, _: ()| obj.norm_safe())?;
             members.method("reflect", |obj, norm: Vec3F| obj.reflect(norm))?;
             members.method("round", |obj, _: ()| obj.round())?;
             members.method("sign", |obj, _: ()| obj.signum())?;

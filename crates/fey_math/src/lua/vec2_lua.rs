@@ -61,7 +61,7 @@ impl LuaModule for Vec2Module {
             members.method("min", |obj, args: Variadic<Vec2F>| {
                 args.into_iter().fold(*obj, |min, arg| min.min(arg))
             })?;
-            members.method("norm", |obj, _: ()| obj.norm())?;
+            members.method("norm", |obj, _: ()| obj.norm_safe())?;
             members.method("reflect", |obj, norm: Vec2F| obj.reflect(norm))?;
             members.method("round", |obj, _: ()| obj.round())?;
             members.method("sign", |obj, _: ()| obj.signum())?;
