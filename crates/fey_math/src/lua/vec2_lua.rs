@@ -40,6 +40,9 @@ impl LuaModule for Vec2Module {
                 obj.x = x;
                 obj.y = y;
             })?;
+            members.method_mut("set_to", |obj, p: Vec2F| {
+                *obj = p;
+            })?;
             members.method("abs", |obj, _: ()| obj.abs())?;
             members.method("approx", |a, b: Vec2F| a.relative_eq(&b))?;
             members.method("approx_zero", |obj, _: ()| obj.relative_eq(&Vec2F::ZERO))?;
