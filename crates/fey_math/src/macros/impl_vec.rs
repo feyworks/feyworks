@@ -199,6 +199,20 @@ macro_rules! impl_vec {
                 $short($(self.$p / len,)*)
             }
 
+            /// Returns a normalized version of this vector, or `None` if the vector's length is
+            /// zero.
+            #[inline]
+            pub fn try_norm(self) -> Option<Self>
+            where
+                T: $crate::Float
+            {
+                let len = self.len();
+                if len == T::ZERO {
+                    return None;
+                }
+                Some($short($(self.$p / len,)*))
+            }
+
             /// Returns a copy of this vector resized to be the provided length.
             #[inline]
             pub fn len_to(self, new_len: T) -> Self
