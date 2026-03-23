@@ -158,6 +158,11 @@ function methods.box_clone(self) end
 ---@param y number
 function methods.set(self, x, y) end
 
+---Set the vector's coordinates.
+---@param self Vec2
+---@param value Vec2
+function methods.set_to(self, value) end
+
 ---Returns a copy of this vector with absolute value of all components.
 ---@param self Vec2
 ---@return Vec2
