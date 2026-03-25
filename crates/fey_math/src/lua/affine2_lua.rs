@@ -27,6 +27,9 @@ impl LuaModule for Affine2Module {
             members.method_ext("approx", |lua, a, b: Temp<Affine2F>| {
                 b.read(lua, |_, b| Ok(a.relative_eq(b)))
             })?;
+            members.method_mut("set_to", |this, val: Affine2F| {
+                *this = val;
+            })?;
             members.method("inverse", |obj, _: ()| obj.inverse())?;
             members.method_ext("mul_affine2", |lua, a, b: Temp<Affine2F>| {
                 b.read(lua, |_, b| Ok(a.mul_affine2(b)))

@@ -88,6 +88,11 @@ function methods.box(self) end
 ---@nodiscard
 function methods.box_clone(self) end
 
+---Sets the value of the matrix, useful to re-assign a boxed value.
+---@param self Affine2
+---@param value Affine2
+function methods.set_to(self, value) end
+
 ---Returns `true` if the matrices are approximately equal.
 ---@param self Affine2
 ---@param other Affine2
