@@ -54,6 +54,7 @@ impl GameBuilder {
                 .with_module::<KeyboardModule>()?
                 .with_module::<MonitorModule>()?
                 .with_module::<MouseModule>()?
+                .with_module::<MouseButtonModule>()?
                 .with_module::<SamplerModule>()?
                 .with_module::<ScreenModule>()?
                 .with_module::<ShaderModule>()?
