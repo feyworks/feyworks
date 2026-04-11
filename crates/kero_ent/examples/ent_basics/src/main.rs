@@ -14,5 +14,5 @@ fn main() -> Result<(), GameError> {
         .with_title("Ent Basics")
         .with_size(1280, 720)
         .with_component::<Counter>()?
-        .run_lua()
+        .run_lua(true)
 }
