@@ -10,7 +10,7 @@ fn main() -> Result<(), GameError> {
         .with_title("Minimal")
         .with_size(1280, 720)
         //.with_module::<MyModule>()
-        .run_lua()
+        .run_lua(false)
 
     // the game code is now handed over to lua/Main.lua
     // you can add your own Rust modules that can be loaded by `require`

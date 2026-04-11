@@ -131,12 +131,19 @@ impl GameBuilder {
     }
 
     #[cfg(feature = "lua")]
-    pub fn run_lua(self) -> Result<(), GameError> {
-        self.run_lua_with::<()>(())
+    pub fn run_lua(self, prefix_modules: bool) -> Result<(), GameError> {
+        self.run_lua_with::<()>((), prefix_modules)
     }
 
     #[cfg(feature = "lua")]
-    pub fn run_lua_with<G: Game>(self, cfg: G::Config) -> Result<(), GameError> {
-        self.run::<crate::core::LuaGame<G>>(cfg)
+    pub fn run_lua_with<G: Game>(
+        self,
+        cfg: G::Config,
+        prefix_modules: bool,
+    ) -> Result<(), GameError> {
+        self.run::<crate::core::LuaGame<G>>(crate::core::LuaConfig {
+            cfg,
+            prefix_modules,
+        })
     }
 }

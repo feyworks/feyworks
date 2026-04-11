@@ -16,15 +16,20 @@ pub struct LuaGame<G: Game> {
     game: G,
 }
 
+pub struct LuaConfig<G: Game> {
+    pub cfg: G::Config,
+    pub prefix_modules: bool,
+}
+
 impl<G: Game> Game for LuaGame<G> {
-    type Config = G::Config;
+    type Config = LuaConfig<G>;
 
     fn new(ctx: &Context, cfg: Self::Config) -> Result<Self, GameError>
     where
         Self: Sized,
     {
         let lua = ctx.lua.upgrade();
-        let game = G::new(ctx, cfg)?;
+        let game = G::new(ctx, cfg.cfg)?;
 
         // add context to lua
         assert!(
@@ -40,18 +45,23 @@ impl<G: Game> Game for LuaGame<G> {
         );
 
         // preload all scripts in the root lua folder
-        fn read_dir(lua: &Lua, dir: PathBuf, prefix: String) -> Result<(), GameError> {
+        fn read_dir(lua: &Lua, dir: PathBuf, prefix: Option<String>) -> Result<(), GameError> {
             for entry in std::fs::read_dir(&dir)?.flatten() {
                 let path = entry.path();
                 if path.is_dir() {
                     if let Some(name) = path.file_name().and_then(OsStr::to_str) {
-                        read_dir(lua, dir.join(name), format!("{prefix}{name}."))?;
+                        let prefix = prefix.as_ref().map(|prefix| format!("{prefix}{name}."));
+                        read_dir(lua, dir.join(name), prefix)?;
                     }
                 } else if path.is_file() && path.extension().is_some_and(|ext| ext == "lua") {
                     if let Some(name) = path.file_stem().and_then(OsStr::to_str) {
                         let path = path.clone();
                         let file_name = path.to_string_lossy().to_string();
-                        let mod_name = format!("{prefix}{name}");
+                        //let mod_name = format!("{prefix}{name}");
+                        let mod_name = match prefix.as_ref() {
+                            Some(prefix) => format!("{prefix}{name}"),
+                            None => name.to_string(),
+                        };
                         lua.preload_module(
                             &mod_name,
                             lua.create_function(move |lua, _: ()| {
@@ -66,7 +76,7 @@ impl<G: Game> Game for LuaGame<G> {
             }
             Ok(())
         }
-        read_dir(&lua, "lua".into(), String::new()).unwrap();
+        read_dir(&lua, "lua".into(), cfg.prefix_modules.then(String::new))?;
 
         // get a list of all the default globals
         let default_globals = lua
