@@ -1,6 +1,6 @@
 ---@meta
 
----@class (exact) Cardinal
+---@class (exact) Cardinal: integer
 
 ---@class CardinalClass
 ---@field EAST Cardinal
