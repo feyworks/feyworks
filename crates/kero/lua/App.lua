@@ -75,4 +75,10 @@ function App.data_local_dir() end
 ---@return string
 function App.preferences_dir() end
 
+---Require all lua files from the folder.
+---@param dir string
+---@return table
+---@nodiscard
+function App.require_folder(dir) end
+
 return App
