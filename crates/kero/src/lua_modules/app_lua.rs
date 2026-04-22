@@ -47,20 +47,5 @@ impl UserData for AppModule {
         methods.add_function("preferences_dir", |lua, _: ()| {
             Context::from_lua(lua).preferences_dir().into_lua(lua)
         });
-        methods.add_function("require_folder", |lua, dir: BorrowedStr| {
-            let req = lua.globals().get::<Function>("require")?;
-            let t = lua.create_table()?;
-            for file in std::fs::read_dir(dir.as_ref())?
-                .flatten()
-                .map(|f| f.path())
-                .filter(|p| p.extension().is_some_and(|ext| ext == "lua"))
-            {
-                let file = file.with_extension("");
-                let name = file.file_name().unwrap();
-                let module = req.call::<Value>((name,))?;
-                t.raw_set(name, module)?;
-            }
-            Ok(t)
-        });
     }
 }
