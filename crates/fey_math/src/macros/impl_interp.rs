@@ -4,7 +4,7 @@ macro_rules! impl_interp {
         NAME = $name:ident
         FIELDS = ($($p:ident),*)
     ) => {
-        impl<T: $crate::Float + $crate::Interp<Factor = T>> $crate::Interp for $name<T> {
+        impl<T: $crate::Float> $crate::Interp for $name<T> {
             type Factor = T;
 
             #[inline]
