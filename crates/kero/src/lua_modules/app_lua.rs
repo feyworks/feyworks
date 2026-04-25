@@ -1,7 +1,7 @@
 use crate::core::Context;
 use fey_lua::LuaModule;
 use mlua::prelude::LuaResult;
-use mlua::{BorrowedStr, Function, IntoLua, Lua, UserData, UserDataMethods, Value};
+use mlua::{IntoLua, Lua, UserData, UserDataMethods, Value};
 
 pub struct AppModule;
 

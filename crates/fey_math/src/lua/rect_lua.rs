@@ -1,4 +1,6 @@
-use crate::{Numeric, Rect, RectF, Vec2F, add_shape_methods, impl_temp, vec2};
+use crate::{
+    Interp, Numeric, Rect, RectF, SmoothInterp, Vec2F, add_shape_methods, impl_temp, vec2,
+};
 use fey_lua::{LuaModule, Temp};
 use mlua::prelude::LuaResult;
 use mlua::{FromLua, IntoLua, Lua, Value};
@@ -92,6 +94,34 @@ impl LuaModule for RectModule {
                 targ.read(lua, |_, targ| Ok(rect.map_pos(pos, targ)))
             })?;
             members.method("translate", |rect, amount: Vec2F| rect.translate(&amount))?;
+            members.method("lerp", |rect, (targ, t): (RectF, f32)| rect.lerp(targ, t))?;
+            members.method("smooth_lerp", |rect, (targ, t, dt): (RectF, f32, f32)| {
+                rect.smooth_lerp(targ, t, dt)
+            })?;
+            members.method(
+                "smooth_damp",
+                |this, (to, mut vel, time, spd, dt): (RectF, RectF, f32, f32, f32)| {
+                    let mut this = *this;
+                    this.smooth_damp(&mut vel, to, time, spd, dt);
+                    (this, vel)
+                },
+            )?;
+            members.method(
+                "quad_bezier",
+                |this, (con, targ, t): (RectF, RectF, f32)| this.quad_bezier(con, targ, t),
+            )?;
+            members.method(
+                "cubic_bezier",
+                |this, (con1, con2, targ, t): (RectF, RectF, RectF, f32)| {
+                    this.cubic_bezier(con1, con2, targ, t)
+                },
+            )?;
+            members.method(
+                "catmull_rom",
+                |this, (con1, con2, targ, t): (RectF, RectF, RectF, f32)| {
+                    this.catmull_rom(con1, con2, targ, t)
+                },
+            )?;
 
             // impl Shape
             add_shape_methods(members)?;

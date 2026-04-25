@@ -332,4 +332,65 @@ function methods.map_pos(self, point, target) end
 ---@nodiscard
 function methods.translate(self, amount) end
 
+---Linear interpolation.
+---@param self Rect
+---@param target Rect
+---@param t number
+---@return Rect
+---@nodiscard
+function methods.lerp(self, target, t) end
+
+---Lerp towards a target with a framerate-invariant version.
+---
+--- See: [Lerp Smoothing is Broken](https://www.youtube.com/watch?v=LSNQuFEDOyQ).
+---@param self Rect
+---@param target Rect
+---@param t number
+---@param dt number
+---@return Rect
+---@nodiscard
+function methods.smooth_lerp(self, target, t, dt) end
+
+---Accelerate towards a target with stateful velocity.
+---@param self Rect
+---@param to Rect
+---@param vel Rect
+---@param smooth_time number
+---@param max_speed number
+---@param dt number
+---@return Vec2 new_pos
+---@return Vec2 new_vel
+function methods.smooth_damp(self, to, vel, smooth_time, max_speed, dt) end
+
+---Quadratic bezier interpolation.
+---@param self Vec2
+---@param control Vec2
+---@param target Vec2
+---@param t number
+---@return Vec2
+---@nodiscard
+function methods.quad_bezier(self, control, target, t) end
+
+---Cubic bezier interpolation.
+---@param self Vec2
+---@param control1 Vec2
+---@param control2 Vec2
+---@param target Vec2
+---@param t number
+---@return Vec2
+---@nodiscard
+function methods.cubic_bezier(self, control1, control2, target, t) end
+
+---Catmull-Rom interpolation.
+---
+---See: https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull%E2%80%93Rom_spline
+---@param self Vec2
+---@param control1 Vec2
+---@param control2 Vec2
+---@param target Vec2
+---@param t number
+---@return Vec2
+---@nodiscard
+function methods.catmull_rom(self, control1, control2, target, t) end
+
 return module

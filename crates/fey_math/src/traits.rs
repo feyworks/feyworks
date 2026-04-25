@@ -251,7 +251,7 @@ pub trait Signed: Num + Neg<Output = Self> {
 
 /// A primitive floating point number type.
 #[allow(clippy::wrong_self_convention)]
-pub trait Float: Signed + Interp<Factor = Self> {
+pub trait Float: Signed + Approach<Factor = Self> + SmoothInterp<Factor = Self> {
     const PI: Self;
     const PI_OVER_2: Self;
     const PI_OVER_4: Self;
