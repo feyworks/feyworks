@@ -148,6 +148,15 @@ macro_rules! impl_vec {
                 (self - other).sqr_len()
             }
 
+            /// The manhattan distance between this vector and another.
+            #[inline]
+            pub fn man_dist(self, other: Self) -> T
+            where
+                T: $crate::Signed
+            {
+                T::abs(self.x - other.x) + T::abs(self.y - other.y)
+            }
+
             /// Reflects this vector off the provided normal.
             #[inline]
             pub fn reflect(self, normal: Self) -> Self

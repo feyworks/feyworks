@@ -223,6 +223,13 @@ function methods.dir_to(self, point) end
 ---@nodiscard
 function methods.dist(self, point) end
 
+---Returns the manhattan distance between two points.
+---@param self Vec2
+---@param point Vec2
+---@return Vec2
+---@nodiscard
+function methods.man_dist(self, point) end
+
 ---Returns the dot product of two vectors.
 ---@param self Vec2
 ---@param other Vec2

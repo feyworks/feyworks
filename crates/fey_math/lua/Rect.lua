@@ -50,6 +50,19 @@ function methods.box(self) end
 ---@nodiscard
 function methods.box_clone(self) end
 
+---Set the rectangle's value.
+---@param self Rect
+---@param x number
+---@param y number
+---@param w number
+---@param h number
+function methods.set(self, x, y, w, h) end
+
+---Set the rectangle's value.
+---@param self Rect
+---@param rect Rect
+function methods.set_to(self, rect) end
+
 ---Returns `true` if the two rects are approximately equal.
 ---@param self Rect
 ---@param other Rect

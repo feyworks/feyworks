@@ -54,6 +54,7 @@ impl LuaModule for Vec2Module {
             members.method("cross", |a, b: Vec2F| a.cross(b))?;
             members.method("dir_to", |a, b: Vec2F| a.dir_to(b))?;
             members.method("dist", |a, b: Vec2F| a.dist(b))?;
+            members.method("man_dist", |a, b: Vec2F| a.man_dist(b))?;
             members.method("dot", |a, b: Vec2F| a.dot(b))?;
             members.method("floor", |obj, _: ()| obj.floor())?;
             members.method("is_zero", |obj, _: ()| obj.is_zero())?;

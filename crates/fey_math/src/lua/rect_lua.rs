@@ -31,6 +31,12 @@ impl LuaModule for RectModule {
             members.method_ext("approx", |lua, a, b: Temp<RectF>| {
                 b.read(lua, |_, b| Ok(a.relative_eq(b)))
             })?;
+            members.method_mut("set", |rect, (x, y, w, h): (f32, f32, f32, f32)| {
+                *rect = RectF::new(x, y, w, h);
+            })?;
+            members.method_mut("set_to", |rect, val: RectF| {
+                *rect = val;
+            })?;
             members.method("left", |rect, _: ()| rect.left())?;
             members.method("right", |rect, _: ()| rect.right())?;
             members.method("top", |rect, _: ()| rect.top())?;
