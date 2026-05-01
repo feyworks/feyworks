@@ -18,6 +18,7 @@ mod rect_lua;
 mod shape_lua;
 mod triangle_lua;
 mod vec2_lua;
+mod vec2i_lua;
 mod vec3_lua;
 mod vec4_lua;
 
@@ -40,6 +41,7 @@ pub use rect_lua::*;
 pub use shape_lua::*;
 pub use triangle_lua::*;
 pub use vec2_lua::*;
+pub use vec2i_lua::*;
 pub use vec3_lua::*;
 pub use vec4_lua::*;
 
@@ -85,6 +87,7 @@ pub type MathModules = (
     RectModule,
     TriangleModule,
     Vec2Module,
+    Vec2IModule,
     Vec3Module,
     Vec4Module,
 );

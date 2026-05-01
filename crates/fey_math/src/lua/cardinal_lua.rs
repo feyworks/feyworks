@@ -87,10 +87,7 @@ impl LuaModule for CardinalModule {
         )?;
         m.set(
             "grid_step",
-            lua.create_function(|_, dir: Cardinal| {
-                let s = dir.grid_step::<i64>();
-                Ok((s.x, s.y))
-            })?,
+            lua.create_function(|_, dir: Cardinal| Ok(dir.grid_step::<i32>()))?,
         )?;
         Ok(Value::Table(m))
     }

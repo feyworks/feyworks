@@ -86,8 +86,7 @@ function Cardinal.ccw(dir) end
 
 ---Returns the x/y step to move this direction on a grid.
 ---@param dir Cardinal
----@return integer
----@return integer
+---@return Vec2I
 ---@nodiscard
 function Cardinal.grid_step(dir) end
 

@@ -219,14 +219,14 @@ function methods.dir_to(self, point) end
 ---Returns the distance between two points.
 ---@param self Vec2
 ---@param point Vec2
----@return Vec2
+---@return number
 ---@nodiscard
 function methods.dist(self, point) end
 
 ---Returns the manhattan distance between two points.
 ---@param self Vec2
 ---@param point Vec2
----@return Vec2
+---@return integer
 ---@nodiscard
 function methods.man_dist(self, point) end
 
@@ -306,6 +306,12 @@ function methods.sqr_dist(self, point) end
 ---@nodiscard
 function methods.sqr_len(self) end
 
+---Round the vector to a Vec2I.
+---@param self Vec2
+---@return Vec2I
+---@nodiscard
+function methods.to_int(self) end
+
 ---Returns a copy of this vector with all components rounded towards zero.
 ---@param self Vec2
 ---@return Vec2
@@ -327,7 +333,7 @@ function methods.turn_right(self) end
 ---Changes the length of the vector without changing its direction.
 ---@param self Vec2
 ---@param new_len number
----@return number
+---@return Vec2
 ---@nodiscard
 function methods.with_len(self, new_len) end
 
