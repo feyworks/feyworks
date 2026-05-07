@@ -1,4 +1,4 @@
-use crate::{Cardinal, DegreesF, Direction, Octal, RadiansF, RotationsF, Vec2F};
+use crate::{Cardinal, DegreesF, Direction, Octal, RadiansF, RotationsF, Vec2F, Vec2I};
 use fey_lua::LuaModule;
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{FromLua, IntoLua, Lua, Value};
@@ -55,6 +55,10 @@ impl LuaModule for CardinalModule {
         m.set(
             "from_vec2",
             lua.create_function(|_, v: Vec2F| Ok(Cardinal::from_vec2(v)))?,
+        )?;
+        m.set(
+            "from_vec2i",
+            lua.create_function(|_, v: Vec2I| Ok(Cardinal::from_vec2i(v)))?,
         )?;
         m.set(
             "sin_cos",

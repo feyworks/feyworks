@@ -39,6 +39,12 @@ function Cardinal.to_rots(dir) end
 ---@nodiscard
 function Cardinal.from_vec2(v) end
 
+---Return the direction nearest to the vector's direction.
+---@param v Vec2I
+---@return Cardinal
+---@nodiscard
+function Cardinal.from_vec2i(v) end
+
 ---The direction's sin/cos pair.
 ---@param dir Cardinal
 ---@return number

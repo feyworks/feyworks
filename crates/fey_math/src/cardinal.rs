@@ -1,4 +1,6 @@
-use crate::{Degrees, Direction, Float, Octal, Radians, Rotations, Signed, Vec2, impl_direction};
+use crate::{
+    Degrees, Direction, Float, Octal, Radians, Rotations, Signed, Vec2, Vec2I, impl_direction,
+};
 use serde::{Deserialize, Serialize};
 
 /// A cardinal (4-way) direction.
@@ -112,6 +114,17 @@ impl Cardinal {
                 Self::South => Self::East,
                 bias => bias,
             },
+        }
+    }
+
+    /// The direction from the direction of a vector.
+    #[inline]
+    pub fn from_vec2i(v: Vec2I) -> Self {
+        match (v.x > 0, v.y > 0, v.x.abs() > v.y.abs()) {
+            (true, true, true) | (true, false, true) => Self::East,
+            (true, true, false) | (false, true, false) => Self::South,
+            (false, true, true) | (false, false, true) => Self::West,
+            (true, false, false) | (false, false, false) => Self::North,
         }
     }
 
