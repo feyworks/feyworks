@@ -21,6 +21,13 @@ local methods = {}
 ---@nodiscard
 function module.new(a, b, c) end
 
+---Checks if two values are equal.
+---@param self Triangle
+---@param other Triangle
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Triangle
 ---@return Triangle

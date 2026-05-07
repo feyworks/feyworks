@@ -97,6 +97,13 @@ function module.splat(val) end
 ---@nodiscard
 function module.barycentric(a, b, c, ab, bc) end
 
+---Checks if two values are equal.
+---@param self Vec3
+---@param other Vec3
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Vec3
 ---@return Vec3

@@ -90,6 +90,13 @@ function module.new(x, y) end
 ---@nodiscard
 function module.splat(val) end
 
+---Checks if two values are equal.
+---@param self Vec2I
+---@param other Vec2I
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Vec2I
 ---@return Vec2I

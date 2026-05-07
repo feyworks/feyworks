@@ -19,6 +19,13 @@ local methods = {}
 ---@nodiscard
 function module.new(min, max) end
 
+---Checks if two values are equal.
+---@param self Projection
+---@param other Projection
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Projection
 ---@return Projection

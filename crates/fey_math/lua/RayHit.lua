@@ -20,6 +20,13 @@ local methods = {}
 ---@nodiscard
 function module.new(normal, distance) end
 
+---Checks if two values are equal.
+---@param self RayHit
+---@param other RayHit
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self RayHit
 ---@return RayHit

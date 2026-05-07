@@ -89,6 +89,13 @@ function module.ortho(left, right, bottom, top, z_near, z_far) end
 ---@nodiscard
 function module.ortho_size(w, h) end
 
+---Checks if two values are equal.
+---@param self Mat4
+---@param other Mat4
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Mat4
 ---@return Mat4

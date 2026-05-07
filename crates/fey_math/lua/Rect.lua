@@ -32,6 +32,13 @@ function module.new(x, y, w, h) end
 ---@nodiscard
 function module.new(w, h) end
 
+---Checks if two values are equal.
+---@param self Rect
+---@param other Rect
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Rect
 ---@return Rect

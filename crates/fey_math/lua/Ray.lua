@@ -19,6 +19,13 @@ local methods = {}
 ---@nodiscard
 function module.new(origin, direction) end
 
+---Checks if two values are equal.
+---@param self Ray
+---@param other Ray
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Ray
 ---@return Ray

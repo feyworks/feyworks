@@ -69,6 +69,13 @@ function module.scale(scale) end
 ---@nodiscard
 function module.translation(translation) end
 
+---Checks if two values are equal.
+---@param self Mat3
+---@param other Mat3
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Mat3
 ---@return Mat3

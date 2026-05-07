@@ -9,7 +9,7 @@ pub enum Handle<T: 'static> {
     Temp(Temp<T>),
 }
 
-impl<T: Clone + 'static> Handle<T> {
+impl<T: Clone + PartialEq + 'static> Handle<T> {
     #[inline]
     pub fn read<R, F>(&self, lua: &Lua, f: F) -> LuaResult<R>
     where
@@ -80,7 +80,7 @@ impl<T: Clone + 'static> Handle<T> {
     // }
 }
 
-impl<T: Copy + 'static> Handle<T> {
+impl<T: PartialEq + Copy + 'static> Handle<T> {
     #[inline]
     pub fn get(&self, lua: &Lua) -> LuaResult<T> {
         self.read(lua, |_, val| Ok(*val))

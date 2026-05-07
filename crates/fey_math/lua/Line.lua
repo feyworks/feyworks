@@ -24,6 +24,13 @@ function module.zero() end
 ---@nodiscard
 function module.new(a, b) end
 
+---Checks if two values are equal.
+---@param self Line
+---@param other Line
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Line
 ---@return Line

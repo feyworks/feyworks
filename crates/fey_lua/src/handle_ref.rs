@@ -17,7 +17,7 @@ impl<T: 'static> FromLua for HandleRef<T> {
     }
 }
 
-impl<T: Clone + 'static> HandleRef<T> {
+impl<T: Clone + PartialEq + 'static> HandleRef<T> {
     #[inline]
     pub fn read<R, F>(&self, lua: &Lua, f: F) -> LuaResult<R>
     where
@@ -59,7 +59,7 @@ impl<T: Clone + 'static> HandleRef<T> {
     }
 }
 
-impl<T: Copy + 'static> HandleRef<T> {
+impl<T: Copy + PartialEq + 'static> HandleRef<T> {
     #[inline]
     pub fn get(&self, lua: &Lua) -> LuaResult<T> {
         self.read(lua, |_, val| Ok(*val))
@@ -71,7 +71,7 @@ pub enum HandleMut<T: 'static> {
     Temp(Temp<T>),
 }
 
-impl<T: Clone + 'static> HandleMut<T> {
+impl<T: Clone + PartialEq + 'static> HandleMut<T> {
     #[inline]
     pub fn read<R, F>(&self, lua: &Lua, f: F) -> LuaResult<R>
     where
@@ -106,7 +106,7 @@ impl<T: Clone + 'static> HandleMut<T> {
     }
 }
 
-impl<T: Copy + 'static> HandleMut<T> {
+impl<T: Copy + PartialEq + 'static> HandleMut<T> {
     #[inline]
     pub fn get(&self, lua: &Lua) -> LuaResult<T> {
         self.read(lua, |_, val| Ok(*val))

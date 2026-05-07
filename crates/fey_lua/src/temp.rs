@@ -13,7 +13,7 @@ pub struct Temp<T: 'static> {
     pub(crate) marker: PhantomData<T>,
 }
 
-impl<T: Clone + 'static> Temp<T> {
+impl<T: Clone + PartialEq + 'static> Temp<T> {
     /// Registers a handle type and assign fields and methods to it. This returns a table
     /// with all the methods in it.
     pub fn register<F>(lua: &Lua, type_name: &'static str, f: F) -> LuaResult<Table>
@@ -23,7 +23,10 @@ impl<T: Clone + 'static> Temp<T> {
         let mut members = TempMembers::new(lua)?;
 
         // creates a clone of the value
-        members.method_ext("clone", |lua, this: &T, _: ()| Temp::new(lua, this.clone()))?;
+        members.handle_method_ext("clone", |lua, this, _: ()| {
+            let val = this.read(lua, |_, val: &T| Ok(val.clone()))?;
+            Temp::new(lua, val)
+        })?;
 
         // creates a clone of the value that persists beyond the frame as a userdata
         // if the value is already boxed, this just returns the same value back
@@ -35,6 +38,11 @@ impl<T: Clone + 'static> Temp<T> {
         // creates a boxed clone of this value whether it is boxed or not.
         members.method_ext("box_clone", |lua, this, _: ()| {
             lua.create_any_userdata(this.clone())
+        })?;
+
+        // creates an eq() function on the type
+        members.method_ext("eq", |lua, this, other: Handle<T>| {
+            other.read(lua, |_, other| Ok(other == this))
         })?;
 
         f(&mut members)?;
@@ -225,7 +233,7 @@ impl<T: Clone + 'static> Temp<T> {
     }
 }
 
-impl<T: Copy + 'static> Temp<T> {
+impl<T: Copy + PartialEq + 'static> Temp<T> {
     #[inline]
     pub fn get(&self, lua: &Lua) -> LuaResult<T> {
         self.read(lua, |_, val| Ok(*val))

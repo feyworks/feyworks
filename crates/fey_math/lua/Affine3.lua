@@ -60,6 +60,13 @@ function module.scale(scale) end
 ---@nodiscard
 function module.translation(translation) end
 
+---Checks if two values are equal.
+---@param self Affine3
+---@param other Affine3
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Affine3
 ---@return Affine3

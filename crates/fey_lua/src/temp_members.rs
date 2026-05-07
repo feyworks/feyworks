@@ -19,7 +19,7 @@ pub(crate) struct IndexValue {
     pub getter: bool,
 }
 
-impl<'a, T: Clone + 'static> TempMembers<'a, T> {
+impl<'a, T: Clone + PartialEq + 'static> TempMembers<'a, T> {
     pub(crate) fn new(lua: &'a Lua) -> LuaResult<Self> {
         Ok(Self {
             lua,
@@ -262,7 +262,7 @@ impl<'a, T: Clone + 'static> TempMembers<'a, T> {
 
 macro_rules! unary_op {
     ($var_name:ident $fn_name:ident $ext_name:ident) => {
-        impl<T: Clone + 'static> TempMembers<'_, T> {
+        impl<T: Clone + PartialEq + 'static> TempMembers<'_, T> {
             pub fn $ext_name<F, R>(&mut self, op: F) -> LuaResult<()>
             where
                 F: Fn(&Lua, &T) -> LuaResult<R> + 'static,
@@ -298,7 +298,7 @@ unary_op!(len op_len op_len_ext);
 
 macro_rules! binary_op {
     ($var_name:ident $fn_name:ident $ext_name:ident) => {
-        impl<T: Clone + 'static> TempMembers<'_, T> {
+        impl<T: Clone + PartialEq + 'static> TempMembers<'_, T> {
             pub fn $ext_name<F, A, R>(&mut self, op: F) -> LuaResult<()>
             where
                 F: Fn(&Lua, &T, A) -> LuaResult<R> + 'static,

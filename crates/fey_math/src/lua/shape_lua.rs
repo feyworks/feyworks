@@ -404,7 +404,7 @@ impl FromLua for RectOut {
 
 pub fn add_shape_methods<T>(members: &mut TempMembers<T>) -> LuaResult<()>
 where
-    T: Shape<f32> + Clone + 'static,
+    T: Shape<f32> + Clone + PartialEq + 'static,
 {
     members.method("centroid", |this, _: ()| this.centroid())?;
     members.method("contains", |this, p: Vec2F| this.contains(p))?;

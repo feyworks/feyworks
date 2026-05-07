@@ -40,6 +40,13 @@ function module.from_rect(rect) end
 ---@nodiscard
 function module.from_tri(tri) end
 
+---Checks if two values are equal.
+---@param self Polygon
+---@param other Polygon
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a clone of this shape.
 ---@param self Polygon
 ---@return Polygon

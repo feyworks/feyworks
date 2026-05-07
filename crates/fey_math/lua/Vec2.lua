@@ -134,6 +134,13 @@ function module.from_rads(rads, len) end
 ---@nodiscard
 function module.from_degs(degs, len) end
 
+---Checks if two values are equal.
+---@param self Vec2
+---@param other Vec2
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Vec2
 ---@return Vec2

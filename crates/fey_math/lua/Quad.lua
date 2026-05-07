@@ -39,6 +39,13 @@ function module.from_rect(rect) end
 ---@nodiscard
 function module.line(a, b, a_width, b_width) end
 
+---Checks if two values are equal.
+---@param self Quad
+---@param other Quad
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Quad
 ---@return Quad

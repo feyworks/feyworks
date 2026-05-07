@@ -70,6 +70,13 @@ function module.translation(x, y) end
 ---@nodiscard
 function module.trs(translation, rotation, scale) end
 
+---Checks if two values are equal.
+---@param self Affine2
+---@param other Affine2
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Affine2
 ---@return Affine2

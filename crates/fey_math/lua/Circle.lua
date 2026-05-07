@@ -25,6 +25,13 @@ function module.new(center, radius) end
 ---@nodiscard
 function module.new(radius) end
 
+---Checks if two values are equal.
+---@param self Circle
+---@param other Circle
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Circle
 ---@return Circle

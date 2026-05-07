@@ -49,6 +49,13 @@ function module.scale(scale) end
 ---@nodiscard
 function module.scale_rotation(scale, angle) end
 
+---Checks if two values are equal.
+---@param self Mat2
+---@param other Mat2
+---@return boolean
+---@nodiscard
+function methods.eq(self, other) end
+
 ---Returns a temporary copy of this value.
 ---@param self Mat2
 ---@return Mat2
