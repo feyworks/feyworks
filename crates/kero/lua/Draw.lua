@@ -146,7 +146,7 @@ function Draw.push_scale(scale) end
 function Draw.push_trs(translation, rotation, scale) end
 
 ---Pop a transform off the top of the stack.
-function Draw.pop_transform(self) end
+function Draw.pop_transform() end
 
 ---Pop a number of transforms off the top of the stack.
 ---@param count integer
