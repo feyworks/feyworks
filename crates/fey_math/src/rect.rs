@@ -1,12 +1,11 @@
+use super::Quad;
 use crate::{
     Circle, Float, Line, Num, Polygonal, Projection, Ray, RayHit, Shape, Signed, Vec2, extract_on,
     impl_approx, impl_bytemuck, impl_casts, impl_interp, impl_serde, impl_tuple_arr, line,
     overlaps_on, vec2,
 };
 use std::fmt::{Display, Formatter};
-use std::ops::{Add, AddAssign, Sub, SubAssign};
-
-use super::Quad;
+use std::ops::{Add, AddAssign, Range, Sub, SubAssign};
 
 pub type RectF = Rect<f32>;
 pub type RectI = Rect<i32>;
@@ -255,6 +254,16 @@ impl<T: Num> Rect<T> {
     pub fn edges(&self) -> [Line<T>; 4] {
         let [a, b, c, d] = self.corners();
         [line(a, b), line(b, c), line(c, d), line(d, a)]
+    }
+
+    #[inline]
+    pub fn points(self) -> impl Iterator<Item = Vec2<T>>
+    where
+        Range<T>: Iterator<Item = T> + 'static,
+    {
+        (self.y..self.bottom())
+            .map(move |y| (self.x..self.right()).map(move |x| vec2(x, y)))
+            .flatten()
     }
 
     /// Inflate the rectangle by the amount.
