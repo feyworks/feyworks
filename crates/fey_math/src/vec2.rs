@@ -118,6 +118,12 @@ impl<T: Signed> Vec2<T> {
     pub fn turn_left(self) -> Self {
         vec2(self.y, -self.x)
     }
+
+    /// The point's cardinal neighbors.
+    #[inline]
+    pub fn neighbors(self) -> [Self; 4] {
+        Self::CARDINAL_DIRS.map(|d| self + d)
+    }
 }
 
 impl<T: Float> Vec2<T> {
