@@ -120,6 +120,12 @@ impl<T> VecGrid<T> {
             marker: PhantomData,
         }
     }
+
+    /// Map the vec grid into a new type.
+    #[inline]
+    pub fn map<U>(&self, f: impl FnMut(&T) -> U) -> VecGrid<U> {
+        VecGrid::with_store(self.size, self.store.iter().map(f).collect())
+    }
 }
 
 impl<'a, T> SliceGrid<'a, T> {
@@ -154,6 +160,12 @@ impl<T, const N: usize> ArrGrid<T, N> {
         T: Default,
     {
         Self::new_arr_with(size, T::default)
+    }
+
+    /// Map the vec grid into a new type.
+    #[inline]
+    pub fn map<U>(&self, mut f: impl FnMut(&T) -> U) -> ArrGrid<U, N> {
+        ArrGrid::with_store(self.size, std::array::from_fn(|i| f(&self.store[i])))
     }
 }
 
