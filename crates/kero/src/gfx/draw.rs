@@ -10,6 +10,7 @@ use crate::math::{
     Affine2F, Angle, CircleF, LineF, Mat2F, Mat3F, Mat4F, Numeric, PolygonF, QuadF, RadiansF,
     RectF, RectU, TriangleF, Vec2, Vec2F, Vec2U, Vec3F, Vec4F, vec2,
 };
+use fey_math::rads;
 use std::collections::HashMap;
 use std::fmt::{Debug, Formatter};
 use std::mem::{replace, swap};
@@ -699,6 +700,42 @@ impl Draw {
                 inds.extend_from_slice(&[end - 1, start]);
             }
         }
+    }
+
+    pub fn arrow(
+        &mut self,
+        from: Vec2F,
+        to: Vec2F,
+        len: f32,
+        angle: impl Angle<f32>,
+        color: Rgba8,
+    ) {
+        let offset = (from - to).len_to_safe(len);
+        let angle = angle.to_radians().0;
+        let a = to + Mat2F::rotation(rads(angle)).transform_vec2(offset);
+        let b = to + Mat2F::rotation(rads(-angle)).transform_vec2(offset);
+        self.line((from, to), color);
+        self.line((to, a), color);
+        self.line((to, b), color);
+
+        // let (verts, inds, mat) = self.line_mode();
+        //
+        // let offset = (from - to).len_to_safe(len);
+        // let angle = angle.to_radians().0;
+        // let a = to + Mat2F::rotation(rads(angle)).transform_vec2(offset);
+        // let b = to + Mat2F::rotation(rads(-angle)).transform_vec2(offset);
+        //
+        // let i = verts.len() as u32;
+        // verts.extend_from_slice(
+        //     &[
+        //         mat.transform_pos2(from),
+        //         mat.transform_pos2(to),
+        //         mat.transform_pos2(a),
+        //         mat.transform_pos2(b),
+        //     ]
+        //     .map(|p| Vertex::veto(mat.transform_pos2(p), color)),
+        // );
+        // inds.extend_from_slice(&[i, i + 1, i + 1, i + 2, i + 1, i + 3]);
     }
 
     /// Draw a filled triangle.
