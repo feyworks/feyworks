@@ -94,16 +94,28 @@ impl Rand {
         }
     }
 
-    /// Choose a random element from the slice. Panics if the slice is empty.
+    /// Choose a random element from the slice.
     #[inline]
-    pub fn choose<'a, T>(&mut self, slice: &'a [T]) -> Option<&'a T> {
+    pub fn try_choose<'a, T>(&mut self, slice: &'a [T]) -> Option<&'a T> {
         slice.choose(self)
+    }
+
+    /// Choose a random element from the slice.
+    #[inline]
+    pub fn try_choose_mut<'a, T>(&mut self, slice: &'a mut [T]) -> Option<&'a mut T> {
+        slice.choose_mut(self)
     }
 
     /// Choose a random element from the slice. Panics if the slice is empty.
     #[inline]
-    pub fn choose_mut<'a, T>(&mut self, slice: &'a mut [T]) -> Option<&'a mut T> {
-        slice.choose_mut(self)
+    pub fn choose<'a, T>(&mut self, slice: &'a [T]) -> &'a T {
+        slice.choose(self).expect("non-empty slice")
+    }
+
+    /// Choose a random element from the slice. Panics if the slice is empty.
+    #[inline]
+    pub fn choose_mut<'a, T>(&mut self, slice: &'a mut [T]) -> &'a mut T {
+        slice.choose_mut(self).expect("non-empty slice")
     }
 }
 
