@@ -734,8 +734,8 @@ macro_rules! impl_ops {
             fn $op_fn(self, rhs: Vec2<T>) -> Self::Output {
                 rect(
                     self.x.$op_fn(rhs.x),
-                    self.y.$op_fn(rhs.x),
-                    self.w.$op_fn(rhs.y),
+                    self.y.$op_fn(rhs.y),
+                    self.w.$op_fn(rhs.x),
                     self.h.$op_fn(rhs.y),
                 )
             }
@@ -748,8 +748,8 @@ macro_rules! impl_ops {
             fn $op_fn(self, rhs: Vec2<T>) -> Self::Output {
                 rect(
                     self.x.$op_fn(rhs.x),
-                    self.y.$op_fn(rhs.x),
-                    self.w.$op_fn(rhs.y),
+                    self.y.$op_fn(rhs.y),
+                    self.w.$op_fn(rhs.x),
                     self.h.$op_fn(rhs.y),
                 )
             }
