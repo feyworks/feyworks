@@ -8,6 +8,7 @@ use fey_packer::{Item, Packed, RectPacker};
 use fnv::FnvHashMap;
 use kero::prelude::*;
 use std::ffi::OsStr;
+use std::fmt::Debug;
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::path::{Path, PathBuf};
 
@@ -22,7 +23,7 @@ pub struct SpritePacker<I> {
     anims: Vec<PackAnim<I>>,
 }
 
-impl<I: Hash + Eq> SpritePacker<I> {
+impl<I: Hash + Eq + Debug> SpritePacker<I> {
     /// Create a new packer.
     pub fn new() -> Self {
         Self {
@@ -102,7 +103,7 @@ impl<I: Hash + Eq> SpritePacker<I> {
         let tile_size = tile_size.into();
         if (img.size() / tile_size) * tile_size != img.size() {
             println!(
-                "img size {} is not multiple of tile size {}",
+                "img ({id:?}) size {} is not multiple of tile size {}",
                 img.size(),
                 tile_size
             );
