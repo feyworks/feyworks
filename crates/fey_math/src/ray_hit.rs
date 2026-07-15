@@ -9,6 +9,7 @@ pub type RayHitF = RayHit<f32>;
 /// `normal` of the edge the ray intersected.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct RayHit<T> {
     pub normal: Vec2<T>,
     pub distance: T,

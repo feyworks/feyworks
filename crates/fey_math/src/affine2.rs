@@ -5,6 +5,7 @@ pub type Affine2F = Affine2<f32>;
 /// A 2D affine matrix (translation, rotation, scaling and shear).
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Affine2<T> {
     pub matrix: Mat2<T>,
     pub translation: Vec2<T>,

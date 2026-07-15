@@ -6,6 +6,7 @@ pub type Mat3F = Mat3<f32>;
 /// A 3x3 column major matrix.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Mat3<T> {
     pub x_axis: Vec3<T>,
     pub y_axis: Vec3<T>,

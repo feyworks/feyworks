@@ -5,6 +5,7 @@ pub type Affine3F = Affine3<f32>;
 /// A 3D affine matrix (translation, rotation, and scaling).
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Affine3<T> {
     pub matrix: Mat3<T>,
     pub translation: Vec3<T>,

@@ -11,6 +11,7 @@ pub type LineU = Line<u32>;
 /// A line segment connecting two points.
 #[repr(C)]
 #[derive(Debug, Default, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Line<T> {
     /// The start point.
     pub start: Vec2<T>,

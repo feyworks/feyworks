@@ -1,4 +1,6 @@
-use crate::{Float, Line, Num, Rect, Vec2, impl_approx, impl_bytemuck, impl_casts, impl_interp, line};
+use crate::{
+    Float, Line, Num, Rect, Vec2, impl_approx, impl_bytemuck, impl_casts, impl_interp, line,
+};
 use serde::{Deserialize, Serialize};
 
 pub type QuadF = Quad<f32>;
@@ -7,6 +9,7 @@ pub type QuadI = Quad<i32>;
 /// A quad, represented by 4 points.
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Quad<T>(pub [Vec2<T>; 4]);
 
 impl_bytemuck!(Quad);

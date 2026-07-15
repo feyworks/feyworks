@@ -18,6 +18,7 @@ pub type RectU = Rect<u32>;
 /// signed may yield incorrect values for negative-sized instances.
 #[repr(C)]
 #[derive(Debug, Default, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Rect<T> {
     pub x: T,
     pub y: T,

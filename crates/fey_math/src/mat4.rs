@@ -6,6 +6,7 @@ pub type Mat4F = Mat4<f32>;
 /// A 4x4 column major matrix.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Mat4<T> {
     pub x_axis: Vec4<T>,
     pub y_axis: Vec4<T>,

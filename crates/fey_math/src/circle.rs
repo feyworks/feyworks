@@ -11,6 +11,7 @@ pub type CircleI = Circle<i32>;
 /// A circle, represented by a center point and radius.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Circle<T> {
     pub center: Vec2<T>,
     pub radius: T,

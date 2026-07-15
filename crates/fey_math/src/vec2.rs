@@ -9,6 +9,7 @@ pub type Vec2U = Vec2<u32>;
 /// A 2-dimensional vector.
 #[repr(C)]
 #[derive(Debug, Default, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Vec2<T> {
     pub x: T,
     pub y: T,

@@ -12,6 +12,7 @@ pub type ProjectionF = Projection<f32>;
 /// in overlap checks for convex shapes.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Projection<T> {
     pub min: T,
     pub max: T,

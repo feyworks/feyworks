@@ -7,6 +7,7 @@ pub type RotationsF = Rotations<f32>;
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
 #[repr(transparent)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Rotations<T>(pub T);
 
 impl_angle!(Rotations, from_rotations, to_rotations);

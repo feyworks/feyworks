@@ -8,6 +8,7 @@ pub type Vec3U = Vec3<u32>;
 /// A 3-dimensional vector.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Vec3<T> {
     pub x: T,
     pub y: T,

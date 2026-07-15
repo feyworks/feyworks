@@ -7,6 +7,7 @@ pub type TriangleI = Triangle<i32>;
 /// A triangle, represented by 3 points.
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Triangle<T>(pub [Vec2<T>; 3]);
 
 impl_bytemuck!(Triangle);
@@ -171,4 +172,3 @@ impl<T> From<Triangle<T>> for [Vec2<T>; 3] {
         value.0
     }
 }
-

@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 /// An octal (8-way) direction.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub enum Octal {
     East,
     SouthEast,

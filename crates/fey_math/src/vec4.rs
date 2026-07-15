@@ -8,6 +8,7 @@ pub type Vec4U = Vec4<u32>;
 /// A 4-dimensional vector.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Vec4<T> {
     pub x: T,
     pub y: T,

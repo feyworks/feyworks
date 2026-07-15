@@ -5,6 +5,7 @@ pub type Mat2F = Mat2<f32>;
 /// A 2x2 column major matrix.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Mat2<T> {
     pub x_axis: Vec2<T>,
     pub y_axis: Vec2<T>,

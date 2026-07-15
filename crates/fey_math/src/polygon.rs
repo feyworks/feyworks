@@ -11,6 +11,7 @@ pub type PolygonI = Polygon<i32>;
 /// than `N` edges, you can set it to that value and avoid heap allocations.
 #[repr(transparent)]
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Polygon<T>(Vec<Vec2<T>>);
 
 impl<T: Num> Polygon<T> {

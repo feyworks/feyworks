@@ -6,6 +6,7 @@ pub type RayF = Ray<f32>;
 /// A ray with an origin and direction.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Ray<T> {
     pub origin: Vec2<T>,
     pub direction: Vec2<T>,

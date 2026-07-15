@@ -10,6 +10,7 @@ description = "Vectors, matrices, directions, and geometry."
 
 [features]
 lua = ["dep:mlua", "dep:fey_lua"]
+wincode = ["dep:wincode"]
 
 [dependencies]
 approx = "0.5.1"
@@ -18,3 +19,4 @@ dpi = "0.1.2"
 fey_lua = { version = "0.1.0", path = "../fey_lua", optional = true }
 mlua = { version = "0.11.5", features = ["lua54", "vendored"], optional = true }
 serde = { version = "1.0.228", features = ["derive"] }
+wincode = { version = "0.5.5", features = ["derive"], optional = true }
