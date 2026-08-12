@@ -22,7 +22,7 @@ impl UserData for ScreenModule {
             let ctx = Context::from_lua(lua);
             Ok(Screen::new_frame(&ctx, (w, h), fract))
         });
-        methods.add_function("new_scaled", |lua, scale: f32| {
+        methods.add_function("new_fill", |lua, scale: f32| {
             let ctx = Context::from_lua(lua);
             Ok(Screen::new_fill(&ctx, scale))
         });
