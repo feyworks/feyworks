@@ -183,9 +183,9 @@ impl Screen {
 
         self.scr_rect = RectF::sized(scr_size);
 
-        let win_size = ctx.window.size().to_f32();
+        let win_size = ctx.window.pixel_size().to_f32();
         let (win_rect, scale) = RectF::sized(win_size).fitted(scr_size, fractional);
-        self.win_rect = win_rect;
+        self.win_rect = win_rect * ctx.window.inv_scale_factor();
         self.scale = scale;
 
         self.mouse_pos = win_rect.map_pos(ctx.mouse.pos(), &self.scr_rect).round();
