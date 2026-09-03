@@ -61,6 +61,11 @@ impl<G: Game> ApplicationHandler for AppHandler<G> {
                 .expect("failed to create window"),
         ));
 
+        // prevent window from bleeding outside the monitor
+        window.set_max_inner_size(
+            window.monitor().unwrap().size() - (window.outer_size() - window.size()),
+        );
+
         // initialize the graphics
         let graphics = Graphics::new(window.clone(), opts);
 
