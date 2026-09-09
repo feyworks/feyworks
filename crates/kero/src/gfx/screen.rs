@@ -2,7 +2,6 @@ use crate::color::Rgba8;
 use crate::core::{Context, Window};
 use crate::gfx::{Draw, Surface, TextureFormat};
 use crate::math::{Numeric, RectF, Vec2F, Vec2U};
-use std::ops::Mul;
 
 #[cfg(feature = "lua")]
 pub type ScreenObj = fey_lua::UserDataOf<Screen>;
@@ -185,17 +184,31 @@ impl Screen {
         self.scr_rect = RectF::sized(scr_size);
 
         let win_size = ctx.window.pixel_size().to_f32();
+
         let (win_rect, scale) = RectF::sized(win_size).fitted(scr_size, fractional);
         self.win_rect = win_rect * ctx.window.inv_scale_factor();
         self.scale = scale;
-
-        // self.mouse_pos = win_rect.map_pos(ctx.mouse.pos(), &self.scr_rect).round();
-
-        // FIX to above: apply window scale factor to mouse position
         self.mouse_pos = win_rect
             .map_pos(ctx.mouse.pos() * ctx.window.scale_factor(), &self.scr_rect)
-            .mul(ctx.window.inv_scale_factor())
             .round();
+
+        // let win_size = ctx.window.pixel_size().to_f32();
+        //
+        // let (win_rect, scale) = RectF::sized(win_size).fitted(scr_size, fractional);
+        // self.win_rect = win_rect * ctx.window.inv_scale_factor();
+        // // self.win_rect = win_rect;
+        // self.scale = scale;
+        //
+        // self.mouse_pos = self.win_rect
+        //     .map_pos(ctx.mouse.pos() * ctx.window.scale_factor(), &self.scr_rect)
+        //     .div(scale)
+        //     .round();
+        //
+        // // FIX to above: apply window scale factor to mouse position
+        // // self.mouse_pos = win_rect
+        // //     .map_pos(ctx.mouse.pos() * ctx.window.scale_factor(), &self.scr_rect)
+        // //     .mul(ctx.window.inv_scale_factor())
+        // //     .round();
     }
 
     /// Map a window position to an on-screen position.
