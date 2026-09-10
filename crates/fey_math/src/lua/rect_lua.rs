@@ -3,7 +3,7 @@ use crate::{
 };
 use fey_lua::{LuaModule, Temp};
 use mlua::prelude::LuaResult;
-use mlua::{FromLua, IntoLua, Lua, Value};
+use mlua::{Either, FromLua, IntoLua, Lua, Value};
 
 impl_temp!(RectF RectRef RectMut);
 
@@ -26,6 +26,14 @@ impl LuaModule for RectModule {
 
             // operators
             members.op_tostring(|r| format!("{r}"))?;
+            members.op_mul(|a, b: Either<Vec2F, f32>| match b {
+                Either::Left(b) => a * b,
+                Either::Right(b) => a * b,
+            })?;
+            members.op_div(|a, b: Either<Vec2F, f32>| match b {
+                Either::Left(b) => a / b,
+                Either::Right(b) => a / b,
+            })?;
 
             // methods
             members.method_ext("approx", |lua, a, b: Temp<RectF>| {

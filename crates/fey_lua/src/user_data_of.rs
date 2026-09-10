@@ -26,6 +26,16 @@ impl<T: 'static> UserDataOf<T> {
     }
 
     #[inline]
+    pub fn new_any(lua: &Lua, value: T) -> Self {
+        lua.create_any_userdata(value)
+            .map(|data| Self {
+                data,
+                marker: PhantomData,
+            })
+            .unwrap()
+    }
+
+    #[inline]
     pub fn try_from_any(data: AnyUserData) -> Option<Self> {
         data.is::<T>().then(|| Self {
             data,

@@ -7,6 +7,8 @@
 ---@field y number
 ---@field w number
 ---@field h number
+---@operator mul(Vec2|number): Rect
+---@operator div(Vec2|number): Rect
 
 ---@class RectClass : RectMethods
 ---@overload fun(x: number, y: number, w: number, h: number): Rect
