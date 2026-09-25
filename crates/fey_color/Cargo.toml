@@ -11,6 +11,7 @@ description = "Types for working with colors."
 
 [features]
 lua = ["dep:mlua", "dep:fey_lua"]
+wincode = ["dep:wincode"]
 
 [dependencies]
 approx = "0.5.1"
@@ -19,3 +20,4 @@ fey_lua = { version = "0.1.0", path = "../fey_lua", optional = true }
 fey_math = { version = "1.0.0", path = "../fey_math" }
 mlua = { version = "0.11.5", features = ["lua54", "vendored"], optional = true }
 serde = { version = "1.0.228", features = ["derive"] }
+wincode = { version = "0.6.0", features = ["derive"], optional = true }

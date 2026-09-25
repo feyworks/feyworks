@@ -18,6 +18,7 @@ pub type Rgb64F = Rgb<f64>;
 /// A 3-channel RGB color.
 #[derive(Copy, Clone, Default, PartialEq, PartialOrd, Hash, Serialize, Deserialize)]
 #[repr(C)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Rgb<T> {
     pub r: T,
     pub g: T,

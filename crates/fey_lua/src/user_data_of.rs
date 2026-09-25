@@ -3,7 +3,11 @@ use mlua::{AnyUserData, FromLua, IntoLua, Lua, UserData, UserDataRef, UserDataRe
 use std::any::type_name;
 use std::ffi::c_void;
 use std::marker::PhantomData;
+use std::mem::MaybeUninit;
 use std::ops::Deref;
+use wincode::config::ConfigCore;
+use wincode::io::{Reader, Writer};
+use wincode::{ReadError, ReadResult, SchemaRead, SchemaReadContext, SchemaWrite, WriteResult};
 
 #[derive(Debug, PartialEq)]
 pub struct UserDataOf<T> {
@@ -163,5 +167,52 @@ impl<T: 'static> Into<AnyUserData> for UserDataOf<T> {
     #[inline]
     fn into(self) -> AnyUserData {
         self.data
+    }
+}
+
+unsafe impl<'de, C, T> SchemaReadContext<'de, C, &'de Lua> for UserDataOf<T>
+where
+    C: ConfigCore,
+    T: SchemaReadContext<'de, C, &'de Lua> + UserData + 'static,
+    T::Dst: UserData + 'static,
+{
+    type Dst = Self;
+
+    fn read_with_context(
+        ctx: &'de Lua,
+        reader: impl Reader<'de>,
+        dst: &mut MaybeUninit<Self::Dst>,
+    ) -> ReadResult<()> {
+        let mut val = MaybeUninit::uninit();
+        T::read_with_context(ctx, reader, &mut val)?;
+        let val = unsafe { val.assume_init() };
+        let data = ctx
+            .create_userdata(val)
+            .map_err(|_| ReadError::Custom("failed to create userdata"))?;
+        dst.write(Self {
+            data,
+            marker: PhantomData,
+        });
+        Ok(())
+    }
+}
+
+unsafe impl<C, T> SchemaWrite<C> for UserDataOf<T>
+where
+    C: ConfigCore,
+    T: SchemaWrite<C, Src = T> + 'static,
+{
+    type Src = Self;
+
+    #[inline]
+    fn size_of(src: &Self::Src) -> WriteResult<usize> {
+        let val = src.get();
+        T::Src::size_of(&val)
+    }
+
+    #[inline]
+    fn write(writer: impl Writer, src: &Self::Src) -> WriteResult<()> {
+        let val = src.get();
+        T::Src::write(writer, &val)
     }
 }

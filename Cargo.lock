@@ -717,6 +717,7 @@ dependencies = [
  "fey_math",
  "mlua",
  "serde",
+ "wincode",
 ]
 
 [[package]]
@@ -772,6 +773,7 @@ version = "0.1.1"
 dependencies = [
  "fnv",
  "mlua",
+ "wincode",
 ]
 
 [[package]]

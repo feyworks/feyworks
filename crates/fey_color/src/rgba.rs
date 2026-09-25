@@ -20,6 +20,7 @@ pub type Rgba64F = Rgba<f64>;
 /// A 4-channel RGBA color.
 #[derive(Copy, Clone, Default, Eq, PartialEq, Ord, PartialOrd, Hash)]
 #[repr(C)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Rgba<T> {
     pub r: T,
     pub g: T,

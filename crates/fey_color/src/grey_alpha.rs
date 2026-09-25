@@ -18,6 +18,7 @@ pub type GreyAlpha64F = GreyAlpha<f64>;
 /// A 2-channel greyscale color with alpha.
 #[derive(Debug, Copy, Clone, Default, PartialEq, PartialOrd, Hash, Serialize, Deserialize)]
 #[repr(C)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct GreyAlpha<T> {
     pub g: T,
     pub a: T,

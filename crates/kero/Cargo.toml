@@ -24,6 +24,11 @@ lua = [
     "fey_rand/lua"
 ]
 round_vertex_positions = []
+wincode = [
+    "fey_color/wincode",
+    "fey_guid/wincode",
+    "fey_math/wincode",
+]
 
 [dependencies]
 arrayvec = "0.7.6"

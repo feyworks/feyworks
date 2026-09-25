@@ -18,6 +18,7 @@ pub type Grey64F = Grey<f64>;
 #[derive(Debug, Copy, Clone, Default, PartialEq, PartialOrd, Hash, Serialize, Deserialize)]
 #[repr(transparent)]
 #[serde(transparent)]
+#[cfg_attr(feature = "wincode", derive(wincode::SchemaWrite, wincode::SchemaRead))]
 pub struct Grey<T>(pub T);
 
 fey_math::macros::impl_approx!(
