@@ -102,12 +102,12 @@ function Draw.blend_mode(self) end
 function Draw.set_blend_mode(value) end
 
 ---The current clip rectangle.
----@return Rect
+---@return RectI
 ---@nodiscard
 function Draw.clip_rect(self) end
 
 ---Set the clip rectangle.
----@param value Rect
+---@param value RectI
 function Draw.set_clip_rect(value) end
 
 ---The current transform.

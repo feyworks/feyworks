@@ -1,0 +1,136 @@
+use crate::{Numeric, RectI, Vec2I, impl_temp};
+use fey_lua::{LuaModule, Temp};
+use mlua::prelude::LuaResult;
+use mlua::{Either, Lua, Value};
+
+impl_temp!(RectI RectIRef RectIMut);
+
+pub struct RectIModule;
+
+impl LuaModule for RectIModule {
+    const PATH: &'static str = "RectI";
+
+    fn load(lua: &Lua) -> LuaResult<Value> {
+        let module = Temp::<RectI>::register(lua, "RectI", |members| {
+            // fields
+            members.getter("x", |rect| rect.x)?;
+            members.setter("x", |rect, val| rect.x = val)?;
+            members.getter("y", |rect| rect.y)?;
+            members.setter("y", |rect, val| rect.y = val)?;
+            members.getter("w", |rect| rect.w)?;
+            members.setter("w", |rect, val| rect.w = val)?;
+            members.getter("h", |rect| rect.h)?;
+            members.setter("h", |rect, val| rect.h = val)?;
+
+            // operators
+            members.op_tostring(|r| format!("{r}"))?;
+            members.op_mul(|a, b: Either<Vec2I, i32>| match b {
+                Either::Left(b) => a * b,
+                Either::Right(b) => a * b,
+            })?;
+            members.op_div(|a, b: Either<Vec2I, i32>| match b {
+                Either::Left(b) => a / b,
+                Either::Right(b) => a / b,
+            })?;
+
+            // methods
+            members.method_mut("set", |rect, (x, y, w, h): (i32, i32, i32, i32)| {
+                *rect = RectI::new(x, y, w, h);
+            })?;
+            members.method_mut("set_to", |rect, val: RectI| {
+                *rect = val;
+            })?;
+            members.method("left", |rect, _: ()| rect.left())?;
+            members.method("right", |rect, _: ()| rect.right())?;
+            members.method("top", |rect, _: ()| rect.top())?;
+            members.method("bottom", |rect, _: ()| rect.bottom())?;
+            members.method("top_left", |rect, _: ()| rect.top_left())?;
+            members.method("top_right", |rect, _: ()| rect.top_right())?;
+            members.method("bottom_right", |rect, _: ()| rect.bottom_right())?;
+            members.method("bottom_left", |rect, _: ()| rect.bottom_left())?;
+            members.method("corners", |rect, _: ()| match rect.corners() {
+                [tl, tr, br, bl] => (tl, tr, br, bl),
+            })?;
+            members.method("top_center", |rect, _: ()| rect.top_center())?;
+            members.method("bottom_center", |rect, _: ()| rect.bottom_center())?;
+            members.method("left_center", |rect, _: ()| rect.left_center())?;
+            members.method("right_center", |rect, _: ()| rect.right_center())?;
+            members.method("center_x", |rect, _: ()| rect.center_x())?;
+            members.method("center_y", |rect, _: ()| rect.center_y())?;
+            members.method("center", |rect, _: ()| rect.center())?;
+            members.method("min_x", |rect, _: ()| rect.min_x())?;
+            members.method("min_y", |rect, _: ()| rect.min_y())?;
+            members.method("min_pos", |rect, _: ()| rect.min_pos())?;
+            members.method("max_x", |rect, _: ()| rect.max_x())?;
+            members.method("max_y", |rect, _: ()| rect.max_y())?;
+            members.method("max_pos", |rect, _: ()| rect.max_pos())?;
+            members.method("right_edge", |rect, _: ()| rect.right_edge().to_f32())?;
+            members.method("left_edge", |rect, _: ()| rect.left_edge().to_f32())?;
+            members.method("top_edge", |rect, _: ()| rect.top_edge().to_f32())?;
+            members.method("bottom_edge", |rect, _: ()| rect.bottom_edge().to_f32())?;
+            members.method("edges", |rect, _: ()| match rect.to_f32().edges() {
+                [tl, tr, br, bl] => (tl, tr, br, bl),
+            })?;
+            members.method("area", |rect, _: ()| rect.area())?;
+            members.method("perimeter", |rect, _: ()| rect.perimeter())?;
+            members.method_ext("contains_rect", |lua, rect, r: Temp<RectI>| {
+                r.read(lua, |_, r| Ok(rect.contains_rect(r)))
+            })?;
+            members.method("inflate", |rect, (w, h): (i32, Option<i32>)| {
+                rect.inflate(match h {
+                    Some(h) => (w, h),
+                    None => (w, w),
+                })
+            })?;
+            members.method_ext("overlap", |lua, rect, r: Temp<RectI>| {
+                r.read(lua, |_, r| Ok(rect.overlap(r)))
+            })?;
+            members.method_ext("conflate", |lua, rect, r: Temp<RectI>| {
+                r.read(lua, |_, r| Ok(rect.conflate(r)))
+            })?;
+            members.method("clamp_inside", |rect, p: Vec2I| {
+                Vec2I::new(
+                    p.x.clamp(rect.x, rect.right()),
+                    p.y.clamp(rect.y, rect.bottom()),
+                )
+            })?;
+            members.method("is_positive", |rect, _: ()| rect.is_positive())?;
+            members.method("non_neg", |rect, _: ()| rect.non_neg())?;
+            members.method("translate", |rect, amount: Vec2I| rect.translate(&amount))?;
+
+            members.method("contains", |this, p: Vec2I| this.contains(p))?;
+            members.method("is_convex", |this, _: ()| this.w > 0 && this.h > 0)?;
+
+            Ok(())
+        })?;
+
+        module.set(
+            "new",
+            lua.create_function(|_, (x, y, w, h): (i32, i32, Option<i32>, Option<i32>)| {
+                Ok(match w.zip(h) {
+                    Some((w, h)) => RectI::new(x, y, w, h),
+                    None => RectI::new(0, 0, x, y),
+                })
+            })?,
+        )?;
+        module.set_metatable(Some({
+            let meta = lua.create_table()?;
+            meta.set(
+                "__call",
+                lua.create_function(
+                    |_, (_, x, y, w, h): (Value, i32, i32, Option<i32>, Option<i32>)| {
+                        Ok(match w.zip(h) {
+                            Some((w, h)) => RectI::new(x, y, w, h),
+                            None => RectI::new(0, 0, x, y),
+                        })
+                    },
+                )?,
+            )?;
+            meta
+        }))?;
+
+        module.set("zero", lua.create_function(|_, _: ()| Ok(RectI::ZERO))?)?;
+
+        Ok(Value::Table(module))
+    }
+}

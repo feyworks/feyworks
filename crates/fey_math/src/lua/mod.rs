@@ -15,6 +15,7 @@ mod radians_lua;
 mod ray_hit_lua;
 mod ray_lua;
 mod rect_lua;
+mod recti_lua;
 mod shape_lua;
 mod triangle_lua;
 mod vec2_lua;
@@ -38,6 +39,7 @@ pub use quad_lua::*;
 pub use ray_hit_lua::*;
 pub use ray_lua::*;
 pub use rect_lua::*;
+pub use recti_lua::*;
 pub use shape_lua::*;
 pub use triangle_lua::*;
 pub use vec2_lua::*;
@@ -85,6 +87,7 @@ pub type MathModules = (
     RayModule,
     RayHitModule,
     RectModule,
+    RectIModule,
     TriangleModule,
     Vec2Module,
     Vec2IModule,

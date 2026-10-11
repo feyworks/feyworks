@@ -5,8 +5,8 @@ use crate::gfx::{
 use fey_color::Rgba8;
 use fey_lua::LuaModule;
 use fey_math::{
-    Affine2F, CircleF, LineF, Mat2F, Mat3F, Mat4F, Mat4Ref, PolygonRef, QuadF, RadiansF, RectF,
-    RectU, TriangleF, Vec2F, Vec3F, Vec4F, circle, line, vec2,
+    Affine2F, CircleF, LineF, Mat2F, Mat3F, Mat4F, Mat4Ref, Numeric, PolygonRef, QuadF, RadiansF,
+    RectF, RectI, TriangleF, Vec2F, Vec3F, Vec4F, circle, line, vec2,
 };
 use mlua::prelude::{LuaError, LuaResult};
 use mlua::{BorrowedStr, Either, IntoLua, Lua, Number, Table, UserData, UserDataMethods, Value};
@@ -149,10 +149,10 @@ fn add_methods<T, M: UserDataMethods<T>>(methods: &mut M) {
         Ok(())
     });
     methods.add_function("clip_rect", |lua, _: ()| {
-        Ok(Draw::from_lua(lua)?.clip_rect().copied())
+        Ok(Draw::from_lua(lua)?.clip_rect().map(|r| r.to_i32()))
     });
-    methods.add_function("set_clip_rect", |lua, value: Option<RectU>| {
-        Draw::from_lua(lua)?.set_clip_rect(value);
+    methods.add_function("set_clip_rect", |lua, value: Option<RectI>| {
+        Draw::from_lua(lua)?.set_clip_rect(value.map(|r| r.to_u32()));
         Ok(())
     });
     methods.add_function("transform", |lua, _: ()| {
