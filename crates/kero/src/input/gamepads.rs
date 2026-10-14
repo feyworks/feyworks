@@ -1,7 +1,8 @@
 use super::{Gamepad, GamepadAxis, GamepadButton, GamepadStatus};
 use crate::core::Context;
 use fnv::FnvHashMap;
-use gilrs::{Event, EventType, GamepadId, Gilrs};
+use gilrs::ev::filter::deadzone;
+use gilrs::{Axis, Event, EventType, Filter, GamepadId, Gilrs};
 use smallvec::SmallVec;
 use std::cell::Cell;
 use std::fmt::{Debug, Formatter};
@@ -51,7 +52,7 @@ impl Gamepads {
         let mut gamepads = self.0.gamepads.borrow_mut();
         while let Some(Event {
             id, event, time, ..
-        }) = gilrs.next_event()
+        }) = gilrs.next_event().filter_ev(&deadzone, &mut gilrs)
         {
             self.0.last_active.set(time);
 
