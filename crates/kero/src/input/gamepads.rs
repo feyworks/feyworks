@@ -52,7 +52,8 @@ impl Gamepads {
         let mut gamepads = self.0.gamepads.borrow_mut();
         while let Some(Event {
             id, event, time, ..
-        }) = gilrs.next_event().filter_ev(&deadzone, &mut gilrs)
+        }) = gilrs.next_event()
+        //.filter_ev(&deadzone, &mut gilrs)
         {
             self.0.last_active.set(time);
 
