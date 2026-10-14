@@ -53,7 +53,7 @@ naga = { version = "27.0.3", features = ["wgsl-in", "stderr"] }
 pollster = "0.4.0"
 serde = { version = "1.0.228", features = ["derive"] }
 smallvec = { version = "1.15.1", features = ["const_generics"] }
-strum = { version = "0.27.2", features = ["derive"] }
+strum = { version = "0.28.0", features = ["derive"] }
 thiserror = "2.0.17"
 wgpu = { version = "27.0.1", default-features = false, features = ["dx12", "metal", "parking_lot", "std", "vulkan", "wgsl"] }
 winit = "0.30.12"

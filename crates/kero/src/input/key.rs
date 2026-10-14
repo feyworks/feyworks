@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use strum::{EnumCount, FromRepr, VariantArray};
+use strum::{EnumCount, EnumString, FromRepr, IntoStaticStr, VariantArray, VariantNames};
 use winit::keyboard::KeyCode as Winit;
 
 /// A keyboard key.
@@ -14,9 +14,12 @@ use winit::keyboard::KeyCode as Winit;
     Hash,
     Serialize,
     Deserialize,
-    FromRepr,
     EnumCount,
+    FromRepr,
     VariantArray,
+    VariantNames,
+    EnumString,
+    IntoStaticStr,
 )]
 pub enum Key {
     Backquote = 0,

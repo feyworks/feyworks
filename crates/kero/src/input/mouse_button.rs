@@ -1,9 +1,25 @@
-use strum::{EnumCount, FromRepr, VariantArray};
+use serde::{Deserialize, Serialize};
+use strum::{EnumCount, EnumString, FromRepr, IntoStaticStr, VariantArray, VariantNames};
 use winit::event::MouseButton as Winit;
 
 /// A mouse button.
 #[derive(
-    Debug, Hash, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, FromRepr, EnumCount, VariantArray,
+    Debug,
+    Hash,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Clone,
+    Copy,
+    Serialize,
+    Deserialize,
+    EnumCount,
+    FromRepr,
+    VariantArray,
+    VariantNames,
+    EnumString,
+    IntoStaticStr,
 )]
 pub enum MouseButton {
     Left = 0,

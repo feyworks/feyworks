@@ -1,9 +1,25 @@
 use gilrs::Button;
-use strum::{EnumCount, FromRepr, VariantArray};
+use serde::{Deserialize, Serialize};
+use strum::{EnumCount, EnumString, FromRepr, IntoStaticStr, VariantArray, VariantNames};
 
 /// A gamepad button.
 #[derive(
-    Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, EnumCount, FromRepr, VariantArray,
+    Debug,
+    Copy,
+    Clone,
+    Eq,
+    PartialEq,
+    Ord,
+    PartialOrd,
+    Hash,
+    Serialize,
+    Deserialize,
+    EnumCount,
+    FromRepr,
+    VariantArray,
+    VariantNames,
+    EnumString,
+    IntoStaticStr,
 )]
 pub enum GamepadButton {
     South,
