@@ -128,6 +128,17 @@ impl LuaModule for ColorModule {
                 ))
             })?,
         )?;
+        m.set(
+            "splat",
+            lua.create_function(|_, val: u8| Ok(Rgba8::new(val, val, val, val)))?,
+        )?;
+        m.set(
+            "splatf",
+            lua.create_function(|_, val: f32| {
+                let val = val.to_channel();
+                Ok(Rgba8::new(val, val, val, val))
+            })?,
+        )?;
 
         Ok(Value::Table(m))
     }
