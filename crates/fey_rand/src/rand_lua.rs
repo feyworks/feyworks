@@ -1,11 +1,12 @@
 use crate::rand::Rand;
 use fey_guid::Guid;
-use fey_lua::LuaModule;
+use fey_lua::{LuaModule, UserDataOf};
 use mlua::prelude::{Lua, LuaError, LuaResult};
 use mlua::{
     Table, UserData, UserDataFields, UserDataMethods, UserDataRef, UserDataRefMut, Value, Variadic,
 };
 
+pub type RandObj = UserDataOf<Rand>;
 pub type RandRef = UserDataRef<Rand>;
 pub type RandMut = UserDataRefMut<Rand>;
 
