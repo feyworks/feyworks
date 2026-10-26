@@ -86,6 +86,18 @@ function Color.unpack(color) end
 ---@nodiscard
 function Color.unpackf(color) end
 
+---Create a color with all components set to the same value.
+---@param val integer `0-255`
+---@return Color
+---@nodiscard
+function Color.splat(val) end
+
+---Create a color with all components set to the same value.
+---@param val number `0-1`
+---@return Color
+---@nodiscard
+function Color.splatf(val) end
+
 ---Get a color's red channel.
 ---@param color Color
 ---@return integer
