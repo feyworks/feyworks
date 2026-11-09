@@ -1,8 +1,7 @@
 use super::{Gamepad, GamepadAxis, GamepadButton, GamepadStatus};
 use crate::core::Context;
 use fnv::FnvHashMap;
-use gilrs::ev::filter::deadzone;
-use gilrs::{Axis, Event, EventType, Filter, GamepadId, Gilrs};
+use gilrs::{Event, EventType, GamepadId, Gilrs};
 use smallvec::SmallVec;
 use std::cell::Cell;
 use std::fmt::{Debug, Formatter};
